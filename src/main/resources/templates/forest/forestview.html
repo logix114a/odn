@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="menu :: head(title=~{::title/text()})">
+		<title>Messages : Create</title>
+	</head>
+<body>
+<div class="container">
+			<div th:replace="menu :: navbar"></div>
+						<div th:replace="forest/menuforest :: navbar"></div>
+			<h1>Forest : View all</h1>
+			<div class="container">
+				<div class="pull-left">
+					<a href="addforest.html" th:href="@{/forest/listall}">revenir à la liste des forêts</a>
+				</div>
+				<center><h1><a th:href ='@{/forest/forestview/} + ${forest.id}' th:text="${forest.name}">test</a></h1></center>
+								<div class="pull-left">
+					<a href="addforest.html" th:href="@{/forest/forestareaassignparcad}">Ajouter une parcelle cadastrale</a>
+					
+					
+				<br />
+				<center><h1><a th:href ='@{/forest/forestview1/} + ${forest.id}' th:text="${forest.name} + 1">test 1</a></h1></center>
+				<br />
+						<center><h1><a th:href ='@{/forest/forestview2/} + ${forest.id}' th:text="${forest.name} +  2">test 2</a></h1></center>
+				<!-- <table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>Name</td>
+							
+						</tr>
+					</thead>
+					<tbody>						
+						<tr th:each="parcellecadastrale : ${forest.parcellecadastrale}">
+							<td th:text="${parcellecadastrale.id}">1</td>
+							
+							<td><a href="view.html" th:href="@{'/forest/forestview/' + ${parcellecadastrale.id}}"
+								th:text="${parcelleadastrale.commune}"> The summary </a></td>
+						</tr>
+					</tbody>
+				</table>	 -->
+				</div>
+			</div>
+		</div>
+</body>
+</html>

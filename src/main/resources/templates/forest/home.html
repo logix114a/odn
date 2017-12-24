@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="menu :: head(title=~{::title/text()})">
+		<title>Messages : Create</title>
+	</head>
+<body>
+<div class="container">
+<div th:replace="menu :: navbar"></div>
+	<div th:replace="forest/menuforest :: navbar"></div>
+<H1>Forest</H1> <br />
+				<div>					
+					<ul class="nav">
+						<li><a th:href="@{/forest/add?name=test}" href="messages.html"> Ajouter une Forêt </a></li>
+						<li><a th:href="@{/forest/listall}" href="forest.html"> Lister les Forêts </a></li>
+					</ul>
+				</div>
+<div th:replace="foot :: navbar"></div>
+</div>
+</body>
+</html>

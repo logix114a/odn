@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="menu :: head(title=~{::title/text()})">
+<title>Parcelle Cadastrale : Create</title>
+</head>
+<body>
+
+	<div class="container">
+		<div th:replace="menu :: navbar"></div>
+		<div th:replace="forest/menuforest :: navbar"></div>
+		<h1>Messages : Create</h1>
+		<form id="typepeuplementForm" th:object="${typePeuplement}"
+			th:action="@{/forest/typepeuplementadd}" method="post" action="#">
+
+			<div class="pull-right">
+				<a th:href="@{/forest/typepeuplementlist}"
+					href="typepeuplement.html"> Liste Type Peuplement </a>
+			</div>
+
+
+
+			<label for="fordsqdsqest">Numero</label> <input type="text"
+				th:field="*{nom}" /> 
+			<div class="form-actions">
+				<input type="submit" value="Save" />
+			</div>
+		</form>
+	</div>
+</body>
+</html>
