@@ -18,22 +18,18 @@ public class ParcelleCadastrale {
 	private String lieu_dit;
 	private Double surface;
 	
-	 @ManyToOne
+	/* @ManyToOne
 	@JoinColumn(name="forest_id")
 	private Forest forest;
+*/
 
 
-	 public ParcelleCadastrale(String commune, Forest forest) {
-		 this.commune = commune;
-		 this.forest = forest;	 
-	 }
-
-	public Forest getForest() {
+	/*public Forest getForest() {
 		return forest;
 	}
 	public void setForest(Forest forest) {
 		this.forest = forest;
-	}
+	}*/
 	public Long getId() {
 		return id;
 	}

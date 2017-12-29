@@ -13,7 +13,7 @@
 				</div>
 				<center><h1><a th:href ='@{/forest/forestview/} + ${forest.id}' th:text="${forest.name}">test</a></h1></center>
 								<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/forestareaassignparcad}">Ajouter une parcelle cadastrale</a>
+					<a href="addforest.html" th:href="@{/forest/forestareaassignparcad/}  + ${forest.id}">Ajouter une parcelle cadastrale</a>
 					
 					
 				<br />

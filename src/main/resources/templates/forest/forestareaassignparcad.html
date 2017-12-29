@@ -17,13 +17,15 @@
 				<a th:href="@{/forest/forestareaassignparcad}"
 					href="parcezzzllecadastrale.html"> Liste Parcelle Cadastrale </a>
 			</div>
-
+			<input type="text" th:field="*{id}" />
+<input type="text" th:field="*{name}" />
 
 			 <label for="fordsqdsqest">Parcelle Cadastrale</label>				
 				<br />
-				       <select class="form-control" id="parts" name="parts" multiple="multiple" >
-            <option th:each="parcad : ${parcellecadastrales}"                   
+				       <select class="form-control" id="parts"  name="parts" multiple="multiple" th:field="*{parcellecadastrales}" >
+            <option th:each="parcad : ${parcellescadastraless}"                   
                     th:value="${parcad.id}"
+                     th:selected="(${parcad.id} == parcellecadastrales.id)" 
                     th:text="${parcad.commune}">Part name</option>
         </select>
 				

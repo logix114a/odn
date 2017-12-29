@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -43,7 +45,7 @@ public class ForestController {
 	@Autowired
 	private TypePeuplementRepository typepeuplementRepository;	
 
-	
+	private static final Logger logger = LoggerFactory.getLogger(ForestController.class);
 	@GetMapping("")
 	public ModelAndView home() {
 		return new ModelAndView("forest/home");
@@ -89,7 +91,20 @@ public ModelAndView listall() {
 		return new ModelAndView("forest/forestlist", "forests", forests);
 	}
 	
-
+	@GetMapping(path="forestmodify/{id}") // Map ONLY GET Requests
+	public ModelAndView forestmodify(@PathVariable("id") Forest forest) {
+		return new ModelAndView("forest/forestmodify", "forest", forest);
+	}
+	
+	@PostMapping(path="forestmodify") 
+	public ModelAndView forestamodify1(@Valid Forest forest, BindingResult result,
+			RedirectAttributes redirect) {
+		//forest.setName("lateteatoto");
+		forest = this.forestRepository.save(forest);
+		Iterable<Forest> forests = this.forestRepository.findAll();
+		return new ModelAndView("forest/forestlist" );
+	}
+	
 	
 	@GetMapping(path="forestview/{id}")
 public ModelAndView viewforest(@PathVariable("id") Forest forest) {
@@ -103,12 +118,12 @@ public ModelAndView viewforest1() {
 		forest.setId((long) 2);
 		forest.setName("test olivier");
 		
-		Set parcad1 = new HashSet <ParcelleCadastrale>() {{
+	/*	Set parcad1 = new HashSet <ParcelleCadastrale>() {{
 			add(new ParcelleCadastrale("olivier 12345",forest));
 			add(new ParcelleCadastrale("olivier",forest));
 		}};
 		
-		forest.setParcelleadastrales(parcad1);
+		forest.setParcelleadastrales(parcad1);*/
 		//forestRepository.save(forest);
 		
 	return new ModelAndView("forest/forestview1", "forest", forest);
@@ -202,20 +217,24 @@ public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepe
 }	
 	
 	
-	@GetMapping(path="forestareaassignparcad") // Map ONLY GET Requests
-	public ModelAndView forestareaassignparcad(Forest forest) {
-		
-		Iterable<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository.findAll();
-		return new ModelAndView("forest/forestareaassignparcad", "parcellecadastrales", parcellecadastrales);
+	@GetMapping(path="forestareaassignparcad/{id}") // Map ONLY GET Requests
+	public ModelAndView forestareaassignparcad(@PathVariable("id") Forest forest) {	
+			ModelAndView test = new ModelAndView("forest/forestareaassignparcad");
+			test.addObject("forest", forest);
+			Iterable<ParcelleCadastrale> parcellescadastraless = this.parcellecadastraleRepository.findAll();
+			test.addObject("parcellescadastraless", parcellescadastraless);
+		return  test;
 	}	
 
 	@PostMapping(path="forestareaassignparcad") // Map ONLY GET Requests
-	public ModelAndView forestareaassignparcad1(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
+	public ModelAndView forestareaassignparcad1(@Valid Forest forest, BindingResult result,
 			RedirectAttributes redirect) {
+		logger.debug("--Test ODN --");
+		logger.debug(forest.getName());	
 		
-		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
-		Iterable<ParcelleCadastrale> parcellescadastrales = this.parcellecadastraleRepository.findAll();
-		return new ModelAndView("forest/parcellecadastralelist", "parcellecadastrales", parcellescadastrales);
+		forest = this.forestRepository.save(forest);
+
+		return new ModelAndView("forest/forestlist");
 	}	
 	
 	@GetMapping(path="dataloader")

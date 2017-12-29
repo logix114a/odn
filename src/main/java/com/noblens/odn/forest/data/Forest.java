@@ -94,16 +94,17 @@ public class Forest {
 		this.geologie = geologie;
 	}
 	
-	   @OneToMany(mappedBy="forest")
-	    private Set<ParcelleCadastrale> parcelleadastrales;
-	public Set<ParcelleCadastrale> getParcelleadastrales() {
-		return parcelleadastrales;
-	}
-	public void setParcelleadastrales(Set<ParcelleCadastrale> parcelleadastrales) {
-		this.parcelleadastrales = parcelleadastrales;
-	}
+	   @OneToMany 
+	private Set<ParcelleCadastrale> parcellecadastrales;
+	   
 	
 	
+	public Set<ParcelleCadastrale> getParcellecadastrales() {
+		return parcellecadastrales;
+	}
+	public void setParcellecadastrales(Set<ParcelleCadastrale> parcellecadastrales) {
+		this.parcellecadastrales = parcellecadastrales;
+	}
 	public String getForest(Long id) {
 		return "totot";
 	};
