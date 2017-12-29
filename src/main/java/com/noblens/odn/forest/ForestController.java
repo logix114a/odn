@@ -28,6 +28,7 @@ import com.noblens.odn.forest.data.ParcelleForestiere;
 import com.noblens.odn.forest.data.ParcelleForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
+import com.noblens.odn.forest.misc.StorageService;
 
 
 @Controller
@@ -41,6 +42,7 @@ public class ForestController {
 	private ParcelleForestiereRepository parcelleforestiereRepository;	
 	@Autowired
 	private TypePeuplementRepository typepeuplementRepository;	
+
 	
 	@GetMapping("")
 	public ModelAndView home() {
@@ -216,7 +218,13 @@ public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepe
 		return new ModelAndView("forest/parcellecadastralelist", "parcellecadastrales", parcellescadastrales);
 	}	
 	
+	@GetMapping(path="dataloader")
+	public ModelAndView dataloaderupload() {
+		
+		return new ModelAndView("forest/dataloader");
+	}
 	
+	   
 	/*@GetMapping(path="parcadaddtoforest") // Map ONLY GET Requests
 	public ModelAndView parcadaddtoforest(TypePeuplement typepeuplement) {
 		return new ModelAndView("forest/parcadaddtoforest");

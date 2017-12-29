@@ -103,4 +103,10 @@ public class Forest {
 		this.parcelleadastrales = parcelleadastrales;
 	}
 	
+	
+	public String getForest(Long id) {
+		return "totot";
+	};
+	
+	
 }
