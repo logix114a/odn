@@ -20,11 +20,14 @@ public class Forest {
 	private String situation_geographique;
 	private String zonage_reglementaire;
 	private String droit_usage;
+
+
 	private String region_forestiere;
 	private String relief;
 	private String climat;
 	private String temperature;
 	private String geologie;
+	private Boolean manage_parcelle_forestiere;
 	
 	
 	public Long getId() {
@@ -38,6 +41,12 @@ public class Forest {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Boolean getManage_parcelle_forestiere() {
+		return manage_parcelle_forestiere;
+	}
+	public void setManage_parcelle_forestiere(Boolean manage_parcelle_forestiere) {
+		this.manage_parcelle_forestiere = manage_parcelle_forestiere;
 	}
 	public String getProprietaire() {
 		return proprietaire;
@@ -105,9 +114,16 @@ public class Forest {
 	public void setParcellecadastrales(Set<ParcelleCadastrale> parcellecadastrales) {
 		this.parcellecadastrales = parcellecadastrales;
 	}
-	public String getForest(Long id) {
-		return "totot";
-	};
+	   @OneToMany 
+	private Set<ParcelleForestiere> parcelleforestieres;
+
+
+	public Set<ParcelleForestiere> getParcelleforestieres() {
+		return parcelleforestieres;
+	}
+	public void setParcelleforestieres(Set<ParcelleForestiere> parcelleforestieres) {
+		this.parcelleforestieres = parcelleforestieres;
+	}
 	
 	
 }

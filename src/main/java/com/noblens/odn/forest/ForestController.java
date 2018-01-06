@@ -111,30 +111,7 @@ public ModelAndView viewforest(@PathVariable("id") Forest forest) {
 	return new ModelAndView("forest/forestview", "forest", forest);
 }
 
-	@GetMapping(path="forestview1/{id}")
-public ModelAndView viewforest1() {
-	
-		Forest forest = new Forest();
-		forest.setId((long) 2);
-		forest.setName("test olivier");
-		
-	/*	Set parcad1 = new HashSet <ParcelleCadastrale>() {{
-			add(new ParcelleCadastrale("olivier 12345",forest));
-			add(new ParcelleCadastrale("olivier",forest));
-		}};
-		
-		forest.setParcelleadastrales(parcad1);*/
-		//forestRepository.save(forest);
-		
-	return new ModelAndView("forest/forestview1", "forest", forest);
-}	
-	@GetMapping(path="forestview2/{id}")
-public ModelAndView viewforest2(@PathVariable("id") Forest forest) {
-		//forestRepository.save(forest);
-		
-	return new ModelAndView("forest/forestview2", "forest", forest);
-}		
-	
+
 	@GetMapping(path="parcellecadastraleadd") // Map ONLY GET Requests
 	public ModelAndView parcellecadastraleadd1(ParcelleCadastrale parcellecadastrale) {
 		return new ModelAndView("forest/parcellecadastraleadd");

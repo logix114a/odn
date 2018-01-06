@@ -16,11 +16,7 @@
 					<a href="addforest.html" th:href="@{/forest/forestareaassignparcad/}  + ${forest.id}">Ajouter une parcelle cadastrale</a>
 					
 					
-				<br />
-				<center><h1><a th:href ='@{/forest/forestview1/} + ${forest.id}' th:text="${forest.name} + 1">test 1</a></h1></center>
-				<br />
-						<center><h1><a th:href ='@{/forest/forestview2/} + ${forest.id}' th:text="${forest.name} +  2">test 2</a></h1></center>
-				<!-- <table class="table table-bordered table-striped">
+			 <table class="table table-bordered table-striped">
 					<thead>
 						<tr>
 							<td>ID</td>
@@ -29,14 +25,14 @@
 						</tr>
 					</thead>
 					<tbody>						
-						<tr th:each="parcellecadastrale : ${forest.parcellecadastrale}">
+						<tr th:each="parcellecadastrale : ${forest.parcellecadastrales}">
 							<td th:text="${parcellecadastrale.id}">1</td>
 							
-							<td><a href="view.html" th:href="@{'/forest/forestview/' + ${parcellecadastrale.id}}"
-								th:text="${parcelleadastrale.commune}"> The summary </a></td>
+							<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
+								th:text="${parcellecadastrale.commune}"> The summary </a></td>
 						</tr>
 					</tbody>
-				</table>	 -->
+				</table>	 
 				</div>
 			</div>
 		</div>
