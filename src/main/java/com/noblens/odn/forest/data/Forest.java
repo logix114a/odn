@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -103,18 +104,8 @@ public class Forest {
 		this.geologie = geologie;
 	}
 	
-	   @OneToMany 
-	private Set<ParcelleCadastrale> parcellecadastrales;
-	   
+	   @OneToMany 	  
 	
-	
-	public Set<ParcelleCadastrale> getParcellecadastrales() {
-		return parcellecadastrales;
-	}
-	public void setParcellecadastrales(Set<ParcelleCadastrale> parcellecadastrales) {
-		this.parcellecadastrales = parcellecadastrales;
-	}
-	   @OneToMany 
 	private Set<ParcelleForestiere> parcelleforestieres;
 
 

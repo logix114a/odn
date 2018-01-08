@@ -9,24 +9,24 @@
 		<div th:replace="menu :: navbar"></div>
 		<div th:replace="forest/menuforest :: navbar"></div>
 		<h1>Messages : Create</h1>
-		<form id="forestareassignparfor" th:object="${forest}"   th:action="@{/forest/forestareaassignparfor}" 
+		<form id="parforassignparcad" th:object="${parcelleforestiere}"   th:action="@{/forest/parforassignparcad}" 
 		
 		 method="post" action="#">
 
 			<div class="pull-right">
-				<a th:href="@{/forest/forestareaassignparcad}"
+				<a th:href="@{/forest/forestareaassignparfor}"
 					href="parcezzzllecadastrale.html"> Liste Parcelle Cadastrale </a>
 			</div>
 			<input type="text" th:field="*{id}" />
-<input type="text" th:field="*{name}" />
+<input type="text" th:field="*{numero}" />
 
 			 <label for="fordsqdsqest">Parcelle Cadastrale</label>				
 				<br />
-				       <select class="form-control" id="parts"  name="parts" multiple="multiple" th:field="*{parcelleforestieres}" >
-            <option th:each="parfor : ${parcellesforestieress}"                   
-                    th:value="${parfor.id}"
-                     th:selected="(${parfor.id} == parcelleforestieres.id)" 
-                    th:text="${parfor.numero}">Part name</option>
+				       <select class="form-control" id="parts"  name="parts" multiple="multiple" th:field="*{parcellecadastrales}" >
+            <option th:each="parcad : ${parcellescadastraless}"                   
+                    th:value="${parcad.id}"
+                     th:selected="(${parcad.id} == parcellecadastrales.id)" 
+                    th:text="${parcad.commune}">Part name</option>
         </select>
 				
 				<!--<label for="fordsqdsqest">Section</label>

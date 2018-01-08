@@ -194,22 +194,43 @@ public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepe
 }	
 	
 	
-	@GetMapping(path="forestareaassignparcad/{id}") // Map ONLY GET Requests
+	@GetMapping(path="forestareaassignparfor/{id}") // Map ONLY GET Requests
 	public ModelAndView forestareaassignparcad(@PathVariable("id") Forest forest) {	
-			ModelAndView test = new ModelAndView("forest/forestareaassignparcad");
+			ModelAndView test = new ModelAndView("forest/forestareaassignparfor");
 			test.addObject("forest", forest);
-			Iterable<ParcelleCadastrale> parcellescadastraless = this.parcellecadastraleRepository.findAll();
-			test.addObject("parcellescadastraless", parcellescadastraless);
+			Iterable<ParcelleForestiere> parcellesforestieress = this.parcelleforestiereRepository.findAll();
+			test.addObject("parcellesforestieress", parcellesforestieress);
 		return  test;
 	}	
 
-	@PostMapping(path="forestareaassignparcad") // Map ONLY GET Requests
+	@PostMapping(path="forestareaassignparfor") // Map ONLY GET Requests
 	public ModelAndView forestareaassignparcad1(@Valid Forest forest, BindingResult result,
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN --");
 		logger.debug(forest.getName());	
 		
 		forest = this.forestRepository.save(forest);
+
+		return new ModelAndView("forest/forestlist");
+	}	
+	
+	
+	@GetMapping(path="parforassignparcad/{id}") // Map ONLY GET Requests
+	public ModelAndView forestareaassignparfor(@PathVariable("id") ParcelleForestiere parcelleforestiere) {	
+			ModelAndView test = new ModelAndView("forest/parforassignparcad");
+			test.addObject("parcelleforestiere", parcelleforestiere);
+			Iterable<ParcelleCadastrale> parcellescadastraless = this.parcellecadastraleRepository.findAll();
+			test.addObject("parcellescadastraless", parcellescadastraless);
+		return  test;
+	}	
+
+	@PostMapping(path="parforassignparcad") // Map ONLY GET Requests
+	public ModelAndView forestareaassignparfor1(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
+			RedirectAttributes redirect) {
+		logger.debug("--Test ODN --");
+		logger.debug(parcelleforestiere.getNumero());	
+		
+		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
 
 		return new ModelAndView("forest/forestlist");
 	}	

@@ -17,6 +17,8 @@
 						<tr>
 							<td>ID</td>
 							<td>Numero</td>
+							<td>Modifier</td>
+							<td>Assigne parcelle Cadastrale</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -24,6 +26,10 @@
 						<tr th:each="parcelleforestiere : ${parcelleforestieres}">
 							<td th:text="${parcelleforestiere.id}">1</td>							
 							<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
+								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+									<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
+								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+									<td><a href="view.html" th:href="@{'/forest/parforassignparcad/' + ${parcelleforestiere.id}}"
 								th:text="${parcelleforestiere.numero}"> The summary </a></td>
 
 					</tbody>

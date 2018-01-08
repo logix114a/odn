@@ -18,18 +18,29 @@
 					
 			 <table class="table table-bordered table-striped">
 					<thead>
+					<tr>
+					<td colspan='2'>Parcelle Forestieres</td>
+					<td colspan='3'>Parcelle Cadastrales</td>
+					</tr>
 						<tr>
 							<td>ID</td>
-							<td>Name</td>
-							
+							<td>Name</td>			
+							<td>Section</td>
+							<td>Numero</td>	
+							<td>Surface</td>				
 						</tr>
 					</thead>
 					<tbody>						
-						<tr th:each="parcellecadastrale : ${forest.parcellecadastrales}">
-							<td th:text="${parcellecadastrale.id}">1</td>
+						<tr th:each="parcelleforestiere : ${forest.parcelleforestieres}">
+							<td th:text="${parcelleforestiere.id}">1</td>
 							
-							<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
-								th:text="${parcellecadastrale.commune}"> The summary </a></td>
+							<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
+								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+								
+							
+								<td><span th:each=" parcas : ${parcelleforestiere}">
+								<span th:text="${parcas.id}" /></span></td><td>AZE</td><td>123</td>
+								
 						</tr>
 					</tbody>
 				</table>	 
