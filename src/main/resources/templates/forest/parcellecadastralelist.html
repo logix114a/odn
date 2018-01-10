@@ -9,7 +9,7 @@
 			<h1>Forest : View all</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/parcellecadastraleadd}">Créer une nouvelle Parcelle Cadastrale</a>
+					<a href="addforest.html" th:href="@{/forest/parcellecadastraleadd}">Crï¿½er une nouvelle Parcelle Cadastrale</a>
 				</div>
 				
 				<table class="table table-bordered table-striped">
@@ -21,6 +21,8 @@
 							<td>Lieu-dit</td>
 							<td>Numero de Parcelles</td>
 							<td>Surface</td>
+							<td>Modifier</td>
+							<td>Ajouter un type de peuplement</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -37,7 +39,11 @@
 								<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
 								th:text="${parcellecadastrale.numero_parcelle}"> The summary </a></td>		
 								<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
-								th:text="${parcellecadastrale.surface}"> The summary </a></td>							
+								th:text="${parcellecadastrale.surface}"> The summary </a></td>
+								<td><a href="view.html" th:href="@{'/forest/parcellecadastralemodify/' + ${parcellecadastrale.id}}"
+								th:text="Modifier"> The summary </a></td>
+									<td><a href="view.html" th:href="@{'/forest/parcadassigntyppeu/' + ${parcellecadastrale.id}}"
+								th:text="Ajouter"> The summary </a></td>							
 						</tr>
 					</tbody>
 				</table>

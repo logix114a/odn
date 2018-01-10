@@ -28,6 +28,8 @@ import com.noblens.odn.forest.data.ParcelleCadastrale;
 import com.noblens.odn.forest.data.ParcelleCadastraleRepository;
 import com.noblens.odn.forest.data.ParcelleForestiere;
 import com.noblens.odn.forest.data.ParcelleForestiereRepository;
+import com.noblens.odn.forest.data.StationForestiere;
+import com.noblens.odn.forest.data.StationForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
 import com.noblens.odn.forest.misc.StorageService;
@@ -44,7 +46,9 @@ public class ForestController {
 	private ParcelleForestiereRepository parcelleforestiereRepository;	
 	@Autowired
 	private TypePeuplementRepository typepeuplementRepository;	
-
+	@Autowired
+	private StationForestiereRepository stationforestiereRepository;	
+	
 	private static final Logger logger = LoggerFactory.getLogger(ForestController.class);
 	@GetMapping("")
 	public ModelAndView home() {
@@ -59,7 +63,7 @@ public class ForestController {
 	
 	
 	
-	@GetMapping(path="listall")
+	@GetMapping(path="forestlist")
 public ModelAndView listall() {
 	Iterable<Forest> forests = this.forestRepository.findAll();
 	return new ModelAndView("forest/forestlist", "forests", forests);
@@ -88,7 +92,7 @@ public ModelAndView listall() {
 		//forest.setName("lateteatoto");
 		forest = this.forestRepository.save(forest);
 		Iterable<Forest> forests = this.forestRepository.findAll();
-		return new ModelAndView("forest/forestlist", "forests", forests);
+		return new ModelAndView("redirect:forestlist");
 	}
 	
 	@GetMapping(path="forestmodify/{id}") // Map ONLY GET Requests
@@ -121,8 +125,7 @@ public ModelAndView viewforest(@PathVariable("id") Forest forest) {
 	public ModelAndView parcellecadastraleadd(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
 			RedirectAttributes redirect) {
 		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
-		Iterable<ParcelleCadastrale> parcellescadastrales = this.parcellecadastraleRepository.findAll();
-		return new ModelAndView("forest/parcellecadastralelist", "parcellecadastrales", parcellescadastrales);
+		return new ModelAndView("redirect:parcellecadastralelist");
 	}
 	
 	@GetMapping(path="parcellecadastralelist")
@@ -139,7 +142,19 @@ public ModelAndView parcellecadastraleview(@PathVariable("id") ParcelleCadastral
 	return new ModelAndView("forest/parcellecadastraleview", "parcellecadastrale", parcellecadastrale);
 }
 	
+	@GetMapping(path="parcellecadastralemodify/{id}") // Map ONLY GET Requests
+	public ModelAndView parcellecadastralemodify(@PathVariable("id") ParcelleCadastrale parcellecadastrale) {
+		return new ModelAndView("forest/parcellecadastralemodify", "parcellecadastrale", parcellecadastrale);
+	}
 	
+	@PostMapping(path="parcellecadastralemodify") 
+	public ModelAndView parcellecadastralemodify(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
+			RedirectAttributes redirect) {
+		//forest.setName("lateteatoto");
+		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
+		Iterable<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository.findAll();
+		return new ModelAndView("forest/parcellecadastralelist" );
+	}	
 	@GetMapping(path="parcelleforestiereadd") // Map ONLY GET Requests
 	public ModelAndView parcelleforestiereadd1(ParcelleForestiere parcelleforestiere	) {
 		return new ModelAndView("forest/parcelleforestiereadd");
@@ -192,6 +207,35 @@ public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepe
 	//forest.setId(id);	
 	return new ModelAndView("forest/typepeuplementview", "typepeuplement", typepeuplement);
 }	
+
+	
+	@GetMapping(path="stationforestiereadd") // Map ONLY GET Requests
+	public ModelAndView stationforestiereadd1(StationForestiere stationforestiere	) {
+		return new ModelAndView("forest/stationforestiereadd");
+	}	
+
+	@PostMapping(path="stationforestiereadd") 
+	public ModelAndView stationforestiereadd(@Valid StationForestiere stationForestiere, BindingResult result,
+			RedirectAttributes redirect) {
+		logger.debug("--Test ODN ODN ODN ODN --");
+		logger.debug(stationForestiere.getNom());	
+		stationForestiere = this.stationforestiereRepository.save(stationForestiere);
+	return new ModelAndView("redirect:stationforestierelist");
+	}
+	
+	@GetMapping(path="stationforestierelist")
+	public ModelAndView stationforestierelist() {
+		Iterable<StationForestiere> stationforestieres = this.stationforestiereRepository.findAll();
+		return new ModelAndView("forest/stationforestierelist", "stationforestieres", stationforestieres);
+	}
+	
+	@GetMapping(path="stationforestiereview/{id}")
+public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere stationforestiere) {
+		
+	//Forest forest  = new Forest();
+	//forest.setId(id);	
+	return new ModelAndView("forest/stationforestiereview", "stationforestiere", stationforestiere);
+}	
 	
 	
 	@GetMapping(path="forestareaassignparfor/{id}") // Map ONLY GET Requests
@@ -211,7 +255,7 @@ public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepe
 		
 		forest = this.forestRepository.save(forest);
 
-		return new ModelAndView("forest/forestlist");
+		return new ModelAndView("redirect:forestlist");
 	}	
 	
 	
@@ -232,7 +276,47 @@ public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepe
 		
 		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
 
-		return new ModelAndView("forest/forestlist");
+		return new ModelAndView("redirect:parcelleforestierelist");
+	}	
+
+	@GetMapping(path="parforassignstafor/{id}") // Map ONLY GET Requests
+	public ModelAndView parforassignstafor(@PathVariable("id") ParcelleForestiere parcelleforestiere) {	
+			ModelAndView test = new ModelAndView("forest/parforassignstafor");
+			test.addObject("parcelleforestiere", parcelleforestiere);
+			Iterable<StationForestiere> stationforestieres = this.stationforestiereRepository.findAll();
+			test.addObject("stationforestieres", stationforestieres);
+		return  test;
+	}	
+
+	@PostMapping(path="parforassignstafor") // Map ONLY GET Requests
+	public ModelAndView parforassignstafor(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
+			RedirectAttributes redirect) {
+		logger.debug("--Test ODN --");
+		logger.debug(parcelleforestiere.getNumero());	
+		
+		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
+
+		return new ModelAndView("redirect:parcelleforestierelist");
+	}	
+	
+	@GetMapping(path="parcadassigntyppeu/{id}") // Map ONLY GET Requests
+	public ModelAndView parcadassigntyppeu(@PathVariable("id") ParcelleCadastrale parcellecadastrale) {	
+			ModelAndView test = new ModelAndView("forest/parcadassigntyppeu");
+			test.addObject("parcellecadastrale", parcellecadastrale);
+			Iterable<TypePeuplement> typepeuplements = this.typepeuplementRepository.findAll();
+			test.addObject("typepeuplements", typepeuplements);
+		return  test;
+	}	
+
+	@PostMapping(path="parcadassigntyppeu") // Map ONLY GET Requests
+	public ModelAndView parcadassigntyppeu(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
+			RedirectAttributes redirect) {
+		logger.debug("--Test ODN --");
+		
+		
+		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
+
+		return new ModelAndView("redirect:parcellecadastralelist");
 	}	
 	
 	@GetMapping(path="dataloader")

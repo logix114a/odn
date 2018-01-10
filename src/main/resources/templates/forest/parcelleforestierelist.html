@@ -9,7 +9,7 @@
 			<h1>Forest : View all</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/parcelleforestiereadd}">Créer une nouvelle Parcelle Forestiere</a>
+					<a href="addforest.html" th:href="@{/forest/parcelleforestiereadd}">Crï¿½er une nouvelle Parcelle Forestiere</a>
 				</div>
 				
 				<table class="table table-bordered table-striped">
@@ -18,7 +18,8 @@
 							<td>ID</td>
 							<td>Numero</td>
 							<td>Modifier</td>
-							<td>Assigne parcelle Cadastrale</td>
+							<td>Assigne Parcelle Cadastrale</td>
+						    <td>Assigne Station ForestiÃ¨re</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -31,7 +32,8 @@
 								th:text="${parcelleforestiere.numero}"> The summary </a></td>
 									<td><a href="view.html" th:href="@{'/forest/parforassignparcad/' + ${parcelleforestiere.id}}"
 								th:text="${parcelleforestiere.numero}"> The summary </a></td>
-
+<td><a href="view.html" th:href="@{'/forest/parforassignstafor/' + ${parcelleforestiere.id}}"
+								th:text="${parcelleforestiere.numero}"> The summary </a></td>
 					</tbody>
 				</table>
 			</div>

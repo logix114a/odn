@@ -22,6 +22,15 @@ public class ParcelleForestiere {
 	}
 	@OneToMany 
 	private Set<ParcelleCadastrale> parcellecadastrales;
+
+	@OneToMany 
+	private Set<StationForestiere> stationforestieres;
+	public Set<StationForestiere> getStationforestieres() {
+		return stationforestieres;
+	}
+	public void setStationforestieres(Set<StationForestiere> stationforestieres) {
+		this.stationforestieres = stationforestieres;
+	}
 	public Long getId() {
 		return id;
 	}

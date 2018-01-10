@@ -1,11 +1,14 @@
 package com.noblens.odn.forest.data;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class ParcelleCadastrale {
@@ -17,13 +20,20 @@ public class ParcelleCadastrale {
 	private Long numero_parcelle;
 	private String lieu_dit;
 	private Double surface;
-	
+	@OneToMany 
+	private Set<TypePeuplement> typepeuplements;
 	/* @ManyToOne
 	@JoinColumn(name="forest_id")
 	private Forest forest;
 */
 
 
+	public Set<TypePeuplement> getTypepeuplements() {
+		return typepeuplements;
+	}
+	public void setTypepeuplements(Set<TypePeuplement> typepeuplements) {
+		this.typepeuplements = typepeuplements;
+	}
 	/*public Forest getForest() {
 		return forest;
 	}
