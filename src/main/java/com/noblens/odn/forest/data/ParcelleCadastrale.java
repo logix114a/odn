@@ -21,27 +21,21 @@ public class ParcelleCadastrale {
 	private String lieu_dit;
 	private Double surface;
 	@OneToMany 
-	private Set<TypePeuplement> typepeuplements;
+	private Set<Peuplement> peuplements;
 	/* @ManyToOne
 	@JoinColumn(name="forest_id")
 	private Forest forest;
 */
 
 
-	public Set<TypePeuplement> getTypepeuplements() {
-		return typepeuplements;
-	}
-	public void setTypepeuplements(Set<TypePeuplement> typepeuplements) {
-		this.typepeuplements = typepeuplements;
-	}
-	/*public Forest getForest() {
-		return forest;
-	}
-	public void setForest(Forest forest) {
-		this.forest = forest;
-	}*/
 	public Long getId() {
 		return id;
+	}
+	public Set<Peuplement> getPeuplements() {
+		return peuplements;
+	}
+	public void setPeuplements(Set<Peuplement> peuplements) {
+		this.peuplements = peuplements;
 	}
 	public void setId(Long id) {
 		this.id = id;
