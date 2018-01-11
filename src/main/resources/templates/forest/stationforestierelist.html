@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="menu :: head(title=~{::title/text()})">
+		<title>Messages : Create</title>
+	</head>
+<body>
+<div class="container">
+			<div th:replace="menu :: navbar"></div>
+						<div th:replace="forest/menuforest :: navbar"></div>
+			<h1>Forest : View all</h1>
+			<div class="container">
+				<div class="pull-right">
+					<a href="addforest.html" th:href="@{/forest/stationforestiereadd}">Cr�er une nouvelle Station Forestière</a>
+				</div>
+				
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>Modifier</td>
+						</tr>
+					</thead>
+					<tbody>
+						
+						<tr th:each="stationforestiere : ${stationforestieres}">
+							<td th:text="${stationforestiere.id}">1</td>
+							
+							<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${stationforestiere.id}}"
+								th:text="${stationforestiere.id}"> The summary </a></td>
+								<td> Modifier</td>						
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="menu :: head(title=~{::title/text()})">
+<title>Parcelle Forestière : Create</title>
+</head>
+<body>
+
+	<div class="container">
+		<div th:replace="menu :: navbar"></div>
+		<div th:replace="forest/menuforest :: navbar"></div>
+		<h1>Messages : Create</h1>
+		<form id="stationforestiereForm" th:object="${stationForestiere}"
+			th:action="@{/forest/stationforestiereadd}" method="post" action="#">
+
+			<div class="pull-right">
+				<a th:href="@{/forest/stationforestierelist}"
+					href="parcezzzllecadastrale.html"> Liste Station Foresti�re </a>
+			</div>
+
+			<label for="fordsqdsqest">Nom</label> <input type="text"
+				th:field="*{nom}" /> 
+			<div class="form-actions">
+				<input type="submit" value="Save" />
+			</div>
+		</form>
+	</div>
+</body>
+</html>
