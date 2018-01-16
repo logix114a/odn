@@ -18,7 +18,7 @@
 							<td>ID</td>
 							<td>Name</td>
 							<td>Modify</td>
-							<td>Assign parcelles</td>
+							<td>Ajouter une parcelle forestière</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -30,7 +30,7 @@
 								th:text="${forest.name}"> The summary </a></td>
 							<td><a href="view.html" th:href="@{'/forest/forestmodify/' + ${forest.id}}"
 								th:text="${forest.name}"> The summary </a></td>
-							<td><a href="addforest.html" th:href="@{/forest/forestareaassignparfor/}  + ${forest.id}">Ajouter une parcelle cadastrale</a> 
+							<td><a href="addforest.html" th:href="@{/forest/forestareaassignparfor/}  + ${forest.id}">Ajouter une parcelle forestière</a> 
 							 </a></td>	
 						</tr>
 					</tbody>

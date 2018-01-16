@@ -22,7 +22,8 @@
 							<td>Numero de Parcelles</td>
 							<td>Surface</td>
 							<td>Modifier</td>
-							<td>Ajouter un type de peuplement</td>
+							<td>Ajouter un peuplement</td>
+							<td>Modifier peuplement du cadastre</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -42,8 +43,17 @@
 								th:text="${parcellecadastrale.surface}"> The summary </a></td>
 								<td><a href="view.html" th:href="@{'/forest/parcellecadastralemodify/' + ${parcellecadastrale.id}}"
 								th:text="Modifier"> The summary </a></td>
-									<td><a href="view.html" th:href="@{'/forest/parcadassigntyppeu/' + ${parcellecadastrale.id}}"
-								th:text="Ajouter"> The summary </a></td>							
+								<td><a href="view.html" th:href="@{'/forest/peuplementaddtoparcad/' + ${parcellecadastrale.id}}"
+								th:text="Ajouter"> The summary </a></td>		
+									<td>
+									<table>
+									<tr th:each="peuplement : ${parcellecadastrale.peuplements}">
+							<td>
+							<a href="view.html" th:href="@{'/forest/peuplementmodify/' + ${peuplement.id}}"
+								th:text="Modifier"> The summary </a>
+							</td>						
+						</tr></table>
+									</td>						
 						</tr>
 					</tbody>
 				</table>

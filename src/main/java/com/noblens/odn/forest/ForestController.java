@@ -1,6 +1,8 @@
 package com.noblens.odn.forest;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -28,6 +30,8 @@ import com.noblens.odn.forest.data.ParcelleCadastrale;
 import com.noblens.odn.forest.data.ParcelleCadastraleRepository;
 import com.noblens.odn.forest.data.ParcelleForestiere;
 import com.noblens.odn.forest.data.ParcelleForestiereRepository;
+import com.noblens.odn.forest.data.Peuplement;
+import com.noblens.odn.forest.data.PeuplementRepository;
 import com.noblens.odn.forest.data.StationForestiere;
 import com.noblens.odn.forest.data.StationForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
@@ -48,6 +52,8 @@ public class ForestController {
 	private TypePeuplementRepository typepeuplementRepository;	
 	@Autowired
 	private StationForestiereRepository stationforestiereRepository;	
+	@Autowired
+	private PeuplementRepository peuplementRepository;	
 	
 	private static final Logger logger = LoggerFactory.getLogger(ForestController.class);
 	@GetMapping("")
@@ -55,31 +61,14 @@ public class ForestController {
 		return new ModelAndView("forest/home");
 	}
 	
-	@GetMapping(path="all")
-	public @ResponseBody Iterable<Forest> getAllForests() {
-		// This returns a JSON or XML with the users
-		return forestRepository.findAll();
-	}
-	
-	
+
 	
 	@GetMapping(path="forestlist")
 public ModelAndView listall() {
 	Iterable<Forest> forests = this.forestRepository.findAll();
 	return new ModelAndView("forest/forestlist", "forests", forests);
 }	
-	@GetMapping(path="add") // Map ONLY GET Requests
-	public @ResponseBody String addNewForest (@RequestParam String name)
-			 {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
 
-		Forest n = new Forest();
-		n.setName(name);
-		forestRepository.save(n);
-		return "Saved";
-	}
-	
 	
 	@GetMapping(path="forestadd") // Map ONLY GET Requests
 	public ModelAndView forestadd(Forest forest) {
@@ -250,10 +239,13 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 	@PostMapping(path="forestareaassignparfor") // Map ONLY GET Requests
 	public ModelAndView forestareaassignparcad1(@Valid Forest forest, BindingResult result,
 			RedirectAttributes redirect) {
+		Optional<Forest> forests = this.forestRepository.findById(forest.getId());
+		Forest forest1 = forests.get();
+		forest1.setParcelleforestieres(forest.getParcelleforestieres());
 		logger.debug("--Test ODN --");
 		logger.debug(forest.getName());	
 		
-		forest = this.forestRepository.save(forest);
+		forest = this.forestRepository.save(forest1);
 
 		return new ModelAndView("redirect:forestlist");
 	}	
@@ -273,8 +265,11 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN --");
 		logger.debug(parcelleforestiere.getNumero());	
+		Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findById(parcelleforestiere.getId());
+		ParcelleForestiere parcelleforestiere1 = parcelleforestieres.get();
+		parcelleforestiere1.setParcellecadastrales(parcelleforestiere.getParcellecadastrales());
 		
-		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
+		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
 
 		return new ModelAndView("redirect:parcelleforestierelist");
 	}	
@@ -293,30 +288,43 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN --");
 		logger.debug(parcelleforestiere.getNumero());	
+		Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findById(parcelleforestiere.getId());
+		ParcelleForestiere parcelleforestiere1 = parcelleforestieres.get();
+		parcelleforestiere1.setStationforestieres(parcelleforestiere.getStationforestieres());
 		
-		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
-
+		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
 		return new ModelAndView("redirect:parcelleforestierelist");
 	}	
 	
-	@GetMapping(path="parcadassigntyppeu/{id}") // Map ONLY GET Requests
-	public ModelAndView parcadassigntyppeu(@PathVariable("id") ParcelleCadastrale parcellecadastrale) {	
-			ModelAndView test = new ModelAndView("forest/parcadassigntyppeu");
-			test.addObject("parcellecadastrale", parcellecadastrale);
-			Iterable<TypePeuplement> typepeuplements = this.typepeuplementRepository.findAll();
-			test.addObject("typepeuplements", typepeuplements);
+	@GetMapping(path="peuplementaddtoparcad/{id}") // Map ONLY GET Requests
+	public ModelAndView parcadassignpeu(Peuplement peuplement) {	
+			ModelAndView test = new ModelAndView("forest/peuplementaddtoparcad");
+			test.addObject("peuplement", peuplement);
+		
 		return  test;
 	}	
 
-	@PostMapping(path="parcadassigntyppeu") // Map ONLY GET Requests
-	public ModelAndView parcadassigntyppeu(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
+	@PostMapping(path="peuplementaddtoparcad/{id}") // Map ONLY GET Requests
+	public ModelAndView parcadassignpeu(@PathVariable("id") Long id,@Valid Peuplement peuplement, BindingResult result,
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN --");
-		
-		
-		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
-
-		return new ModelAndView("redirect:parcellecadastralelist");
+		//logger.debug(peuplement.getParcellecadastrale().getId());
+		Optional<ParcelleCadastrale> parcellescadastrales = this.parcellecadastraleRepository.findById(id);
+		ParcelleCadastrale parcellecadastrale =  parcellescadastrales.get();
+		java.util.Date date_util = new java.util.Date();
+		peuplement.setCreated_dttm(new java.sql.Date(date_util.getTime()));
+		peuplement.setLast_updated_dttm(new java.sql.Date(date_util.getTime()));
+		peuplement.setCreated_source("USER_ID");
+		peuplement.setLast_updated_source("USER_ID");
+		peuplement.setStatus(true);
+		peuplement.setParcellecadastrale(parcellecadastrale);
+		peuplement = this.peuplementRepository.save(peuplement);
+		//TODO: Save the parcelle cadastrale
+		/*Optional<ParcelleCadastrale> parcellescadastrales = this.parcellecadastraleRepository.findById(id);
+		ParcelleCadastrale parcellecadastrale =  parcellescadastrales.get();
+		/*parcellecadastrale.setPeuplement(peuplement);
+		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);*/
+		return new ModelAndView("redirect:/forest/parcellecadastralelist");
 	}	
 	
 	@GetMapping(path="dataloader")
@@ -325,7 +333,18 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 		return new ModelAndView("forest/dataloader");
 	}
 	
-	   
+	 
+	@GetMapping(path="programmationlist")
+	public ModelAndView programmationlist() {
+		
+		return new ModelAndView("forest/programmationlist");
+	}
+	@GetMapping(path="operationsylvicolelist")
+	public ModelAndView operationsylvicolelist() {
+		
+		return new ModelAndView("forest/operationsylvicolelist");
+	}
+	
 	/*@GetMapping(path="parcadaddtoforest") // Map ONLY GET Requests
 	public ModelAndView parcadaddtoforest(TypePeuplement typepeuplement) {
 		return new ModelAndView("forest/parcadaddtoforest");

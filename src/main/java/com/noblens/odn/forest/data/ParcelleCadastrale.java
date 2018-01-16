@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class ParcelleCadastrale {
@@ -20,23 +21,27 @@ public class ParcelleCadastrale {
 	private Long numero_parcelle;
 	private String lieu_dit;
 	private Double surface;
-	@OneToMany 
-	private Set<Peuplement> peuplements;
+
+	
 	/* @ManyToOne
 	@JoinColumn(name="forest_id")
 	private Forest forest;
 */
 
+	@OneToMany(mappedBy="parcellecadastrale")
+	private Set<Peuplement> peuplements;
+	public Set<Peuplement> getPeuplements() {
+		return peuplements;
+	}
+
+	public void setPeuplements(Set<Peuplement> peuplements) {
+		this.peuplements = peuplements;
+	}
 
 	public Long getId() {
 		return id;
 	}
-	public Set<Peuplement> getPeuplements() {
-		return peuplements;
-	}
-	public void setPeuplements(Set<Peuplement> peuplements) {
-		this.peuplements = peuplements;
-	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

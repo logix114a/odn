@@ -3,11 +3,14 @@ package com.noblens.odn.forest.data;
 import java.sql.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Peuplement {
@@ -15,12 +18,68 @@ public class Peuplement {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
     private Boolean status;
-    private String essence;
+
+    public Date getCreated_dttm() {
+		return Created_dttm;
+	}
+
+	public void setCreated_dttm(Date created_dttm) {
+		Created_dttm = created_dttm;
+	}
+
+	private String essence;
     private String commentaire;
-    private Set<Programmation_travaux> programmation_travaux;
-    private Objectif_Sylvicole objectif_sylvicole;
-    private Date plantation_dttm;
+    private String Created_source;
     private Date Created_dttm;
+    private Date Last_updated_dttm;
+    private String Last_updated_source;
+  
+    
+   // private Set<Programmation_travaux> programmation_travaux;
+    @ManyToOne //(cascade=CascadeType.ALL)
+    private ParcelleCadastrale parcellecadastrale;
+    public ParcelleCadastrale getParcellecadastrale() {
+		return parcellecadastrale;
+	}
+
+	public void setParcellecadastrale(ParcelleCadastrale parcellecadastrale) {
+		this.parcellecadastrale = parcellecadastrale;
+	}
+
+	public String getEssence() {
+		return essence;
+	}
+
+	public void setEssence(String essence) {
+		this.essence = essence;
+	}
+
+	public String getCommentaire() {
+		return commentaire;
+	}
+
+	public void setCommentaire(String commentaire) {
+		this.commentaire = commentaire;
+	}
+
+/*	public Set<Programmation_travaux> getProgrammation_travaux() {
+		return programmation_travaux;
+	}
+
+	public void setProgrammation_travaux(Set<Programmation_travaux> programmation_travaux) {
+		this.programmation_travaux = programmation_travaux;
+	}
+
+	public Objectif_Sylvicole getObjectif_sylvicole() {
+		return objectif_sylvicole;
+	}
+
+	public void setObjectif_sylvicole(Objectif_Sylvicole objectif_sylvicole) {
+		this.objectif_sylvicole = objectif_sylvicole;
+	}
+	private Objectif_Sylvicole objectif_sylvicole;*/
+    private Date plantation_dttm;
+   
     public Date getPlantation_dttm() {
 		return plantation_dttm;
 	}
@@ -29,13 +88,7 @@ public class Peuplement {
 		this.plantation_dttm = plantation_dttm;
 	}
 
-	public Date getCreated_dttm() {
-		return Created_dttm;
-	}
-
-	public void setCreated_dttm(Date created_dttm) {
-		Created_dttm = created_dttm;
-	}
+	
 
 	public String getCreated_source() {
 		return Created_source;
@@ -60,9 +113,7 @@ public class Peuplement {
 	public void setLast_updated_source(String last_updated_source) {
 		Last_updated_source = last_updated_source;
 	}
-	private String Created_source;
-    private Date Last_updated_dttm;
-    private String Last_updated_source;
+	
 	public Long getId() {
 		return id;
 	}

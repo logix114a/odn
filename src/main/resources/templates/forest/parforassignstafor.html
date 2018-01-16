@@ -9,7 +9,7 @@
 		<div th:replace="menu :: navbar"></div>
 		<div th:replace="forest/menuforest :: navbar"></div>
 		<h1>Messages : Create</h1>
-		<form id="parforassignparcad" th:object="${parcelleforestiere}"   th:action="@{/forest/parforassignparcad}" 
+		<form id="parforassignparcad" th:object="${parcelleforestiere}"   th:action="@{/forest/parforassignstafor}" 
 		
 		 method="post" action="#">
 
@@ -17,8 +17,7 @@
 				<a th:href="@{/forest/forestareaassignparfor}"
 					href="parcezzzllecadastrale.html"> Liste Parcelle Cadastrale </a>
 			</div>
-			<input type="text" th:field="*{id}" />
-<input type="text" th:field="*{numero}" />
+			<input type="hidden" th:field="*{id}" />
 
 			 <label for="fordsqdsqest">Station Forestière</label>				
 				<br />

@@ -9,12 +9,10 @@
 			<h1>Forest : View all</h1>
 			<div class="container">
 				<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/listall}">revenir à la liste des forêts</a>
+					<a href="addforest.html" th:href="@{/forest/forestlist}">revenir ï¿½ la liste des forï¿½ts</a>
 				</div>
 				<center><h1><a th:href ='@{/forest/forestview/} + ${forest.id}' th:text="${forest.name}">test</a></h1></center>
 								<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/forestareaassignparcad/}  + ${forest.id}">Ajouter une parcelle cadastrale</a>
-					
 					
 			 <table class="table table-bordered table-striped">
 					<thead>

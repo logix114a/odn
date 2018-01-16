@@ -16,7 +16,7 @@
 					<thead>
 						<tr>
 							<td>ID</td>
-							<td>Modifier</td>
+							<td>View</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -24,9 +24,9 @@
 						<tr th:each="stationforestiere : ${stationforestieres}">
 							<td th:text="${stationforestiere.id}">1</td>
 							
-							<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${stationforestiere.id}}"
+							<td><a href="view.html" th:href="@{'/forest/stationforestiereview/' + ${stationforestiere.id}}"
 								th:text="${stationforestiere.id}"> The summary </a></td>
-								<td> Modifier</td>						
+												
 						</tr>
 					</tbody>
 				</table>
