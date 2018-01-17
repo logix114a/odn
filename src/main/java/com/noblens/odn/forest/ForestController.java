@@ -10,8 +10,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,12 +38,21 @@ import com.noblens.odn.forest.data.StationForestiere;
 import com.noblens.odn.forest.data.StationForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
-import com.noblens.odn.forest.misc.StorageService;
+import com.noblens.odn.forest.misc.*;
+
+
 
 
 @Controller
 @RequestMapping("/forest")
 public class ForestController {
+	  /* private final StorageService storageService;
+
+	    @Autowired
+	    public FileUploadController(StorageService storageService) {
+	        this.storageService = storageService;
+	    }*/
+	
 	@Autowired
 	private ForestRepository forestRepository;
 	@Autowired
@@ -55,6 +66,12 @@ public class ForestController {
 	@Autowired
 	private PeuplementRepository peuplementRepository;	
 	
+
+	
+	    @ExceptionHandler(StorageFileNotFoundException.class)
+	    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+	        return ResponseEntity.notFound().build();
+	    }
 	private static final Logger logger = LoggerFactory.getLogger(ForestController.class);
 	@GetMapping("")
 	public ModelAndView home() {
@@ -297,17 +314,19 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 	}	
 	
 	@GetMapping(path="peuplementaddtoparcad/{id}") // Map ONLY GET Requests
-	public ModelAndView parcadassignpeu(Peuplement peuplement) {	
+	public ModelAndView parcadassignpeu(@PathVariable("id") Long id,Peuplement peuplement) {	
 			ModelAndView test = new ModelAndView("forest/peuplementaddtoparcad");
 			test.addObject("peuplement", peuplement);
-		
+			test.addObject("id", id);
 		return  test;
 	}	
 
 	@PostMapping(path="peuplementaddtoparcad/{id}") // Map ONLY GET Requests
 	public ModelAndView parcadassignpeu(@PathVariable("id") Long id,@Valid Peuplement peuplement, BindingResult result,
 			RedirectAttributes redirect) {
-		logger.debug("--Test ODN --");
+		logger.debug("--Test ODN : get id--");
+		
+		logger.debug(Long.toString(id));
 		//logger.debug(peuplement.getParcellecadastrale().getId());
 		Optional<ParcelleCadastrale> parcellescadastrales = this.parcellecadastraleRepository.findById(id);
 		ParcelleCadastrale parcellecadastrale =  parcellescadastrales.get();
@@ -333,7 +352,8 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 		return new ModelAndView("forest/dataloader");
 	}
 	
-	 
+	
+	
 	@GetMapping(path="programmationlist")
 	public ModelAndView programmationlist() {
 		
