@@ -1,15 +1,20 @@
 package com.noblens.odn.forest;
 
-import java.util.Date;
-import java.util.HashSet;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,15 +23,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.noblens.odn.forest.data.Forest;
-import com.noblens.odn.forest.data.ForestArea;
+
 import com.noblens.odn.forest.data.ForestRepository;
 import com.noblens.odn.forest.data.ParcelleCadastrale;
 import com.noblens.odn.forest.data.ParcelleCadastraleRepository;
@@ -38,20 +43,23 @@ import com.noblens.odn.forest.data.StationForestiere;
 import com.noblens.odn.forest.data.StationForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
-import com.noblens.odn.forest.misc.*;
+import com.noblens.odn.forest.misc.StorageService;
 
+
+
+import com.noblens.odn.forest.misc.StorageFileNotFoundException;
 
 
 
 @Controller
 @RequestMapping("/forest")
 public class ForestController {
-	  /* private final StorageService storageService;
-
-	    @Autowired
-	    public FileUploadController(StorageService storageService) {
+	   private StorageService storageService;
+	   
+		@Autowired
+	    public void FileUploadController(StorageService storageService) {
 	        this.storageService = storageService;
-	    }*/
+	    }
 	
 	@Autowired
 	private ForestRepository forestRepository;
@@ -349,10 +357,59 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 	@GetMapping(path="dataloader")
 	public ModelAndView dataloaderupload() {
 		
-		return new ModelAndView("forest/dataloader");
+		
+		
+		return new ModelAndView("forest/dataloader","test",storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(ForestController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
 	}
 	
+	 @GetMapping("/files/{filename:.+}")
+	    @ResponseBody
+	    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+
+	        Resource file = storageService.loadAsResource(filename);
+	        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+	                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	    }
 	
+    @PostMapping("dataloader")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+            RedirectAttributes redirectAttributes) {
+    	logger.debug("--Test ODN : get id--");
+    	logger.debug(file.getName());
+    	BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		
+
+		String line;
+		try {
+
+			br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+				sb.append("\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		logger.debug(sb.toString());
+        storageService.store(file);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        return "redirect:/forest/dataloader";
+    }
 	
 	@GetMapping(path="programmationlist")
 	public ModelAndView programmationlist() {

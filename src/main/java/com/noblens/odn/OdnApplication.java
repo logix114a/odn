@@ -7,7 +7,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 import com.noblens.odn.forest.misc.StorageService;
-import com.noblens.odn.forest.misc.StorageProperties;;
+import com.noblens.odn.forest.misc.StorageProperties;
+
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
 public class OdnApplication {
