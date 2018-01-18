@@ -1,14 +1,11 @@
 package com.noblens.odn.forest;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -47,12 +44,10 @@ import com.noblens.odn.forest.data.TypePeuplementRepository;
 import com.noblens.odn.forest.misc.StorageService;
 
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
+//import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.noblens.odn.forest.misc.StorageFileNotFoundException;
 
@@ -112,7 +107,7 @@ public ModelAndView listall() {
 			RedirectAttributes redirect) {
 		//forest.setName("lateteatoto");
 		forest = this.forestRepository.save(forest);
-		Iterable<Forest> forests = this.forestRepository.findAll();
+		
 		return new ModelAndView("redirect:forestlist");
 	}
 	
@@ -126,7 +121,7 @@ public ModelAndView listall() {
 			RedirectAttributes redirect) {
 		//forest.setName("lateteatoto");
 		forest = this.forestRepository.save(forest);
-		Iterable<Forest> forests = this.forestRepository.findAll();
+		
 		return new ModelAndView("forest/forestlist" );
 	}
 	
@@ -173,7 +168,7 @@ public ModelAndView parcellecadastraleview(@PathVariable("id") ParcelleCadastral
 			RedirectAttributes redirect) {
 		//forest.setName("lateteatoto");
 		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
-		Iterable<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository.findAll();
+		
 		return new ModelAndView("forest/parcellecadastralelist" );
 	}	
 	@GetMapping(path="parcelleforestiereadd") // Map ONLY GET Requests
@@ -386,8 +381,8 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
             RedirectAttributes redirectAttributes) {
     	logger.debug("--Test ODN : get id--");
     	logger.debug(file.getName());
-    	BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
+    	//BufferedReader br = null;
+		//StringBuilder sb = new StringBuilder();
 		try {
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
 			
