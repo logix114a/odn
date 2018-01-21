@@ -1,6 +1,5 @@
 package com.noblens.odn.forest;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,7 +45,6 @@ import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
 import com.noblens.odn.forest.misc.StorageService;
 
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -54,297 +52,289 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.noblens.odn.forest.misc.DataLoader;
 import com.noblens.odn.forest.misc.StorageFileNotFoundException;
-
-
 
 @Controller
 @RequestMapping("/forest")
 public class ForestController {
-	   private StorageService storageService;
-	   
-		@Autowired
-	    public void FileUploadController(StorageService storageService) {
-	        this.storageService = storageService;
-	    }
-	
+	private StorageService storageService;
+
+	@Autowired
+	public void FileUploadController(StorageService storageService) {
+		this.storageService = storageService;
+	}
+
 	@Autowired
 	private ForestRepository forestRepository;
 	@Autowired
 	private ParcelleCadastraleRepository parcellecadastraleRepository;
 	@Autowired
-	private ParcelleForestiereRepository parcelleforestiereRepository;	
+	private ParcelleForestiereRepository parcelleforestiereRepository;
 	@Autowired
-	private TypePeuplementRepository typepeuplementRepository;	
+	private TypePeuplementRepository typepeuplementRepository;
 	@Autowired
-	private StationForestiereRepository stationforestiereRepository;	
+	private StationForestiereRepository stationforestiereRepository;
 	@Autowired
-	private PeuplementRepository peuplementRepository;	
-	
+	private PeuplementRepository peuplementRepository;
 
-	
-	    @ExceptionHandler(StorageFileNotFoundException.class)
-	    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-	        return ResponseEntity.notFound().build();
-	    }
+	@ExceptionHandler(StorageFileNotFoundException.class)
+	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+		return ResponseEntity.notFound().build();
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(ForestController.class);
+
 	@GetMapping("")
 	public ModelAndView home() {
 		return new ModelAndView("forest/home");
 	}
-	
 
-	
-	@GetMapping(path="forestlist")
-public ModelAndView listall() {
-	Iterable<Forest> forests = this.forestRepository.findAll();
-	return new ModelAndView("forest/forestlist", "forests", forests);
-}	
+	@GetMapping(path = "forestlist")
+	public ModelAndView listall() {
+		Iterable<Forest> forests = this.forestRepository.findAll();
+		return new ModelAndView("forest/forestlist", "forests", forests);
+	}
 
-	
-	@GetMapping(path="forestadd") // Map ONLY GET Requests
+	@GetMapping(path = "forestadd") // Map ONLY GET Requests
 	public ModelAndView forestadd(Forest forest) {
 		return new ModelAndView("forest/forestadd");
 	}
-	
-	@PostMapping(path="forestadd") 
-	public ModelAndView forestadd1(@Valid Forest forest, BindingResult result,
-			RedirectAttributes redirect) {
-		//forest.setName("lateteatoto");
+
+	@PostMapping(path = "forestadd")
+	public ModelAndView forestadd1(@Valid Forest forest, BindingResult result, RedirectAttributes redirect) {
+		// forest.setName("lateteatoto");
 		forest = this.forestRepository.save(forest);
 		Iterable<Forest> forests = this.forestRepository.findAll();
 		return new ModelAndView("redirect:forestlist");
 	}
-	
-	@GetMapping(path="forestmodify/{id}") // Map ONLY GET Requests
+
+	@GetMapping(path = "forestmodify/{id}") // Map ONLY GET Requests
 	public ModelAndView forestmodify(@PathVariable("id") Forest forest) {
 		return new ModelAndView("forest/forestmodify", "forest", forest);
 	}
-	
-	@PostMapping(path="forestmodify") 
-	public ModelAndView forestamodify1(@Valid Forest forest, BindingResult result,
-			RedirectAttributes redirect) {
-		//forest.setName("lateteatoto");
+
+	@PostMapping(path = "forestmodify")
+	public ModelAndView forestamodify1(@Valid Forest forest, BindingResult result, RedirectAttributes redirect) {
+		// forest.setName("lateteatoto");
 		forest = this.forestRepository.save(forest);
 		Iterable<Forest> forests = this.forestRepository.findAll();
-		return new ModelAndView("forest/forestlist" );
+		return new ModelAndView("forest/forestlist");
 	}
-	
-	
-	@GetMapping(path="forestview/{id}")
-public ModelAndView viewforest(@PathVariable("id") Forest forest) {
-	return new ModelAndView("forest/forestview", "forest", forest);
-}
 
+	@GetMapping(path = "forestview/{id}")
+	public ModelAndView viewforest(@PathVariable("id") Forest forest) {
+		return new ModelAndView("forest/forestview", "forest", forest);
+	}
 
-	@GetMapping(path="parcellecadastraleadd") // Map ONLY GET Requests
+	@GetMapping(path = "parcellecadastraleadd") // Map ONLY GET Requests
 	public ModelAndView parcellecadastraleadd1(ParcelleCadastrale parcellecadastrale) {
 		return new ModelAndView("forest/parcellecadastraleadd");
-	}	
+	}
 
-	@PostMapping(path="parcellecadastraleadd") 
+	@PostMapping(path = "parcellecadastraleadd")
 	public ModelAndView parcellecadastraleadd(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
 			RedirectAttributes redirect) {
 		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
 		return new ModelAndView("redirect:parcellecadastralelist");
 	}
-	
-	@GetMapping(path="parcellecadastralelist")
+
+	@GetMapping(path = "parcellecadastralelist")
 	public ModelAndView parcellecadastralelist() {
 		Iterable<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository.findAll();
 		return new ModelAndView("forest/parcellecadastralelist", "parcellecadastrales", parcellecadastrales);
 	}
-	
-	@GetMapping(path="parcellecadastraleview/{id}")
-public ModelAndView parcellecadastraleview(@PathVariable("id") ParcelleCadastrale parcellecadastrale) {
-		
-	//Forest forest  = new Forest();
-	//forest.setId(id);	
-	return new ModelAndView("forest/parcellecadastraleview", "parcellecadastrale", parcellecadastrale);
-}
-	
-	@GetMapping(path="parcellecadastralemodify/{id}") // Map ONLY GET Requests
+
+	@GetMapping(path = "parcellecadastraleview/{id}")
+	public ModelAndView parcellecadastraleview(@PathVariable("id") ParcelleCadastrale parcellecadastrale) {
+
+		// Forest forest = new Forest();
+		// forest.setId(id);
+		return new ModelAndView("forest/parcellecadastraleview", "parcellecadastrale", parcellecadastrale);
+	}
+
+	@GetMapping(path = "parcellecadastralemodify/{id}") // Map ONLY GET Requests
 	public ModelAndView parcellecadastralemodify(@PathVariable("id") ParcelleCadastrale parcellecadastrale) {
 		return new ModelAndView("forest/parcellecadastralemodify", "parcellecadastrale", parcellecadastrale);
 	}
-	
-	@PostMapping(path="parcellecadastralemodify") 
+
+	@PostMapping(path = "parcellecadastralemodify")
 	public ModelAndView parcellecadastralemodify(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
 			RedirectAttributes redirect) {
-		//forest.setName("lateteatoto");
+		// forest.setName("lateteatoto");
 		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
-		Iterable<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository.findAll();
-		return new ModelAndView("forest/parcellecadastralelist" );
-	}	
-	@GetMapping(path="parcelleforestiereadd") // Map ONLY GET Requests
-	public ModelAndView parcelleforestiereadd1(ParcelleForestiere parcelleforestiere	) {
-		return new ModelAndView("forest/parcelleforestiereadd");
-	}	
+	
+		return new ModelAndView("forest/parcellecadastralelist");
+	}
 
-	@PostMapping(path="parcelleforestiereadd") 
+	@GetMapping(path = "parcelleforestiereadd") // Map ONLY GET Requests
+	public ModelAndView parcelleforestiereadd1(ParcelleForestiere parcelleforestiere) {
+		return new ModelAndView("forest/parcelleforestiereadd");
+	}
+
+	@PostMapping(path = "parcelleforestiereadd")
 	public ModelAndView parcelleforestiereadd(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
 			RedirectAttributes redirect) {
 		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
 		Iterable<ParcelleForestiere> parcellesforestieres = this.parcelleforestiereRepository.findAll();
 		return new ModelAndView("forest/parcelleforestierelist", "parcelleforestieres", parcellesforestieres);
 	}
-	
-	@GetMapping(path="parcelleforestierelist")
+
+	@GetMapping(path = "parcelleforestierelist")
 	public ModelAndView parcelleforestierelist() {
 		Iterable<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findAll();
 		return new ModelAndView("forest/parcelleforestierelist", "parcelleforestieres", parcelleforestieres);
 	}
-	
-	@GetMapping(path="parcelleforestiereview/{id}")
-public ModelAndView parcelleforestiereview(@PathVariable("id") ParcelleForestiere parcelleforestiere) {
-		
-	return new ModelAndView("forest/parcelleforestiereview", "parcelleforestiere", parcelleforestiere);
-}	
 
-	
-	@GetMapping(path="typepeuplementadd") // Map ONLY GET Requests
-	public ModelAndView typepeuplementadd1(TypePeuplement typepeuplement	) {
+	@GetMapping(path = "parcelleforestiereview/{id}")
+	public ModelAndView parcelleforestiereview(@PathVariable("id") ParcelleForestiere parcelleforestiere) {
+
+		return new ModelAndView("forest/parcelleforestiereview", "parcelleforestiere", parcelleforestiere);
+	}
+
+	@GetMapping(path = "typepeuplementadd") // Map ONLY GET Requests
+	public ModelAndView typepeuplementadd1(TypePeuplement typepeuplement) {
 		return new ModelAndView("forest/typepeuplementadd");
-	}	
+	}
 
-	@PostMapping(path="typepeuplementadd") 
+	@PostMapping(path = "typepeuplementadd")
 	public ModelAndView typepeuplementadd(@Valid TypePeuplement typepeuplement, BindingResult result,
 			RedirectAttributes redirect) {
 		typepeuplement = this.typepeuplementRepository.save(typepeuplement);
 		Iterable<TypePeuplement> typepeuplements = this.typepeuplementRepository.findAll();
 		return new ModelAndView("forest/typepeuplementlist", "typepeuplements", typepeuplements);
 	}
-	
-	@GetMapping(path="typepeuplementlist")
+
+	@GetMapping(path = "typepeuplementlist")
 	public ModelAndView typepeuplementlist() {
 		Iterable<TypePeuplement> typepeuplements = this.typepeuplementRepository.findAll();
 		return new ModelAndView("forest/typepeuplementlist", "typepeuplements", typepeuplements);
 	}
-	
-	@GetMapping(path="typepeuplementview/{id}")
-public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepeuplement) {
-		
-	//Forest forest  = new Forest();
-	//forest.setId(id);	
-	return new ModelAndView("forest/typepeuplementview", "typepeuplement", typepeuplement);
-}	
 
-	
-	@GetMapping(path="stationforestiereadd") // Map ONLY GET Requests
-	public ModelAndView stationforestiereadd1(StationForestiere stationforestiere	) {
+	@GetMapping(path = "typepeuplementview/{id}")
+	public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepeuplement) {
+
+		// Forest forest = new Forest();
+		// forest.setId(id);
+		return new ModelAndView("forest/typepeuplementview", "typepeuplement", typepeuplement);
+	}
+
+	@GetMapping(path = "stationforestiereadd") // Map ONLY GET Requests
+	public ModelAndView stationforestiereadd1(StationForestiere stationforestiere) {
 		return new ModelAndView("forest/stationforestiereadd");
-	}	
+	}
 
-	@PostMapping(path="stationforestiereadd") 
+	@PostMapping(path = "stationforestiereadd")
 	public ModelAndView stationforestiereadd(@Valid StationForestiere stationForestiere, BindingResult result,
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN ODN ODN ODN --");
-		logger.debug(stationForestiere.getNom());	
+		logger.debug(stationForestiere.getNom());
 		stationForestiere = this.stationforestiereRepository.save(stationForestiere);
-	return new ModelAndView("redirect:stationforestierelist");
+		return new ModelAndView("redirect:stationforestierelist");
 	}
-	
-	@GetMapping(path="stationforestierelist")
+
+	@GetMapping(path = "stationforestierelist")
 	public ModelAndView stationforestierelist() {
 		Iterable<StationForestiere> stationforestieres = this.stationforestiereRepository.findAll();
 		return new ModelAndView("forest/stationforestierelist", "stationforestieres", stationforestieres);
 	}
-	
-	@GetMapping(path="stationforestiereview/{id}")
-public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere stationforestiere) {
-		
-	//Forest forest  = new Forest();
-	//forest.setId(id);	
-	return new ModelAndView("forest/stationforestiereview", "stationforestiere", stationforestiere);
-}	
-	
-	
-	@GetMapping(path="forestareaassignparfor/{id}") // Map ONLY GET Requests
-	public ModelAndView forestareaassignparcad(@PathVariable("id") Forest forest) {	
-			ModelAndView test = new ModelAndView("forest/forestareaassignparfor");
-			test.addObject("forest", forest);
-			Iterable<ParcelleForestiere> parcellesforestieress = this.parcelleforestiereRepository.findAll();
-			test.addObject("parcellesforestieress", parcellesforestieress);
-		return  test;
-	}	
 
-	@PostMapping(path="forestareaassignparfor") // Map ONLY GET Requests
+	@GetMapping(path = "stationforestiereview/{id}")
+	public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere stationforestiere) {
+
+		// Forest forest = new Forest();
+		// forest.setId(id);
+		return new ModelAndView("forest/stationforestiereview", "stationforestiere", stationforestiere);
+	}
+
+	@GetMapping(path = "forestareaassignparfor/{id}") // Map ONLY GET Requests
+	public ModelAndView forestareaassignparcad(@PathVariable("id") Forest forest) {
+		ModelAndView test = new ModelAndView("forest/forestareaassignparfor");
+		test.addObject("forest", forest);
+		Iterable<ParcelleForestiere> parcellesforestieress = this.parcelleforestiereRepository.findAll();
+		test.addObject("parcellesforestieress", parcellesforestieress);
+		return test;
+	}
+
+	@PostMapping(path = "forestareaassignparfor") // Map ONLY GET Requests
 	public ModelAndView forestareaassignparcad1(@Valid Forest forest, BindingResult result,
 			RedirectAttributes redirect) {
 		Optional<Forest> forests = this.forestRepository.findById(forest.getId());
 		Forest forest1 = forests.get();
 		forest1.setParcelleforestieres(forest.getParcelleforestieres());
 		logger.debug("--Test ODN --");
-		logger.debug(forest.getName());	
-		
+		logger.debug(forest.getName());
+
 		forest = this.forestRepository.save(forest1);
 
 		return new ModelAndView("redirect:forestlist");
-	}	
-	
-	
-	@GetMapping(path="parforassignparcad/{id}") // Map ONLY GET Requests
-	public ModelAndView forestareaassignparfor(@PathVariable("id") ParcelleForestiere parcelleforestiere) {	
-			ModelAndView test = new ModelAndView("forest/parforassignparcad");
-			test.addObject("parcelleforestiere", parcelleforestiere);
-			Iterable<ParcelleCadastrale> parcellescadastraless = this.parcellecadastraleRepository.findAll();
-			test.addObject("parcellescadastraless", parcellescadastraless);
-		return  test;
-	}	
+	}
 
-	@PostMapping(path="parforassignparcad") // Map ONLY GET Requests
+	@GetMapping(path = "parforassignparcad/{id}") // Map ONLY GET Requests
+	public ModelAndView forestareaassignparfor(@PathVariable("id") ParcelleForestiere parcelleforestiere) {
+		ModelAndView test = new ModelAndView("forest/parforassignparcad");
+		test.addObject("parcelleforestiere", parcelleforestiere);
+		Iterable<ParcelleCadastrale> parcellescadastraless = this.parcellecadastraleRepository.findAll();
+		test.addObject("parcellescadastraless", parcellescadastraless);
+		return test;
+	}
+
+	@PostMapping(path = "parforassignparcad") // Map ONLY GET Requests
 	public ModelAndView forestareaassignparfor1(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN --");
-		logger.debug(parcelleforestiere.getNumero());	
-		Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findById(parcelleforestiere.getId());
+		logger.debug(parcelleforestiere.getNumero());
+		Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository
+				.findById(parcelleforestiere.getId());
 		ParcelleForestiere parcelleforestiere1 = parcelleforestieres.get();
 		parcelleforestiere1.setParcellecadastrales(parcelleforestiere.getParcellecadastrales());
-		
+
 		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
 
 		return new ModelAndView("redirect:parcelleforestierelist");
-	}	
+	}
 
-	@GetMapping(path="parforassignstafor/{id}") // Map ONLY GET Requests
-	public ModelAndView parforassignstafor(@PathVariable("id") ParcelleForestiere parcelleforestiere) {	
-			ModelAndView test = new ModelAndView("forest/parforassignstafor");
-			test.addObject("parcelleforestiere", parcelleforestiere);
-			Iterable<StationForestiere> stationforestieres = this.stationforestiereRepository.findAll();
-			test.addObject("stationforestieres", stationforestieres);
-		return  test;
-	}	
+	@GetMapping(path = "parforassignstafor/{id}") // Map ONLY GET Requests
+	public ModelAndView parforassignstafor(@PathVariable("id") ParcelleForestiere parcelleforestiere) {
+		ModelAndView test = new ModelAndView("forest/parforassignstafor");
+		test.addObject("parcelleforestiere", parcelleforestiere);
+		Iterable<StationForestiere> stationforestieres = this.stationforestiereRepository.findAll();
+		test.addObject("stationforestieres", stationforestieres);
+		return test;
+	}
 
-	@PostMapping(path="parforassignstafor") // Map ONLY GET Requests
+	@PostMapping(path = "parforassignstafor") // Map ONLY GET Requests
 	public ModelAndView parforassignstafor(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN --");
-		logger.debug(parcelleforestiere.getNumero());	
-		Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findById(parcelleforestiere.getId());
+		logger.debug(parcelleforestiere.getNumero());
+		Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository
+				.findById(parcelleforestiere.getId());
 		ParcelleForestiere parcelleforestiere1 = parcelleforestieres.get();
 		parcelleforestiere1.setStationforestieres(parcelleforestiere.getStationforestieres());
-		
+
 		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
 		return new ModelAndView("redirect:parcelleforestierelist");
-	}	
-	
-	@GetMapping(path="peuplementaddtoparcad/{id}") // Map ONLY GET Requests
-	public ModelAndView parcadassignpeu(@PathVariable("id") Long id,Peuplement peuplement) {	
-			ModelAndView test = new ModelAndView("forest/peuplementaddtoparcad");
-			test.addObject("peuplement", peuplement);
-			test.addObject("id", id);
-		return  test;
-	}	
+	}
 
-	@PostMapping(path="peuplementaddtoparcad/{id}") // Map ONLY GET Requests
-	public ModelAndView parcadassignpeu(@PathVariable("id") Long id,@Valid Peuplement peuplement, BindingResult result,
+	@GetMapping(path = "peuplementaddtoparcad/{id}") // Map ONLY GET Requests
+	public ModelAndView parcadassignpeu(@PathVariable("id") Long id, Peuplement peuplement) {
+		ModelAndView test = new ModelAndView("forest/peuplementaddtoparcad");
+		test.addObject("peuplement", peuplement);
+		test.addObject("id", id);
+		return test;
+	}
+
+	@PostMapping(path = "peuplementaddtoparcad/{id}") // Map ONLY GET Requests
+	public ModelAndView parcadassignpeu(@PathVariable("id") Long id, @Valid Peuplement peuplement, BindingResult result,
 			RedirectAttributes redirect) {
 		logger.debug("--Test ODN : get id--");
-		
+
 		logger.debug(Long.toString(id));
-		//logger.debug(peuplement.getParcellecadastrale().getId());
+		// logger.debug(peuplement.getParcellecadastrale().getId());
 		Optional<ParcelleCadastrale> parcellescadastrales = this.parcellecadastraleRepository.findById(id);
-		ParcelleCadastrale parcellecadastrale =  parcellescadastrales.get();
+		ParcelleCadastrale parcellecadastrale = parcellescadastrales.get();
 		java.util.Date date_util = new java.util.Date();
 		peuplement.setCreated_dttm(new java.sql.Date(date_util.getTime()));
 		peuplement.setLast_updated_dttm(new java.sql.Date(date_util.getTime()));
@@ -353,147 +343,140 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 		peuplement.setStatus(true);
 		peuplement.setParcellecadastrale(parcellecadastrale);
 		peuplement = this.peuplementRepository.save(peuplement);
-		//TODO: Save the parcelle cadastrale
-		/*Optional<ParcelleCadastrale> parcellescadastrales = this.parcellecadastraleRepository.findById(id);
-		ParcelleCadastrale parcellecadastrale =  parcellescadastrales.get();
-		/*parcellecadastrale.setPeuplement(peuplement);
-		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);*/
+		// TODO: Save the parcelle cadastrale
+		/*
+		 * Optional<ParcelleCadastrale> parcellescadastrales =
+		 * this.parcellecadastraleRepository.findById(id); ParcelleCadastrale
+		 * parcellecadastrale = parcellescadastrales.get();
+		 * /*parcellecadastrale.setPeuplement(peuplement); parcellecadastrale =
+		 * this.parcellecadastraleRepository.save(parcellecadastrale);
+		 */
 		return new ModelAndView("redirect:/forest/parcellecadastralelist");
-	}	
-	
-	@GetMapping(path="dataloader")
-	public ModelAndView dataloaderupload() {
-		
-		
-		
-		return new ModelAndView("forest/dataloader","test",storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(ForestController.class,
-                        "serveFile", path.getFileName().toString()).build().toString())
-                .collect(Collectors.toList()));
 	}
-	
-	 @GetMapping("/files/{filename:.+}")
-	    @ResponseBody
-	    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-	        Resource file = storageService.loadAsResource(filename);
-	        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-	                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-	    }
-	
-    @PostMapping("dataloader")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
-    	logger.debug("--Test ODN : get id--");
-    	logger.debug(file.getName());
-    	BufferedReader br = null;
+	@GetMapping(path = "dataloader")
+	public ModelAndView dataloaderupload() {
+
+		return new ModelAndView("forest/dataloader", "test",
+				storageService.loadAll()
+						.map(path -> MvcUriComponentsBuilder
+								.fromMethodName(ForestController.class, "serveFile", path.getFileName().toString())
+								.build().toString())
+						.collect(Collectors.toList()));
+	}
+
+	@GetMapping("/files/{filename:.+}")
+	@ResponseBody
+	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+
+		Resource file = storageService.loadAsResource(filename);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
+	}
+
+	@PostMapping("dataloader")
+	public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+		logger.debug("--Test ODN : get id--");
+		logger.debug(file.getName());
+		Boolean test = new DataLoader().loaddataloaderforest(file);
+		Boolean test1 = new DataLoader().loaddataloaderStationForestiere(file);
+		// loaddataloaderStationForestiere(file);
+		/*BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
 		try {
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
-			
-			//INTEGRATION STATION FORESTIERE
+
+			// INTEGRATION STATION FORESTIERE
 			Sheet datatypeSheet = workbook.getSheet("stationforestiere");
-            Iterator<Row> iterator = datatypeSheet.iterator();
-            while (iterator.hasNext()) {
+			Iterator<Row> iterator = datatypeSheet.iterator();
+			while (iterator.hasNext()) {
 
-                Row currentRow = iterator.next();
-        StationForestiere stationforestiere = new StationForestiere();
-        stationforestiere.setNom(currentRow.getCell(1).getStringCellValue());
-        stationforestiere.setDescription(currentRow.getCell(2).getStringCellValue());
-        stationforestiere.setCaracteristique_sol(currentRow.getCell(3).getStringCellValue());
-        stationforestiere.setPeuplement_naturel(currentRow.getCell(4).getStringCellValue());
-        stationforestiere = this.stationforestiereRepository.save(stationforestiere);
-        
-        
-      //INTEGRATION FOREST
-      		Sheet datatypeSheet1 = workbook.getSheet("forest");
-              Iterator<Row> iterator1 = datatypeSheet1.iterator();
-              while (iterator1.hasNext()) {
+				Row currentRow = iterator.next();
+				StationForestiere stationforestiere = new StationForestiere();
+				stationforestiere.setNom(currentRow.getCell(1).getStringCellValue());
+				stationforestiere.setDescription(currentRow.getCell(2).getStringCellValue());
+				stationforestiere.setCaracteristique_sol(currentRow.getCell(3).getStringCellValue());
+				stationforestiere.setPeuplement_naturel(currentRow.getCell(4).getStringCellValue());
+				stationforestiere = this.stationforestiereRepository.save(stationforestiere);
 
-                  Row currentRow1 = iterator1.next();
-          Forest forest = new Forest();
-          forest.setName(currentRow1.getCell(1).getStringCellValue());
-          forest.setProprietaire(currentRow.getCell(2).getStringCellValue());
+				// INTEGRATION FOREST
+				Sheet datatypeSheet1 = workbook.getSheet("forest");
+				Iterator<Row> iterator1 = datatypeSheet1.iterator();
+				while (iterator1.hasNext()) {
 
-          forest = this.forestRepository.save(forest);
-              }
-              
-              
-            }
-               /* Iterator<Cell> cellIterator = currentRow.iterator();
+					Row currentRow1 = iterator1.next();
+					Forest forest = new Forest();
+					forest.setName(currentRow1.getCell(1).getStringCellValue());
+					forest.setProprietaire(currentRow.getCell(2).getStringCellValue());
 
-                while (cellIterator.hasNext()) {
+					forest = this.forestRepository.save(forest);
+				}
 
-                    Cell currentCell = cellIterator.next();
-                    //getCellTypeEnum shown as deprecated for version 3.15
-                    //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
-                    if (currentCell.getCellTypeEnum() == CellType.STRING) {
-                        
-                        logger.debug(currentCell.getStringCellValue() + "-1-");
-                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-                        
-                        logger.debug(currentCell.getNumericCellValue() + "-2-");
-                    }
-                    logger.debug("\n");
-                }
-               
-            }
-            */
-            
+			}
+			/*
+			 * Iterator<Cell> cellIterator = currentRow.iterator();
+			 * 
+			 * while (cellIterator.hasNext()) {
+			 * 
+			 * Cell currentCell = cellIterator.next(); //getCellTypeEnum shown as deprecated
+			 * for version 3.15 //getCellTypeEnum ill be renamed to getCellType starting
+			 * from version 4.0 if (currentCell.getCellTypeEnum() == CellType.STRING) {
+			 * 
+			 * logger.debug(currentCell.getStringCellValue() + "-1-"); } else if
+			 * (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+			 * 
+			 * logger.debug(currentCell.getNumericCellValue() + "-2-"); }
+			 * logger.debug("\n"); }
+			 * 
+			 * }
+			 */
+/*
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+*/
+		/*
+		 * String line; try {
+		 * 
+		 * br = new BufferedReader(new InputStreamReader(file.getInputStream())); while
+		 * ((line = br.readLine()) != null) { sb.append(line); sb.append("\n"); }
+		 * 
+		 * } catch (IOException e) { e.printStackTrace(); } finally { if (br != null) {
+		 * try { br.close(); } catch (IOException e) { e.printStackTrace(); } } }
+		 * logger.debug(sb.toString());
+		 */
+		storageService.store(file);
+		redirectAttributes.addFlashAttribute("message",
+				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
-		/*String line;
-		try {
+		return "redirect:/forest/dataloader";
+	}
 
-			br = new BufferedReader(new InputStreamReader(file.getInputStream()));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-				sb.append("\n");
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		logger.debug(sb.toString());*/
-        storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        return "redirect:/forest/dataloader";
-    }
-	
-	@GetMapping(path="programmationlist")
+	@GetMapping(path = "programmationlist")
 	public ModelAndView programmationlist() {
-		
+
 		return new ModelAndView("forest/programmationlist");
 	}
-	@GetMapping(path="operationsylvicolelist")
+
+	@GetMapping(path = "operationsylvicolelist")
 	public ModelAndView operationsylvicolelist() {
-		
+
 		return new ModelAndView("forest/operationsylvicolelist");
 	}
-	
-	/*@GetMapping(path="parcadaddtoforest") // Map ONLY GET Requests
-	public ModelAndView parcadaddtoforest(TypePeuplement typepeuplement) {
-		return new ModelAndView("forest/parcadaddtoforest");
-	}	
 
-	@PostMapping(path="parcadaddtoforest") 
-	public ModelAndView typepeuplementadd(@Valid TypePeuplement typepeuplement, BindingResult result,
-			RedirectAttributes redirect) {
-		typepeuplement = this.typepeuplementRepository.save(typepeuplement);
-		Iterable<TypePeuplement> typepeuplements = this.typepeuplementRepository.findAll();
-		return new ModelAndView("forest/parcadaddtoforest", "typepeuplements", typepeuplements);
-	}	*/
+	/*
+	 * @GetMapping(path="parcadaddtoforest") // Map ONLY GET Requests public
+	 * ModelAndView parcadaddtoforest(TypePeuplement typepeuplement) { return new
+	 * ModelAndView("forest/parcadaddtoforest"); }
+	 * 
+	 * @PostMapping(path="parcadaddtoforest") public ModelAndView
+	 * typepeuplementadd(@Valid TypePeuplement typepeuplement, BindingResult result,
+	 * RedirectAttributes redirect) { typepeuplement =
+	 * this.typepeuplementRepository.save(typepeuplement); Iterable<TypePeuplement>
+	 * typepeuplements = this.typepeuplementRepository.findAll(); return new
+	 * ModelAndView("forest/parcadaddtoforest", "typepeuplements", typepeuplements);
+	 * }
+	 */
 }
