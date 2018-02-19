@@ -2,7 +2,10 @@ package com.noblens.odn.forest.misc;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -11,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.noblens.odn.forest.ForestController;
@@ -26,10 +30,12 @@ import com.noblens.odn.forest.data.StationForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
 
+@Service
 public class DataLoader {
 	private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 	@Autowired
-	private ForestRepository forestRepository;
+	private ForestRepository forestRepository1;
+	
 	@Autowired
 	private ParcelleCadastraleRepository parcellecadastraleRepository;
 	@Autowired
@@ -38,8 +44,9 @@ public class DataLoader {
 	private ParcelleForestiereRepository parcelleforestiereRepository;
 	@Autowired
 	private TypePeuplementRepository typepeuplementRepository;
-	public Boolean loaddataloaderforest(MultipartFile file) {
-
+	public List<Forest> loaddataloaderforest(MultipartFile file) {
+		 List<Forest> listeforest = new ArrayList<Forest>();
+		
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
 		try {
@@ -49,6 +56,7 @@ public class DataLoader {
 			// INTEGRATION FOREST
 			Sheet datatypeSheet1 = workbook.getSheet("forest");
 			Iterator<Row> iterator1 = datatypeSheet1.iterator();
+			iterator1.next();
 			while (iterator1.hasNext()) {
 				logger.debug("--Test OyretretreDN : get id--");
 				logger.debug(file.getName());
@@ -56,90 +64,109 @@ public class DataLoader {
 				Forest forest = new Forest();
 				forest.setName(currentRow1.getCell(1).getStringCellValue());
 				forest.setProprietaire(currentRow1.getCell(2).getStringCellValue());
-				//forest = this.forestRepository.save(forest);
+				//forest = this.forestRepository1.save(forest);
+				listeforest.add(forest);
 			}
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return true;
+		return listeforest;
 	}
 
-	public Boolean loaddataloaderStationForestiere(MultipartFile file) {
+	public List<StationForestiere> loaddataloaderStationForestiere(MultipartFile file) {
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
 		logger.debug("--Test ODN : get id--");
 		logger.debug(file.getName());
+		 List<StationForestiere> listestationforestiere = new ArrayList<StationForestiere>();
 		try {
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
 
 			// INTEGRATION STATION FORESTIERE
 			Sheet datatypeSheet = workbook.getSheet("stationforestiere");
 			Iterator<Row> iterator = datatypeSheet.iterator();
+			iterator.next();
 			while (iterator.hasNext()) {
 
 				Row currentRow = iterator.next();
 				StationForestiere stationforestiere = new StationForestiere();
 				stationforestiere.setNom(currentRow.getCell(1).getStringCellValue());
-				stationforestiere.setDescription(currentRow.getCell(2).getStringCellValue());
-				stationforestiere.setCaracteristique_sol(currentRow.getCell(3).getStringCellValue());
-				stationforestiere.setPeuplement_naturel(currentRow.getCell(4).getStringCellValue());
+				//stationforestiere.setDescription(currentRow.getCell(2).getStringCellValue());
+				//stationforestiere.setCaracteristique_sol(currentRow.getCell(3).getStringCellValue());
+				//	stationforestiere.setPeuplement_naturel(currentRow.getCell(4).getStringCellValue());
 				//stationforestiere = this.stationforestiereRepository.save(stationforestiere);
+				listestationforestiere.add(stationforestiere);
 			}
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return true;
+		return listestationforestiere;
 	}
 
 	
-	public void loaddataloaderParcelleCadastrale(MultipartFile file) {
+	public List<ParcelleCadastrale> loaddataloaderParcelleCadastrale(MultipartFile file) {
+		
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
+		 List<ParcelleCadastrale> listeparcellecadastrale = new ArrayList<ParcelleCadastrale>();
 		try {
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
 
 			// INTEGRATION STATION FORESTIERE
-			Sheet datatypeSheet = workbook.getSheet("parcellecadastrale");
+			Sheet datatypeSheet = workbook.getSheet("parcelle_cadastrale");
 			Iterator<Row> iterator = datatypeSheet.iterator();
+			iterator.next();
 			while (iterator.hasNext()) {
 
 				Row currentRow = iterator.next();
 				ParcelleCadastrale parcellecadastrale = new ParcelleCadastrale();
 				parcellecadastrale.setCommune(currentRow.getCell(1).getStringCellValue());
-				parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
+				//parcellecadastrale.setSection(currentRow.getCell(2).getStringCellValue());
+				//parcellecadastrale.setSection(currentRow.getCell(3).getStringCellValue());
+				parcellecadastrale.setLieu_dit(currentRow.getCell(4).getStringCellValue());
+				parcellecadastrale.setSurface(currentRow.getCell(5).getNumericCellValue());
+				
+				//parcellecadastrale.setSurface((currentRow.getCell(5).getgetStringCellValue().to);
+				//parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
+				listeparcellecadastrale.add(parcellecadastrale);
 			}
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		return listeparcellecadastrale;
 	}
 	
-	public void loaddataloaderParcelleForestiere(MultipartFile file) {
+	public List<ParcelleForestiere> loaddataloaderParcelleForestiere(MultipartFile file) {
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
+		 List<ParcelleForestiere> listeparcelleforestiere = new ArrayList<ParcelleForestiere>();
 		try {
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
 
 			// INTEGRATION STATION FORESTIERE
-			Sheet datatypeSheet = workbook.getSheet("parcelleforestiere");
+			Sheet datatypeSheet = workbook.getSheet("parcelle_forestiere");
 			Iterator<Row> iterator = datatypeSheet.iterator();
+			iterator.next();
 			while (iterator.hasNext()) {
 
 				Row currentRow = iterator.next();
 				ParcelleForestiere parcelleforestiere = new ParcelleForestiere();
-				parcelleforestiere.setNumero(currentRow.getCell(1).getStringCellValue());
-				parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
+				parcelleforestiere.setNumero(currentRow.getCell(2).getStringCellValue());
+				listeparcelleforestiere.add(parcelleforestiere);
+				//parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
 			}
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		return listeparcelleforestiere;
 	}
 	
 	
@@ -166,27 +193,31 @@ public class DataLoader {
 		}
 	}
 	
-	public void loaddataloaderTypePeuplement(MultipartFile file) {
+	public List<TypePeuplement> loaddataloaderTypePeuplement(MultipartFile file) {
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
+		 List<TypePeuplement> listeypepeuplement = new ArrayList<TypePeuplement>();
 		try {
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
 
 			// INTEGRATION STATION FORESTIERE
-			Sheet datatypeSheet = workbook.getSheet("typepeuplement");
+			Sheet datatypeSheet = workbook.getSheet("type_peuplement");
 			Iterator<Row> iterator = datatypeSheet.iterator();
+			iterator.next();
 			while (iterator.hasNext()) {
 
 				Row currentRow = iterator.next();
-				TypePeuplement typepeuplemet = new TypePeuplement();
-			
-				typepeuplemet = this.typepeuplementRepository.save(typepeuplemet);
+				TypePeuplement typepeuplement = new TypePeuplement();
+				typepeuplement.setNom(currentRow.getCell(1).getStringCellValue());
+				listeypepeuplement.add(typepeuplement);
+				//typepeuplemet = this.typepeuplementRepository.save(typepeuplemet);
 			}
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		return listeypepeuplement;
 	}
 
 	public void loaddataloaderAssignParcadtoParfor(MultipartFile file) {
@@ -281,6 +312,46 @@ public class DataLoader {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	
+	
+	public List<ParcelleForestiere> loaddataloaderRepartition(MultipartFile file) {
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		 List<ParcelleForestiere> listeparcelleforestiere = new ArrayList<ParcelleForestiere>();
+		try {
+			Workbook workbook = new XSSFWorkbook(file.getInputStream());
+
+			// INTEGRATION STATION FORESTIERE
+			Sheet datatypeSheet = workbook.getSheet("Repartition_peuplement");
+			Iterator<Row> iterator = datatypeSheet.iterator();
+			iterator.next();
+			while (iterator.hasNext()) {
+
+				Row currentRow = iterator.next();
+				//TODO
+				// FIRST STEP - Link parcelle cadastrale to parcelle forestiere	
+				//forestRepository1.findById((long) 1);
+				Forest forest = null;
+				forest.setName("test");
+				forestRepository1.save(forest);
+				// GET each row the parcelle cadastrale
+				// GET each row the parcelle forestiere
+				// SECOND STEP - Create for each row the Repartition peuplement
+				//  GET for each each row the parcelle cadastrale
+				// Get for each row the type peuplement
+				// Create the new recor in reparation peuplement
+				ParcelleForestiere parcelleforestiere = new ParcelleForestiere();
+				parcelleforestiere.setNumero(currentRow.getCell(2).getStringCellValue());
+				listeparcelleforestiere.add(parcelleforestiere);
+				//parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
+			}
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return listeparcelleforestiere;
 	}
 	
 }

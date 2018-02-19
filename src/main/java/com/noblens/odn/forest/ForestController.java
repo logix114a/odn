@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -68,6 +69,9 @@ public class ForestController {
 
 	@Autowired
 	private ForestRepository forestRepository;
+	
+	@Autowired
+	DataLoader dataloader;
 	@Autowired
 	private ParcelleCadastraleRepository parcellecadastraleRepository;
 	@Autowired
@@ -379,74 +383,20 @@ public class ForestController {
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 		logger.debug("--Test ODN : get id--");
 		logger.debug(file.getName());
-		Boolean test = new DataLoader().loaddataloaderforest(file);
-		Boolean test1 = new DataLoader().loaddataloaderStationForestiere(file);
-		// loaddataloaderStationForestiere(file);
-		/*BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
-		try {
-			Workbook workbook = new XSSFWorkbook(file.getInputStream());
-
-			// INTEGRATION STATION FORESTIERE
-			Sheet datatypeSheet = workbook.getSheet("stationforestiere");
-			Iterator<Row> iterator = datatypeSheet.iterator();
-			while (iterator.hasNext()) {
-
-				Row currentRow = iterator.next();
-				StationForestiere stationforestiere = new StationForestiere();
-				stationforestiere.setNom(currentRow.getCell(1).getStringCellValue());
-				stationforestiere.setDescription(currentRow.getCell(2).getStringCellValue());
-				stationforestiere.setCaracteristique_sol(currentRow.getCell(3).getStringCellValue());
-				stationforestiere.setPeuplement_naturel(currentRow.getCell(4).getStringCellValue());
-				stationforestiere = this.stationforestiereRepository.save(stationforestiere);
-
-				// INTEGRATION FOREST
-				Sheet datatypeSheet1 = workbook.getSheet("forest");
-				Iterator<Row> iterator1 = datatypeSheet1.iterator();
-				while (iterator1.hasNext()) {
-
-					Row currentRow1 = iterator1.next();
-					Forest forest = new Forest();
-					forest.setName(currentRow1.getCell(1).getStringCellValue());
-					forest.setProprietaire(currentRow.getCell(2).getStringCellValue());
-
-					forest = this.forestRepository.save(forest);
-				}
-
-			}
-			/*
-			 * Iterator<Cell> cellIterator = currentRow.iterator();
-			 * 
-			 * while (cellIterator.hasNext()) {
-			 * 
-			 * Cell currentCell = cellIterator.next(); //getCellTypeEnum shown as deprecated
-			 * for version 3.15 //getCellTypeEnum ill be renamed to getCellType starting
-			 * from version 4.0 if (currentCell.getCellTypeEnum() == CellType.STRING) {
-			 * 
-			 * logger.debug(currentCell.getStringCellValue() + "-1-"); } else if
-			 * (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-			 * 
-			 * logger.debug(currentCell.getNumericCellValue() + "-2-"); }
-			 * logger.debug("\n"); }
-			 * 
-			 * }
-			 */
-/*
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-*/
-		/*
-		 * String line; try {
-		 * 
-		 * br = new BufferedReader(new InputStreamReader(file.getInputStream())); while
-		 * ((line = br.readLine()) != null) { sb.append(line); sb.append("\n"); }
-		 * 
-		 * } catch (IOException e) { e.printStackTrace(); } finally { if (br != null) {
-		 * try { br.close(); } catch (IOException e) { e.printStackTrace(); } } }
-		 * logger.debug(sb.toString());
-		 */
+		List<Forest> listeforest = new DataLoader().loaddataloaderforest(file);
+		for (Forest forest : listeforest) {		forest = this.forestRepository.save(forest);		}
+		List<StationForestiere> listestationforestiere = new DataLoader().loaddataloaderStationForestiere(file);
+		for (StationForestiere stationforestiere : listestationforestiere) {		stationforestiere = this.stationforestiereRepository.save(stationforestiere);		}
+		List<ParcelleCadastrale> listeparcellecadastrale =  new DataLoader().loaddataloaderParcelleCadastrale(file);
+		for (ParcelleCadastrale parcellecadastrale : listeparcellecadastrale) {		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);		}
+		
+		List<ParcelleForestiere> listeparcelleforestiere =  new DataLoader().loaddataloaderParcelleForestiere(file);
+		for (ParcelleForestiere parcelleforestiere : listeparcelleforestiere) {		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);		}
+			
+		List<TypePeuplement> listetypepeuplement = dataloader.loaddataloaderTypePeuplement(file);
+		for (TypePeuplement typepeuplement : listetypepeuplement) {		typepeuplement = this.typepeuplementRepository.save(typepeuplement);		}
+		
+		new DataLoader().loaddataloaderRepartition(file);
 		storageService.store(file);
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
