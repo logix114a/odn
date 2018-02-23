@@ -14,6 +14,7 @@ public class OdnController {
 		return new ModelAndView("home");
 	}
 	
+	
 	@RequestMapping("foo")
 	public String foo() {
 		throw new RuntimeException("Expected exception in controller");
