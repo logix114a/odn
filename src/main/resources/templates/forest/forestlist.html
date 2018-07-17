@@ -6,18 +6,18 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : List</h1>
+			<h1>Liste des forêts</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/forestadd}">Create a new Forest</a>
+					<a href="addforest.html" th:href="@{/forest/forestadd}">Ajouter une nouvelle forêtt</a>
 				</div>
 				
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
 							<td>ID</td>
-							<td>Name</td>
-							<td>Modify</td>
+							<td>Nom de la forêt</td>
+							<td>Modifier</td>
 							<td>Ajouter une parcelle forestière</td>
 						</tr>
 					</thead>
@@ -28,9 +28,11 @@
 							
 							<td><a href="view.html" th:href="@{'/forest/forestview/' + ${forest.id}}"
 								th:text="${forest.name}"> The summary </a></td>
-							<td><a href="view.html" th:href="@{'/forest/forestmodify/' + ${forest.id}}"
-								th:text="${forest.name}"> The summary </a></td>
-							<td><a href="addforest.html" th:href="@{/forest/forestareaassignparfor/}  + ${forest.id}">Ajouter</a> 
+							<td><a href="view.html" th:href="@{'/forest/forestmodify/' + ${forest.id}}">Modifier</a></td>
+							<td>
+							<!-- TODO: Add a condition forest.getManage_parcelle_forestiere is true -->
+							<a href="addforest.html" th:href="@{/forest/forestareaassignparfor/}  + ${forest.id}">Ajouter</a>
+							 
 							 </a></td>	
 						</tr>
 					</tbody>

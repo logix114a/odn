@@ -6,19 +6,24 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Aperçu de la forêt</h1>
 			<div class="container">
 				<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/forestlist}">revenir � la liste des for�ts</a>
+					<a href="addforest.html" th:href="@{/forest/forestlist}">revenir a la liste des forêts</a>
 				</div>
 				<center><h1><a th:href ='@{/forest/forestview/} + ${forest.id}' th:text="${forest.name}">test</a></h1></center>
+							<br />
+					<h3>Commentaires</h3>			
+							<br />
+							<br />
+						<h3>Récapitulatif des parcelles associées</h3>	
 								<div class="pull-left">
 					
 			 <table class="table table-bordered table-striped">
 					<thead>
 					<tr>
-					<td colspan='2'>Parcelle Forestieres</td>
-					<td colspan='3'>Parcelle Cadastrales</td>
+					<td colspan='2'>Liste des Parcelles Forestieres associées</td>
+					<td colspan='3'>Liste des Parcelle Cadastrales associées</td>
 					</tr>
 						<tr>
 							<td>ID</td>
@@ -45,8 +50,6 @@
 				</div>
 			</div>
 			
-			Prévision des prommations de l'année en cours
-			Réalisation en retard
 		</div>
 </body>
 </html>
