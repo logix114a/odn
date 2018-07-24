@@ -1,30 +1,3 @@
-
-Skip to content
-
-    Pull requests
-    Issues
-    Marketplace
-    Explore
-
-    @logix114a
-
-0
-0
-
-    0
-
-logix114a/odn
-Code
-Issues 0
-Pull requests 0
-Projects 0
-Wiki
-Insights
-Settings
-odn/.classpath
-7468905 on 23 Feb
-olivier tet
-32 lines (31 sloc) 1.17 KB
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="target/classes" path="src/main/java">
@@ -56,19 +29,3 @@ olivier tet
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
-
-    © 2018 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Help
-
-    Contact GitHub
-    API
-    Training
-    Shop
-    Blog
-    About
-
-Press h to open a hovercard with more details.
