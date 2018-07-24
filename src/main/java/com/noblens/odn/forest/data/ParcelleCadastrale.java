@@ -2,21 +2,25 @@ package com.noblens.odn.forest.data;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 
 @Entity
 public class ParcelleCadastrale {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "parcelle_cadastrale")
+    @SequenceGenerator(name="parcelle_cadastrale", sequenceName = "par_cad", allocationSize=50)
+    @Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	private String commune;
 	private String section;
-	private Long numero_parcelle;
+	private String numero_parcelle;
 	private String lieu_dit;
 	private Double surface;
 
@@ -55,10 +59,10 @@ public class ParcelleCadastrale {
 	public void setSection(String section) {
 		this.section = section;
 	}
-	public Long getNumero_parcelle() {
+	public String getNumero_parcelle() {
 		return numero_parcelle;
 	}
-	public void setNumero_parcelle(Long numero_parcelle) {
+	public void setNumero_parcelle(String numero_parcelle) {
 		this.numero_parcelle = numero_parcelle;
 	}
 	public String getLieu_dit() {

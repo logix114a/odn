@@ -16,8 +16,14 @@
 					<a th:href="@{/forest/listall}" href="fodsqdqsrest.html"> Messages </a>
 				</div>
 				<input type="text" th:field="*{id}"	 /> 
-				 <label	for="fordsqdsqest">Nouvelle Forest</label> <input type="text" th:field="*{name}"	 /> 
-					 <label	for="fordsqdsqest">Gérer en parcelle forestière?</label> <input type="checkbox" th:field="*{manage_parcelle_forestiere}"	 /> 
+				 <label	for="fordsqdsqest">Nouvelle Forest</label> <input type="text" th:field="*{name}"	 /> <br />
+				 <label	for="fordsqdsqest">Propriétaire</label> <input type="text" th:field="*{proprietaire}"	 />
+				 <label	for="fordsqdsqest">Situation Géographique</label> <input type="text" th:field="*{situation_geographique}"	 /> 
+				 <label	for="fordsqdsqest">Zonage réglementaire</label> <input type="text" th:field="*{zonage_reglementaire}"	 /> 
+				 <label	for="fordsqdsqest">Droit usage</label> <input type="text" th:field="*{droit_usage}"	 /> 
+				 <label	for="fordsqdsqest">Relief</label> <input type="text" th:field="*{relief}"	 /> 
+				 <label	for="fordsqdsqest">Région Forestière</label> <input type="text" th:field="*{region_forestiere}"	 />  
+				 <label	for="fordsqdsqest">Gérer en parcelle forestière?</label> <input type="checkbox" th:field="*{manage_parcelle_forestiere}"	 /> 
 				<div class="form-actions">
 					<input type="submit" value="Save" />
 				</div>

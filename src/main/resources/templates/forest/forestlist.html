@@ -29,8 +29,9 @@
 							<td><a href="view.html" th:href="@{'/forest/forestview/' + ${forest.id}}"
 								th:text="${forest.name}"> The summary </a></td>
 							<td><a href="view.html" th:href="@{'/forest/forestmodify/' + ${forest.id}}"
-								th:text="${forest.name}"> The summary </a></td>
-							<td><a href="addforest.html" th:href="@{/forest/forestareaassignparfor/}  + ${forest.id}">Ajouter une parcelle forestière</a> 
+								 ><img th:src="@{/pictures/modify.png}"/ width='100px'></a></td>
+							<td>
+							<a href="addforest.html" th:href="@{/forest/forestareaassignparfor/}  + ${forest.id}"><img th:src="@{/pictures/plus-logo.jpg}"/ width='20px'> Ajouter une parcelle forestière</a> 
 							 </a></td>	
 						</tr>
 					</tbody>

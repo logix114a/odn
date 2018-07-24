@@ -2,9 +2,10 @@ package com.noblens.odn.forest;
 
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Optional;
-
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 
@@ -43,7 +44,8 @@ import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
 import com.noblens.odn.forest.misc.StorageService;
 
-
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 //import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -387,7 +389,7 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 			Workbook workbook = new XSSFWorkbook(file.getInputStream());
 			
 			//INTEGRATION STATION FORESTIERE
-			Sheet datatypeSheet = workbook.getSheet("stationforestiere");
+			/*Sheet datatypeSheet = workbook.getSheet("stationforestiere");
             Iterator<Row> iterator = datatypeSheet.iterator();
             while (iterator.hasNext()) {
 
@@ -398,23 +400,209 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
         stationforestiere.setCaracteristique_sol(currentRow.getCell(3).getStringCellValue());
         stationforestiere.setPeuplement_naturel(currentRow.getCell(4).getStringCellValue());
         stationforestiere = this.stationforestiereRepository.save(stationforestiere);
-        
+           }
+        */
         
       //INTEGRATION FOREST
       		Sheet datatypeSheet1 = workbook.getSheet("forest");
               Iterator<Row> iterator1 = datatypeSheet1.iterator();
+              iterator1.next();
               while (iterator1.hasNext()) {
-
-                  Row currentRow1 = iterator1.next();
+           Row currentRow1 = iterator1.next();
+           logger.debug("--Test ODN 0099");
+           logger.debug(currentRow1.getCell(1).getStringCellValue() );
+           if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+        	   logger.debug("--Test ODN 9998");
+        
+        	   
           Forest forest = new Forest();
-          forest.setName(currentRow1.getCell(1).getStringCellValue());
-          forest.setProprietaire(currentRow.getCell(2).getStringCellValue());
-
+          forest.setName(currentRow1.getCell(1).getStringCellValue()); //Nom
+          forest.setProprietaire(currentRow1.getCell(2).getStringCellValue()); //Propriétaire
+          forest.setSituation_geographique(currentRow1.getCell(3).getStringCellValue()); //situation geographique
+          forest.setZonage_reglementaire(currentRow1.getCell(4).getStringCellValue()); //zonage reglementaire
+          forest.setDroit_usage(currentRow1.getCell(5).getStringCellValue()); //droit usage
+          forest.setRegion_forestiere(currentRow1.getCell(6).getStringCellValue()); //region forestiere
+          forest.setRelief(currentRow1.getCell(7).getStringCellValue()); //relief
+          forest.setClimat(currentRow1.getCell(8).getStringCellValue()); //climat
+          forest.setTemperature(currentRow1.getCell(9).getStringCellValue()); //temperature
+          forest.setGeologie(currentRow1.getCell(10).getStringCellValue()); //geologie
+          //forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue()); //manage parcelle forestiere
           forest = this.forestRepository.save(forest);
+           }
+           logger.debug("--Test ODN 9997");
+         }
+        
+           
+              
+              //INTEGRATION PARCELLE FORESTIERE
+        		Sheet datatypeSheet2 = workbook.getSheet("parcelle_forestiere");
+                Iterator<Row> iterator2 = datatypeSheet2.iterator();
+                iterator2.next();
+                while (iterator2.hasNext()) {
+             Row currentRow1 = iterator2.next();
+             logger.debug("--Test ODN 9966");
+             //logger.debug(curre	ntRow1.getCell(1).getStringCellValue() );
+             if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+          	   
+          
+          	   
+            ParcelleForestiere parcelle_forestiere = new ParcelleForestiere();
+            parcelle_forestiere.setNumero(currentRow1.getCell(1).getStringCellValue()); //Numéro
+
+            //forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue()); //manage parcelle forestiere
+            parcelle_forestiere = this.parcelleforestiereRepository.save(parcelle_forestiere);
+             }
+                }
+              
+
+                
+                
+                //INTEGRATION PARCELLE CADASTRALE
+          		Sheet datatypeSheet3 = workbook.getSheet("parcelle_cadastrale");
+                  Iterator<Row> iterator3 = datatypeSheet3.iterator();
+                  iterator3.next();
+                  while (iterator3.hasNext()) {
+               Row currentRow1 = iterator3.next();
+               logger.debug("--Test ODN 9966");
+               //logger.debug(currentRow1.getCell(1).getStringCellValue() );
+               if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+            	   
+            
+            	   
+              ParcelleCadastrale parcelle_cadastrale = new ParcelleCadastrale();
+              parcelle_cadastrale.setCommune(currentRow1.getCell(1).getStringCellValue()); //Commune
+              parcelle_cadastrale.setSection(currentRow1.getCell(2).getStringCellValue()); //Section
+              DataFormatter formatter = new DataFormatter();
+              Cell cell = currentRow1.getCell(3);
+              String var_name = formatter.formatCellValue(cell);
+              
+              parcelle_cadastrale.setNumero_parcelle(var_name); //Numero
+              parcelle_cadastrale.setLieu_dit(currentRow1.getCell(4).getStringCellValue()); //Lieu-dit
+              parcelle_cadastrale.setSurface(currentRow1.getCell(5).getNumericCellValue()); //Surface
+              //forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue()); //manage parcelle forestiere
+              parcelle_cadastrale = this.parcellecadastraleRepository.save(parcelle_cadastrale);
+               }
               }
+                
+                
               
+                  
+                  //INTEGRATION TYPE PEUPLEMENT
+            		Sheet datatypeSheet4 = workbook.getSheet("type_peuplement");
+                    Iterator<Row> iterator4 = datatypeSheet4.iterator();
+                    iterator4.next();
+                    while (iterator4.hasNext()) {
+                 Row currentRow1 = iterator4.next();
+                 logger.debug("--Test ODN 9966");
+                 //logger.debug(currentRow1.getCell(1).getStringCellValue() );
+                 if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+              	   
               
-            }
+              	   
+                TypePeuplement type_peuplement = new TypePeuplement();
+
+                
+                type_peuplement.setNom(currentRow1.getCell(1).getStringCellValue()); //Numero
+
+                type_peuplement = this.typepeuplementRepository.save(type_peuplement);
+                 }
+                }
+                      
+  
+                    
+                    //INTEGRATION STATION 
+              		Sheet datatypeSheet5 = workbook.getSheet("station_forestiere");
+                      Iterator<Row> iterator5 = datatypeSheet5.iterator();
+                      iterator5.next();
+                      while (iterator5.hasNext()) {
+                   Row currentRow1 = iterator5.next();
+                   logger.debug("--Test ODN 9966");
+                   //logger.debug(currentRow1.getCell(1).getStringCellValue() );
+                   if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+                	   
+                
+                	   
+                	   StationForestiere station_forestiere = new StationForestiere();                  
+                	   station_forestiere.setNom(currentRow1.getCell(1).getStringCellValue()); //Numero
+                	   station_forestiere.setDescription(currentRow1.getCell(2).getStringCellValue()); //Numero
+                	   station_forestiere.setCaracteristique_sol(currentRow1.getCell(3).getStringCellValue()); //Numero
+                	   station_forestiere.setPeuplement_naturel(currentRow1.getCell(4).getStringCellValue()); //Numero
+                	   station_forestiere = this.stationforestiereRepository.save(station_forestiere);
+                   }
+                  }
+  
+                      
+                      
+                      
+                      
+                      //REPARTITION PEUPLEMENT 
+                		Sheet datatypeSheet6 = workbook.getSheet("repartition_peuplement");
+                        Iterator<Row> iterator6 = datatypeSheet6.iterator();
+                        iterator6.next();
+                        while (iterator6.hasNext()) {
+                     Row currentRow1 = iterator6.next();
+                     logger.debug("--Test ODN 123");
+                     //logger.debug(currentRow1.getCell(1).getStringCellValue() );
+                    
+//Parcelle forestiere
+                  	 DataFormatter formatter1 = new DataFormatter();
+                     Cell cell = currentRow1.getCell(1);
+                     String var_name = formatter1.formatCellValue(cell);
+                     Long test = new Long(var_name);             
+                     logger.debug("-- parcelle forestiere");
+                  	 Optional<ParcelleForestiere> parcelleforestieres1 = this.parcelleforestiereRepository.findById(test);
+                  	logger.debug(var_name);
+                	logger.debug(test.toString());
+                	logger.debug("-- parcelle forestiere test");
+                	logger.debug(parcelleforestieres1.get().getNumero());
+ 
+                  	//Parcelle cadastrale
+                    	 DataFormatter formatter2 = new DataFormatter();
+                       Cell cell2 = currentRow1.getCell(0);
+                       String var_name2 = formatter1.formatCellValue(cell2);
+                       Long test2 = new Long(var_name2);       
+                       logger.debug("-- parcellecadastrales1");
+                    	 Optional<ParcelleCadastrale> parcellecadastrales1 = this.parcellecadastraleRepository.findById(test2);
+                    	  	logger.debug(var_name2);
+                        	logger.debug(test2.toString());
+                        	  logger.debug("-- parcellecadastrales1 test");
+                        	  logger.debug(parcellecadastrales1.get().getLieu_dit());
+//SAVE
+                    	 
+                 		//Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findById(parcelleforestiere.getId());
+                		ParcelleForestiere parcelleforestiere1 = parcelleforestieres1.get();
+                		ParcelleCadastrale parcellecadastrale1 = parcellecadastrales1.get();
+                		//Set<ParcelleCadastrale> test123 = parcelleforestieres1.get().getParcellecadastrales();
+                		Set<ParcelleCadastrale> test123 = new HashSet<ParcelleCadastrale>();
+                		//logger.debug(parcelleforestieres1.get().getParcellecadastrales().size());
+                		Set<ParcelleCadastrale> test345 = parcelleforestiere1.getParcellecadastrales();
+                		String testaz = Integer.toString(test345.size());
+                		logger.debug("----------------------------------------------------------------------");
+                		logger.debug(testaz);
+                		logger.debug("----------------------------------------------------------------------");
+                		if (3 >2) {
+                		  for (Iterator<ParcelleCadastrale> it = parcelleforestieres1.get().getParcellecadastrales().iterator(); it.hasNext(); ) {
+                			  ParcelleCadastrale f = it.next();
+                			  test123.add(f);
+                			  logger.debug("-- olivier addd");
+                		    }
+                        }
+                		test123.add(parcellecadastrales1.get());
+                	//	parcelleforestiere1.setParcellecadastrales(parcellecadastrale1);
+                		parcelleforestiere1.setParcellecadastrales(test123);
+                		for (Iterator<ParcelleCadastrale> it = parcelleforestiere1.getParcellecadastrales().iterator(); it.hasNext(); ) {
+              			  ParcelleCadastrale f = it.next();
+              			//  test123.add(f);
+              			  logger.debug("-- olivier");
+              		    }
+                		
+                		
+                		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
+                		  logger.debug("--Test ODN 456");
+                     
+                    }
+                    
+         
                /* Iterator<Cell> cellIterator = currentRow.iterator();
 
                 while (cellIterator.hasNext()) {
@@ -464,8 +652,8 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        return "redirect:/forest/dataloader";
+        logger.debug("--Test ODN 2018");
+        return "redirect:/forest/forestlist";
     }
 	
 	@GetMapping(path="programmationlist")

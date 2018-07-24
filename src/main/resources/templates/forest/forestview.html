@@ -13,7 +13,20 @@
 				</div>
 				<center><h1><a th:href ='@{/forest/forestview/} + ${forest.id}' th:text="${forest.name}">test</a></h1></center>
 								<div class="pull-left">
-					
+					<br />
+					Informations sur la forêt
+					<br />
+					<table class="table table-bordered table-striped">
+					<tr>
+					<td>
+					Propriétaire
+					</td>
+					<td th:text="${forest.proprietaire}">1</td>
+					</tr>			
+					</table>
+					<br />
+					Liste des parcelles associées à la forêt
+					<br />
 			 <table class="table table-bordered table-striped">
 					<thead>
 					<tr>
