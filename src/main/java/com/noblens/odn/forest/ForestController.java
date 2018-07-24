@@ -530,8 +530,8 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
                 	   station_forestiere = this.stationforestiereRepository.save(station_forestiere);
                    }
                   }
-  
-                      
+  //REPARTITION FORET
+               
                       
                       
                       
@@ -542,113 +542,75 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
                         while (iterator6.hasNext()) {
                      Row currentRow1 = iterator6.next();
                      logger.debug("--Test ODN 123");
-                     //logger.debug(currentRow1.getCell(1).getStringCellValue() );
-                    
+  
+                   	//Foret
+                	 DataFormatter formatter3 = new DataFormatter();
+                   Cell cell3 = currentRow1.getCell(0);
+                   String var_name3 = formatter3.formatCellValue(cell3);
+                   Long test3 = new Long(var_name3);       
+                   logger.debug("-- parcellecadastrales1");
+                	 Optional<Forest> forest = this.forestRepository.findById(test3);
+                     
 //Parcelle forestiere
                   	 DataFormatter formatter1 = new DataFormatter();
-                     Cell cell = currentRow1.getCell(1);
+                     Cell cell = currentRow1.getCell(2);
                      String var_name = formatter1.formatCellValue(cell);
                      Long test = new Long(var_name);             
                      logger.debug("-- parcelle forestiere");
                   	 Optional<ParcelleForestiere> parcelleforestieres1 = this.parcelleforestiereRepository.findById(test);
-                  	logger.debug(var_name);
-                	logger.debug(test.toString());
-                	logger.debug("-- parcelle forestiere test");
-                	logger.debug(parcelleforestieres1.get().getNumero());
+        
  
                   	//Parcelle cadastrale
                     	 DataFormatter formatter2 = new DataFormatter();
-                       Cell cell2 = currentRow1.getCell(0);
+                       Cell cell2 = currentRow1.getCell(1);
                        String var_name2 = formatter1.formatCellValue(cell2);
                        Long test2 = new Long(var_name2);       
                        logger.debug("-- parcellecadastrales1");
                     	 Optional<ParcelleCadastrale> parcellecadastrales1 = this.parcellecadastraleRepository.findById(test2);
-                    	  	logger.debug(var_name2);
-                        	logger.debug(test2.toString());
-                        	  logger.debug("-- parcellecadastrales1 test");
-                        	  logger.debug(parcellecadastrales1.get().getLieu_dit());
-//SAVE
-                    	 
-                 		//Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findById(parcelleforestiere.getId());
+                    	
+//SAVE   
                 		ParcelleForestiere parcelleforestiere1 = parcelleforestieres1.get();
                 		ParcelleCadastrale parcellecadastrale1 = parcellecadastrales1.get();
                 		//Set<ParcelleCadastrale> test123 = parcelleforestieres1.get().getParcellecadastrales();
                 		Set<ParcelleCadastrale> test123 = new HashSet<ParcelleCadastrale>();
-                		//logger.debug(parcelleforestieres1.get().getParcellecadastrales().size());
-                		Set<ParcelleCadastrale> test345 = parcelleforestiere1.getParcellecadastrales();
-                		String testaz = Integer.toString(test345.size());
-                		logger.debug("----------------------------------------------------------------------");
-                		logger.debug(testaz);
-                		logger.debug("----------------------------------------------------------------------");
-                		if (3 >2) {
+                	
+                	
                 		  for (Iterator<ParcelleCadastrale> it = parcelleforestieres1.get().getParcellecadastrales().iterator(); it.hasNext(); ) {
                 			  ParcelleCadastrale f = it.next();
                 			  test123.add(f);
                 			  logger.debug("-- olivier addd");
                 		    }
-                        }
-                		test123.add(parcellecadastrales1.get());
-                	//	parcelleforestiere1.setParcellecadastrales(parcellecadastrale1);
+                        
+                		  
+                
+                		  Forest forest1 = forest.get();
+                		test123.add(parcellecadastrales1.get());     
+                		Set<ParcelleForestiere> test31 = new HashSet<ParcelleForestiere>();
+                		test31.add(parcelleforestiere1);
+              		  for (Iterator<ParcelleForestiere> it = forest1.getParcelleforestieres().iterator(); it.hasNext(); ) {
+              			ParcelleForestiere f = it.next();
+              			test31.add(f);
+            			  logger.debug("-- olivier addd");
+            		    }
+                    
+                		
+                		forest1.setParcelleforestieres(test31);
+                		forest1 = this.forestRepository.save(forest1);
                 		parcelleforestiere1.setParcellecadastrales(test123);
-                		for (Iterator<ParcelleCadastrale> it = parcelleforestiere1.getParcellecadastrales().iterator(); it.hasNext(); ) {
-              			  ParcelleCadastrale f = it.next();
-              			//  test123.add(f);
-              			  logger.debug("-- olivier");
-              		    }
-                		
-                		
                 		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
                 		  logger.debug("--Test ODN 456");
                      
                     }
                     
-         
-               /* Iterator<Cell> cellIterator = currentRow.iterator();
-
-                while (cellIterator.hasNext()) {
-
-                    Cell currentCell = cellIterator.next();
-                    //getCellTypeEnum shown as deprecated for version 3.15
-                    //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
-                    if (currentCell.getCellTypeEnum() == CellType.STRING) {
-                        
-                        logger.debug(currentCell.getStringCellValue() + "-1-");
-                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-                        
-                        logger.debug(currentCell.getNumericCellValue() + "-2-");
-                    }
-                    logger.debug("\n");
-                }
-               
-            }
-            */
+     
             
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		/*String line;
-		try {
 
-			br = new BufferedReader(new InputStreamReader(file.getInputStream()));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-				sb.append("\n");
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		logger.debug(sb.toString());*/
+		
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
