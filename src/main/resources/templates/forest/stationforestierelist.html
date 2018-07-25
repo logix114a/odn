@@ -16,7 +16,10 @@
 					<thead>
 						<tr>
 							<td>ID</td>
-							<td>View</td>
+							<td>Nom</td>
+							<td>Desription</td>
+							<td>Caractéristique Sol</td>
+							<td>Peuplement Naturel</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -25,8 +28,16 @@
 							<td th:text="${stationforestiere.id}">1</td>
 							
 							<td><a href="view.html" th:href="@{'/forest/stationforestiereview/' + ${stationforestiere.id}}"
-								th:text="${stationforestiere.id}"> The summary </a></td>
-												
+								th:text="${stationforestiere.nom}"> The summary </a></td>
+								
+							<td><a href="view.html" th:href="@{'/forest/stationforestiereview/' + ${stationforestiere.id}}"
+								th:text="${stationforestiere.description}"> The summary </a></td>
+										
+							<td><a href="view.html" th:href="@{'/forest/stationforestiereview/' + ${stationforestiere.id}}"
+								th:text="${stationforestiere.caracteristique_sol}"> The summary </a></td>
+										
+							<td><a href="view.html" th:href="@{'/forest/stationforestiereview/' + ${stationforestiere.id}}"
+								th:text="${stationforestiere.peuplement_naturel}"> The summary </a></td>						
 						</tr>
 					</tbody>
 				</table>

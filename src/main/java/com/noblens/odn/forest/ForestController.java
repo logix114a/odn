@@ -157,6 +157,21 @@ public ModelAndView parcellecadastraleview(@PathVariable("id") ParcelleCadastral
 		
 	//Forest forest  = new Forest();
 	//forest.setId(id);	
+		logger.debug(parcellecadastrale.getLieu_dit());
+		logger.debug(parcellecadastrale.getCommune());
+		
+		 for (Iterator<Peuplement> it = parcellecadastrale.getPeuplements().iterator(); it.hasNext(); ) {
+			 Peuplement f = it.next();
+			/* for (Iterator<TypePeuplement> it1 = f.getTypepeuplements().iterator(); it1.hasNext(); ) {
+				 TypePeuplement f1 = it1.next();
+				 logger.debug("-- olivier dsqdsqdsqdsq");	
+				 logger.debug(f1.getNom());
+			 }
+		 */
+			  logger.debug("-- olivier addd");
+		    }
+		
+		//logger.debug(parcellecadastrale.getPeuplements().);
 	return new ModelAndView("forest/parcellecadastraleview", "parcellecadastrale", parcellecadastrale);
 }
 	
@@ -181,6 +196,7 @@ public ModelAndView parcellecadastraleview(@PathVariable("id") ParcelleCadastral
 	@PostMapping(path="parcelleforestiereadd") 
 	public ModelAndView parcelleforestiereadd(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
 			RedirectAttributes redirect) {
+		
 		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
 		Iterable<ParcelleForestiere> parcellesforestieres = this.parcelleforestiereRepository.findAll();
 		return new ModelAndView("forest/parcelleforestierelist", "parcelleforestieres", parcellesforestieres);
@@ -448,7 +464,7 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
           	   
             ParcelleForestiere parcelle_forestiere = new ParcelleForestiere();
             parcelle_forestiere.setNumero(currentRow1.getCell(1).getStringCellValue()); //Numéro
-
+            parcelle_forestiere.setDescription(currentRow1.getCell(2).getStringCellValue());
             //forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue()); //manage parcelle forestiere
             parcelle_forestiere = this.parcelleforestiereRepository.save(parcelle_forestiere);
              }
@@ -573,7 +589,7 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
                 		ParcelleCadastrale parcellecadastrale1 = parcellecadastrales1.get();
                 		//Set<ParcelleCadastrale> test123 = parcelleforestieres1.get().getParcellecadastrales();
                 		Set<ParcelleCadastrale> test123 = new HashSet<ParcelleCadastrale>();
-                	
+                		
                 	
                 		  for (Iterator<ParcelleCadastrale> it = parcelleforestieres1.get().getParcellecadastrales().iterator(); it.hasNext(); ) {
                 			  ParcelleCadastrale f = it.next();
@@ -598,7 +614,36 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
                 		forest1 = this.forestRepository.save(forest1);
                 		parcelleforestiere1.setParcellecadastrales(test123);
                 		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
-                		  logger.debug("--Test ODN 456");
+                		 
+                		// PEUPLEMENT
+                		Peuplement peuplement = new Peuplement();
+                		peuplement.setCreated_source("test");
+                		//peuplement.setCreated_dttm(Date heure);
+                		peuplement.setStatus(true);
+                		peuplement.setParcellecadastrale(parcellecadastrale1);
+                		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
+
+                		//Type Peuplement
+                   	 DataFormatter formatter5 = new DataFormatter();
+                      Cell cell5 = currentRow1.getCell(4);
+                      String var_name5 = formatter5.formatCellValue(cell5);
+                      Long test5 = new Long(var_name5);       
+                      logger.debug("-- parcellecadastrales1");
+                   	 Optional<TypePeuplement> typepeuplemnt1 = this.typepeuplementRepository.findById(test5);
+                   	
+                   	TypePeuplement typepeuplemnt2 = typepeuplemnt1.get();
+                   	 Set<TypePeuplement> test351 = new HashSet<TypePeuplement>();
+                   	test351.add(typepeuplemnt1.get());
+                		
+                		
+                		peuplement.setTypepeuplements(typepeuplemnt2);
+                		peuplement = this.peuplementRepository.save(peuplement);
+                		/*Set<Peuplement> peuplements = new HashSet<Peuplement>();
+                		peuplements.add(peuplement);
+                		parcellecadastrale1.setPeuplements(peuplements);
+                		parcellecadastrale1 = this.parcellecadastraleRepository.save(parcellecadastrale1);
+                    	*/
+                		logger.debug("--Test ODN 456");
                      
                     }
                     

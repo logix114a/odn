@@ -1,14 +1,18 @@
 package com.noblens.odn.forest.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class StationForestiere {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "station_forestiere")
+    @SequenceGenerator(name="station_forestiere", sequenceName = "sta_for", allocationSize=50)
+    @Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	private String nom;
 	private String description;

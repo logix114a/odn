@@ -1,7 +1,9 @@
 package com.noblens.odn.forest.data;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,8 +32,10 @@ public class ParcelleCadastrale {
 	private Forest forest;
 */
 
-	@OneToMany(mappedBy="parcellecadastrale")
-	private Set<Peuplement> peuplements;
+	@OneToMany(mappedBy="parcellecadastrale",
+	        cascade = CascadeType.ALL)
+	private Set<Peuplement> peuplements = new HashSet<Peuplement>();
+;
 	public Set<Peuplement> getPeuplements() {
 		return peuplements;
 	}

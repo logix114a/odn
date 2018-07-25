@@ -3,12 +3,15 @@ package com.noblens.odn.forest.data;
 import java.sql.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 
 @Entity
@@ -25,7 +28,7 @@ public class Peuplement {
 	public void setCreated_dttm(Date created_dttm) {
 		Created_dttm = created_dttm;
 	}
-
+	
 	private String essence;
     private String commentaire;
     private String Created_source;
@@ -120,8 +123,8 @@ public class Peuplement {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@OneToMany 
-	private Set<TypePeuplement> typepeuplements;
+	@ManyToOne
+	private TypePeuplement typepeuplement;
 	
 	public Boolean getStatus() {
 		return status;
@@ -131,11 +134,11 @@ public class Peuplement {
 		this.status = status;
 	}
 
-	public Set<TypePeuplement> getTypepeuplements() {
-		return typepeuplements;
+	public TypePeuplement getTypepeuplements() {
+		return typepeuplement;
 	}
-	public void setTypepeuplements(Set<TypePeuplement> typepeuplements) {
-		this.typepeuplements = typepeuplements;
+	public void setTypepeuplements(TypePeuplement typepeuplement) {
+		this.typepeuplement = typepeuplement;
 	}
 	
 }

@@ -16,7 +16,11 @@
 					<thead>
 						<tr>
 							<td>ID</td>
-							<td>Name</td>
+							<td>Commune</td>
+							<td>Section</td>
+							<td>Numero de Parcelle</td>
+							<td>lieu-dit</td>
+							<td>surface</td>
 							
 						</tr>
 					</thead>
@@ -26,6 +30,14 @@
 							
 							<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
 								th:text="${parcellecadastrale.commune}"> The summary </a></td>
+								<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
+								th:text="${parcellecadastrale.section}"> The summary </a></td>
+								<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
+								th:text="${parcellecadastrale.numero_parcelle}"> The summary </a></td>
+								<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
+								th:text="${parcellecadastrale.lieu_dit}"> The summary </a></td>
+								<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
+								th:text="${parcellecadastrale.surface}"> The summary </a></td>
 						</tr>
 					</tbody>
 				</table>	 

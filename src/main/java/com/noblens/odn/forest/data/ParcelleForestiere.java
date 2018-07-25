@@ -20,7 +20,14 @@ public class ParcelleForestiere {
     @Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	private String numero;
-	   public Set<ParcelleCadastrale> getParcellecadastrales() {
+	private String description;
+	   public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Set<ParcelleCadastrale> getParcellecadastrales() {
 		return parcellecadastrales;
 	}
 	public void setParcellecadastrales(Set<ParcelleCadastrale> parcellecadastrales) {

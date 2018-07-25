@@ -17,6 +17,7 @@
 						<tr>
 							<td>ID</td>
 							<td>Numero</td>
+							<td>Description</td>
 							<td>Modifier</td>
 							<td>Assigne Parcelle Cadastrale</td>
 						    <td>Assigne Station Forestière</td>
@@ -28,6 +29,8 @@
 							<td th:text="${parcelleforestiere.id}">1</td>							
 							<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
 								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+							<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
+								th:text="${parcelleforestiere.description}"> The summary </a></td>
 									<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
 								th:text="${parcelleforestiere.numero}"> The summary </a></td>
 									<td><a href="view.html" th:href="@{'/forest/parforassignparcad/' + ${parcelleforestiere.id}}"
