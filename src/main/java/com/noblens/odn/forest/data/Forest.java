@@ -1,6 +1,7 @@
 package com.noblens.odn.forest.data;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -105,7 +106,7 @@ public class Forest {
 	
 	   @OneToMany 	  
 	
-	private Set<ParcelleForestiere> parcelleforestieres;
+	private Set<ParcelleForestiere> parcelleforestieres = new HashSet<ParcelleForestiere>();;
 
 
 	public Set<ParcelleForestiere> getParcelleforestieres() {
