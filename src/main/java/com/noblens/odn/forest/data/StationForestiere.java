@@ -15,8 +15,11 @@ public class StationForestiere {
     @Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	private String nom;
+	@Column(length = 3000) 
 	private String description;
+	@Column(length = 3000) 
 	private String caracteristique_sol;
+	@Column(length = 3000) 
 	private String peuplement_naturel;
 	public Long getId() {
 		return id;

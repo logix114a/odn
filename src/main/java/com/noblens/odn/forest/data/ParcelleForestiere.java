@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -36,8 +37,8 @@ public class ParcelleForestiere {
 	@OneToMany(cascade={CascadeType.PERSIST}) 
 	private Set<ParcelleCadastrale> parcellecadastrales = new HashSet<ParcelleCadastrale>();
 
-	@OneToMany 
-	private Set<StationForestiere> stationforestieres;
+	@ManyToMany (cascade={CascadeType.PERSIST}) 
+	private Set<StationForestiere> stationforestieres = new HashSet<StationForestiere>();
 	public Set<StationForestiere> getStationforestieres() {
 		return stationforestieres;
 	}

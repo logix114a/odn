@@ -184,9 +184,16 @@ public ModelAndView parcellecadastraleview(@PathVariable("id") ParcelleCadastral
 	public ModelAndView parcellecadastralemodify(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
 			RedirectAttributes redirect) {
 		//forest.setName("lateteatoto");
+		Optional<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository.findById(parcellecadastrale.getId());
+		ParcelleCadastrale parcellecadastrale1 = parcellecadastrales.get();
+		parcellecadastrale.setPeuplements(parcellecadastrale1.getPeuplements());
+	 
+		
+		
+		
 		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
 		
-		return new ModelAndView("forest/parcellecadastralelist" );
+		return new ModelAndView("redirect:parcellecadastralelist");
 	}	
 	@GetMapping(path="parcelleforestiereadd") // Map ONLY GET Requests
 	public ModelAndView parcelleforestiereadd1(ParcelleForestiere parcelleforestiere	) {
@@ -213,7 +220,25 @@ public ModelAndView parcelleforestiereview(@PathVariable("id") ParcelleForestier
 		
 	return new ModelAndView("forest/parcelleforestiereview", "parcelleforestiere", parcelleforestiere);
 }	
-
+	@GetMapping(path="parcelleforestieremodify/{id}") // Map ONLY GET Requests
+	public ModelAndView parcelleforestieremodify(@PathVariable("id") ParcelleForestiere parcelleforestiere) {
+		return new ModelAndView("forest/parcelleforestieremodify", "parcelleforestiere", parcelleforestiere);
+	}
+	
+	@PostMapping(path="parcelleforestieremodify") 
+	public ModelAndView parcelleforestieremodify(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
+			RedirectAttributes redirect) {
+		//forest.setName("lateteatoto");
+		Optional<ParcelleForestiere> parcelleforestieres = this.parcelleforestiereRepository.findById(parcelleforestiere.getId());
+		ParcelleForestiere parcelleforestier1 = parcelleforestieres.get();
+		parcelleforestiere.setParcellecadastrales(parcelleforestier1.getParcellecadastrales());
+		parcelleforestiere.setStationforestieres(parcelleforestier1.getStationforestieres());
+	 
+		
+		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
+		
+		return new ModelAndView("redirect:parcelleforestierelist");
+	}	
 	
 	@GetMapping(path="typepeuplementadd") // Map ONLY GET Requests
 	public ModelAndView typepeuplementadd1(TypePeuplement typepeuplement	) {
@@ -608,11 +633,32 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
               			test31.add(f);
             			  logger.debug("-- olivier addd");
             		    }
-                    
+              		  
+              		  // STATION FORESTIERE
+              	  	 DataFormatter formatter8 = new DataFormatter();
+                     Cell cell8 = currentRow1.getCell(7);
+                     String var_name8 = formatter8.formatCellValue(cell8);
+                     Long test8 = new Long(var_name8);       
+                     logger.debug("-- parcellecadastrales1");
+              		Optional<StationForestiere> stationforestieres1 = this.stationforestiereRepository.findById(test8);
+                	
+              	//SAVE   
+              		
+              		StationForestiere stationforestiere1 = stationforestieres1.get();
+              	                	//	Set<ParcelleCadastrale> test1238 = parcelleforestieres1.get().getParcellecadastrales();
+              	  Set<StationForestiere> test1238 = new HashSet<StationForestiere>();
+              	                		
+              		  for (Iterator<StationForestiere> it = parcelleforestieres1.get().getStationforestieres().iterator(); it.hasNext(); ) {
+              			StationForestiere f = it.next();
+              			test1238.add(f);
+            			  logger.debug("-- olivier addd");
+            		    }
+              		  test1238.add(stationforestiere1);
                 		
                 		forest1.setParcelleforestieres(test31);
                 		forest1 = this.forestRepository.save(forest1);
                 		parcelleforestiere1.setParcellecadastrales(test123);
+                		parcelleforestiere1.setStationforestieres(test1238);
                 		parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
                 		 
                 		// PEUPLEMENT
@@ -625,7 +671,7 @@ public ModelAndView stationforestiereview(@PathVariable("id") StationForestiere 
 
                 		//Type Peuplement
                    	 DataFormatter formatter5 = new DataFormatter();
-                      Cell cell5 = currentRow1.getCell(4);
+                      Cell cell5 = currentRow1.getCell(5);
                       String var_name5 = formatter5.formatCellValue(cell5);
                       Long test5 = new Long(var_name5);       
                       logger.debug("-- parcellecadastrales1");

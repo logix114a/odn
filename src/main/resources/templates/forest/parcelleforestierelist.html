@@ -31,12 +31,12 @@
 								th:text="${parcelleforestiere.numero}"> The summary </a></td>
 							<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
 								th:text="${parcelleforestiere.description}"> The summary </a></td>
-									<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
-								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+									<td><a href="view.html" th:href="@{'/forest/parcelleforestieremodify/' + ${parcelleforestiere.id}}"
+								> Modifier</a></td>
 									<td><a href="view.html" th:href="@{'/forest/parforassignparcad/' + ${parcelleforestiere.id}}"
-								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+								> Assigner </a></td>
 <td><a href="view.html" th:href="@{'/forest/parforassignstafor/' + ${parcelleforestiere.id}}"
-								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+								> Assigner </a></td>
 					</tbody>
 				</table>
 			</div>

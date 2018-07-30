@@ -11,7 +11,7 @@
 				<div class="pull-left">
 					<a href="addforest.html" th:href="@{/forest/parcelleforestierelist}">revenir à la liste des parcelles cadastrale</a>
 				</div>
-					<center><h1><a th:href ='@{/forest/parcelleforestiereview/} + ${parcelleforestiere.id}' th:text="${parcelleforestiere.numero}">test</a></h1></center>
+					<center><h1><a th:href ='@{/forest/parcelleforestiereview/} + ${parcelleforestiere.id}' th:text="${parcelleforestiere.description}">test</a></h1></center>
 			<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -21,6 +21,7 @@
 							<td>Numero de Parcelle</td>
 							<td>lieu-dit</td>
 							<td>surface</td>
+							<td>Modifier</td>
 							
 						</tr>
 					</thead>
@@ -38,6 +39,8 @@
 								th:text="${parcellecadastrale.lieu_dit}"> The summary </a></td>
 								<td><a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
 								th:text="${parcellecadastrale.surface}"> The summary </a></td>
+								<td><a href="view.html" th:href="@{'/forest/parcellecadastralemodify/' + ${parcellecadastrale.id}}"
+								> Modifier</a></td>
 						</tr>
 					</tbody>
 				</table>	 

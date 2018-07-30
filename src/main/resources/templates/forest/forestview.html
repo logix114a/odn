@@ -46,7 +46,7 @@
 							<td th:text="${parcelleforestiere.id}">1</td>
 							
 							<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
-								th:text="${parcelleforestiere.numero}"> The summary </a></td>
+								th:text="${parcelleforestiere.description}"> The summary </a></td>
 								
 							
 								<td><span th:each=" parcas : ${parcelleforestiere}">
