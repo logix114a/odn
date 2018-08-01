@@ -39,7 +39,7 @@ public class Peuplement {
   
     
    // private Set<Programmation_travaux> programmation_travaux;
-    @ManyToOne (cascade=CascadeType.ALL) 
+    @ManyToOne  
     private ParcelleCadastrale parcellecadastrale;
     public ParcelleCadastrale getParcellecadastrale() {
 		return parcellecadastrale;
