@@ -36,9 +36,8 @@
 						<tr>
 							<td>ID</td>
 							<td>Name</td>			
-							<td>Section</td>
-							<td>Numero</td>	
-							<td>Surface</td>				
+							<td>Parcelle</td>
+										
 						</tr>
 					</thead>
 					<tbody>						
@@ -49,8 +48,14 @@
 								th:text="${parcelleforestiere.description}"> The summary </a></td>
 								
 							
-								<td><span th:each=" parcas : ${parcelleforestiere}">
-								<span th:text="${parcas.id}" /></span></td><td>AZE</td><td>123</td>
+								<td>
+								<table>
+									<tr th:each="parcellecadastrale : ${parcelleforestiere.parcellecadastrales}">
+							<td>
+							<a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
+								th:text="${parcellecadastrale.numero_parcelle}"> The summary </a>
+							</td>						
+						</tr></table>
 								
 						</tr>
 					</tbody>

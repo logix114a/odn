@@ -6,36 +6,46 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Liste des peuplements</h1>
 			<div class="container">
 				<div class="pull-right">
 					<a href="addforest.html" th:href="@{/forest/forestadd}">Create a new Forest</a>
 				</div>
 				
-				<table class="table table-bordered table-striped">
+							<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
 							<td>ID</td>
+							<td>Peuplement</td>
 							<td>Essence</td>
 							<td>Commentaire</td>
-							<td>Ajouter une parcelle forestière</td>
+							<td>Statut</td>
+							<td>Created dttm</td>
+							<td>Created User</td>
+							<td>Last updated dttm</td>
+							<td>Last Updated user</td>
+							<td>Modifier</td>
+							<td>Cloturer</td>
 						</tr>
 					</thead>
-					<tbody>
-						
-						<tr th:each="peuplement : ${peuplements}">
+					<tbody>						
+						<tr th:each="peuplement : ${peuplements}" >
 							<td th:text="${peuplement.id}">1</td>
 							
-							<td><a href="view.html" th:href="@{'/forest/forestview/' + ${peuplement.id}}"
-								th:text="${peuplement.essence}"> The summary </a></td>
-							<td><a href="view.html" th:href="@{'/forest/forestmodify/' + ${peuplement.id}}"
-								 ><img th:src="@{/pictures/modify.png}"/ width='100px'></a></td>
-							<td>
-							<a href="addforest.html" th:href="@{/forest/forestareaassignparfor/}  + ${peuplement.id}"><img th:src="@{/pictures/plus-logo.jpg}"/ width='20px'> Ajouter une parcelle forestière</a> 
-							 </a></td>	
+							    <td  >TODO:</td>
+								<td><a th:href ='@{/forest/peuplementview/} + ${peuplement.id}' >fdsfds</a></td>
+								<td  th:text="${peuplement.commentaire}">ttt</td>
+								<td  th:text="${peuplement.status}">ttt</td>
+							    <td  th:text="${peuplement.created_dttm}">ttt</td>
+							    <td  th:text="${peuplement.created_source}">ttt</td>
+							    <td  th:text="${peuplement.last_updated_dttm}">ttt</td>
+							    <td  th:text="${peuplement.last_updated_source}">ttt</td>
+							    <td><a th:href ='@{/forest/peuplementmodify/} + ${peuplement.id}' >Modifier</a></td>
+							    <td><a th:href ='@{/forest/peuplementclose/} + ${peuplement.id}' >Cl�turer</a></td>
 						</tr>
 					</tbody>
-				</table>
+				</table>	
+				
 			</div>
 		</div>
 </body>

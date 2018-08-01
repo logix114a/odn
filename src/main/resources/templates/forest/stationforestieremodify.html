@@ -6,13 +6,29 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Station Forestiere Modification</h1>
 			<div class="container">
 				<div class="pull-right">
 					fdsfsdfd
 				</div>
 				
 				
+	<form id="stationforestiereForm"  th:object="${stationforestiere}"
+				th:action="@{/forest/stationforestieremodify}" method="post" action="#">
+
+				<div class="pull-right">
+					<a th:href="@{/forest/listall}" href="fodsqdqsrest.html"> Messages </a>
+				</div>
+				<input type="text" th:field="*{id}"	 /> 
+				<label	for="fordsqdsqest">Nom</label> <input type="text" th:field="*{nom}"  /> <br />
+				 <label	for="fordsqdsqest">Description</label> <input type="text" th:field="*{description}"  /> <br />
+				  <label	for="fordsqdsqest">Caractéristique</label> <input type="text" th:field="*{caracteristique_sol}"  /> <br />
+				<label	for="fordsqdsqest">Peuplement Naturel</label> <input type="text" th:field="*{peuplement_naturel}"  /> <br />  
+				
+		<div class="form-actions">
+					<input type="submit" value="Save" />
+				</div>
+			</form>	
 			</div>
 		</div>
 </body>

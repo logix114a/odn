@@ -20,6 +20,7 @@
 							<td>Desription</td>
 							<td>Caractéristique Sol</td>
 							<td>Peuplement Naturel</td>
+							<td>Modifier</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,6 +39,9 @@
 										
 							<td><a href="view.html" th:href="@{'/forest/stationforestiereview/' + ${stationforestiere.id}}"
 								th:text="${stationforestiere.peuplement_naturel}"> The summary </a></td>						
+							<td><a href="view.html" th:href="@{'/forest/stationforestieremodify/' + ${stationforestiere.id}}"
+								th:text="Modifier"> The summary </a></td>						
+						
 						</tr>
 					</tbody>
 				</table>

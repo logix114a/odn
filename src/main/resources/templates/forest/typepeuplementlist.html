@@ -17,6 +17,7 @@
 						<tr>
 							<td>ID</td>
 							<td>Numero</td>
+							<td>Modifier</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -25,7 +26,8 @@
 							<td th:text="${typepeuplement.id}">1</td>							
 							<td><a href="view.html" th:href="@{'/forest/typepeuplementview/' + ${typepeuplement.id}}"
 								th:text="${typepeuplement.nom}"> The summary </a></td>
-
+<td><a href="view.html" th:href="@{'/forest/typepeuplementmodify/' + ${typepeuplement.id}}"
+								th:text="Modifier"> The summary </a></td>
 					</tbody>
 				</table>
 			</div>

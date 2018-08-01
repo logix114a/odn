@@ -274,6 +274,19 @@ public ModelAndView typepeuplementview(@PathVariable("id") TypePeuplement typepe
 	return new ModelAndView("forest/typepeuplementview", "typepeuplement", typepeuplement);
 }	
 
+	@GetMapping(path="typepeuplementmodify/{id}") // Map ONLY GET Requests
+	public ModelAndView typepeuplementmodify(@PathVariable("id") TypePeuplement typepeuplement) {
+		return new ModelAndView("forest/typepeuplementmodify", "typepeuplement", typepeuplement);
+	}
+	
+	@PostMapping(path="typepeuplementmodify") 
+	public ModelAndView typepeuplementmodify(@Valid TypePeuplement typepeuplement, BindingResult result,
+			RedirectAttributes redirect) {
+				
+		typepeuplement = this.typepeuplementRepository.save(typepeuplement);
+		
+		return new ModelAndView("redirect:typepeuplementlist");
+	}	
 	
 	@GetMapping(path="stationforestiereadd") // Map ONLY GET Requests
 	public ModelAndView stationforestiereadd1(StationForestiere stationforestiere	) {
