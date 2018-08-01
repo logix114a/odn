@@ -3,6 +3,7 @@ package com.noblens.odn.forest.data;
 import java.sql.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Peuplement {
   
     
    // private Set<Programmation_travaux> programmation_travaux;
-    @ManyToOne //(cascade=CascadeType.ALL)
+    @ManyToOne (cascade=CascadeType.ALL) 
     private ParcelleCadastrale parcellecadastrale;
     public ParcelleCadastrale getParcellecadastrale() {
 		return parcellecadastrale;
@@ -123,7 +124,7 @@ public class Peuplement {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@ManyToOne
+	@ManyToOne (cascade={CascadeType.PERSIST}) 
 	private TypePeuplement typepeuplement;
 	
 	public Boolean getStatus() {

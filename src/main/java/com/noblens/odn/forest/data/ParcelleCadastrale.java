@@ -32,8 +32,7 @@ public class ParcelleCadastrale {
 	private Forest forest;
 */
 
-	@OneToMany(mappedBy="parcellecadastrale",
-	        cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Peuplement> peuplements = new HashSet<Peuplement>();
 ;
 	public Set<Peuplement> getPeuplements() {

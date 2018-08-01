@@ -15,7 +15,12 @@
 					<a href="addforest.html" th:href="@{/forest/oldpeuplementtoparcad/}+ ${parcellecadastrale.id}">Anciens peuplements</a>
 				</div>
 					
-					
+						<table class="table table-bordered table-striped">
+					<thead>
+						<tr><td>Numéro de Parcelle</td></tr></thead>
+						<tbody>
+						<tr><td  th:text="${parcellecadastrale.numero_parcelle}"></td></tr>
+						</tbody></table>
 							<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -28,6 +33,7 @@
 							<td>Created User</td>
 							<td>Last updated dttm</td>
 							<td>Last Updated user</td>
+							<td>Modifier</td>
 							<td>Cloturer</td>
 						</tr>
 					</thead>
@@ -36,14 +42,15 @@
 							<td th:text="${peuplement.id}">1</td>
 							
 							    <td  >TODO:</td>
-								<td  th:text="${peuplement.essence}">ttt</td>
+								<td><a th:href ='@{/forest/peuplementview/} + ${peuplement.id}' >fdsfds</a></td>
 								<td  th:text="${peuplement.commentaire}">ttt</td>
 								<td  th:text="${peuplement.status}">ttt</td>
 							    <td  th:text="${peuplement.created_dttm}">ttt</td>
 							    <td  th:text="${peuplement.created_source}">ttt</td>
 							    <td  th:text="${peuplement.last_updated_dttm}">ttt</td>
 							    <td  th:text="${peuplement.last_updated_source}">ttt</td>
-							    <td><a th:href ='@{/forest/peuplementclose/} + ${peuplement.id}' >Cloture</a></td>
+							    <td><a th:href ='@{/forest/peuplementmodify/} + ${peuplement.id}' >Modifier</a></td>
+							    <td><a th:href ='@{/forest/peuplementclose/} + ${peuplement.id}' >Clôturer</a></td>
 						</tr>
 					</tbody>
 				</table>	 

@@ -12,6 +12,20 @@
 					<a href="addforest.html" th:href="@{/forest/parcelleforestierelist}">revenir à la liste des parcelles cadastrale</a>
 				</div>
 					<center><h1><a th:href ='@{/forest/parcelleforestiereview/} + ${parcelleforestiere.id}' th:text="${parcelleforestiere.description}">test</a></h1></center>
+		
+			<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>Description</td>
+						
+						</tr>
+					</thead>
+					<tbody>	
+									<tr>
+					<td th:text="${parcelleforestiere.description}">1</td>
+					</tr>
+					</tbody></table>
+		
 			<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
