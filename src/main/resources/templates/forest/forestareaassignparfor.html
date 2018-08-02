@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 <title>Parcelle Cadastrale : Create</title>
 </head>
@@ -8,30 +9,27 @@
 	<div class="container">
 		<div th:replace="menu :: navbar"></div>
 		<div th:replace="forest/menuforest :: navbar"></div>
-		<h1>Messages : Create</h1>
+		<h1>Assignation de Parcelles Forestières à la Forêt</h1>
 		<form id="forestareassignparfor" th:object="${forest}"   th:action="@{/forest/forestareaassignparfor}" 
 		
 		 method="post" action="#">
 
-			<div class="pull-right">
-				<a th:href="@{/forest/forestareaassignparcad}"
-					href="parcezzzllecadastrale.html"> Liste Parcelle Cadastrale </a>
-			</div>
+		
 			<input type="hidden" th:field="*{id}" />
 
-			 <label for="fordsqdsqest">Parcelle Cadastrale</label>				
+			 <label for="fordsqdsqest">Liste des Parcelles Forestières</label>				
 				<br />
 				       <select class="form-control" id="parts"  name="parts" multiple="multiple" th:field="*{parcelleforestieres}" >
             <option th:each="parfor : ${parcellesforestieress}"                   
                     th:value="${parfor.id}"
                      th:selected="(${parfor.id} == parcelleforestieres.id)" 
-                    th:text="${parfor.numero}">Part name</option>
+                    th:text="${parfor.description}">Part name</option>
         </select>
 				
 				<!--<label for="fordsqdsqest">Section</label>
 			<input type="text" th:field="*{parcelle_cadastrale_id}" /> <label
 				for="fordsqdsqest">Lieu-dit</label> <input type="text"
-				th:field="*{lieu_dit}" /> <label for="fordsqdsqest">Num�ro
+				th:field="*{lieu_dit}" /> <label for="fordsqdsqest">Numï¿½ro
 				de parcelle</label> <input type="text" th:field="*{numero_parcelle}" /> <label
 				for="fordsqdsqest">Surface</label> <input type="text"
 				th:field="*{surface}" /> -->

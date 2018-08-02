@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Parcelle Cadastrale : Create</title>
 	</head>
@@ -8,22 +9,20 @@
 		<div class="container">
 				<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Messages : Create</h1>
+			<h1>Modification ForÃªt</h1>
+			<a th:href ='dsdsqd' th:text="${test}">tfdsfsdfsdest</a>dqsd
 			<form id="parcellecadastraleForm"  th:object="${forest}"
 				th:action="@{/forest/forestmodify}" method="post" action="#">
 
-				<div class="pull-right">
-					<a th:href="@{/forest/listall}" href="fodsqdqsrest.html"> Messages </a>
-				</div>
 				<input type="text" th:field="*{id}"	 /> 
 				 <label	for="fordsqdsqest">Nouvelle Forest</label> <input type="text" th:field="*{name}"	 /> <br />
-				 <label	for="fordsqdsqest">Propriétaire</label> <input type="text" th:field="*{proprietaire}"	 />
-				 <label	for="fordsqdsqest">Situation Géographique</label> <input type="text" th:field="*{situation_geographique}"	 /> 
-				 <label	for="fordsqdsqest">Zonage réglementaire</label> <input type="text" th:field="*{zonage_reglementaire}"	 /> 
+				 <label	for="fordsqdsqest">PropriÃ©taire</label> <input type="text" th:field="*{proprietaire}"	 />
+				 <label	for="fordsqdsqest">Situation GÃ©ographique</label> <input type="text" th:field="*{situation_geographique}"	 /> 
+				 <label	for="fordsqdsqest">Zonage rÃ©glementaire</label> <input type="text" th:field="*{zonage_reglementaire}"	 /> 
 				 <label	for="fordsqdsqest">Droit usage</label> <input type="text" th:field="*{droit_usage}"	 /> 
 				 <label	for="fordsqdsqest">Relief</label> <input type="text" th:field="*{relief}"	 /> 
-				 <label	for="fordsqdsqest">Région Forestière</label> <input type="text" th:field="*{region_forestiere}"	 />  
-				 <label	for="fordsqdsqest">Gérer en parcelle forestière?</label> <input type="checkbox" th:field="*{manage_parcelle_forestiere}"	 /> 
+				 <label	for="fordsqdsqest">RÃ©gion ForestiÃ¨re</label> <input type="text" th:field="*{region_forestiere}"	 />  
+				 <label	for="fordsqdsqest">GÃ©rer en parcelle forestiÃ¨re?</label> <input type="checkbox" th:field="*{manage_parcelle_forestiere}"	 /> 
 				<div class="form-actions">
 					<input type="submit" value="Save" />
 				</div>

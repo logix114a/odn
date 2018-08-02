@@ -1,67 +1,104 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
-		<title>Messages : Create</title>
-	</head>
+<title>Messages : Create</title>
+</head>
 <body>
-<div class="container">
-			<div th:replace="menu :: navbar"></div>
-						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
-			<div class="container">
-				<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/forestlist}">revenir � la liste des for�ts</a>
-				</div>
-				<center><h1><a th:href ='@{/forest/forestview/} + ${forest.id}' th:text="${forest.name}">test</a></h1></center>
-								<div class="pull-left">
-					<br />
-					Informations sur la for�t
-					<br />
-					<table class="table table-bordered table-striped">
+	<div class="container">
+		<div th:replace="menu :: navbar"></div>
+		<div th:replace="forest/menuforest :: navbar"></div>
+		<h1>Vue détaillée de la Forêt</h1>
+		<div class="container">
+			<div class="pull-left">
+				<a href="addforest.html" th:href="@{/forest/forestlist}">revenir
+					à la liste des forêts</a>
+			</div>
+			<center>
+				<h1>
+					<a th:href='@{/forest/forestview/} + ${forest.id}'
+						th:text="${forest.name}">test</a>
+				</h1>
+			</center>
+			<div class="pull-left">
+				<br /> Informations sur la forêt <br />
+				<table class="table table-bordered table-striped">
 					<tr>
-					<td>
-					Propri�taire
-					</td>
-					<td th:text="${forest.proprietaire}">1</td>
-					</tr>			
-					</table>
-					<br />
-					Liste des parcelles associ�es � la for�t
-					<br />
-			 <table class="table table-bordered table-striped">
-					<thead>
-					<tr>
-					<td colspan='2'>Parcelle Forestieres</td>
-					<td colspan='3'>Parcelle Cadastrales</td>
+						<td>Propriétaire</td>
+						<td th:text="${forest.proprietaire}">1</td>
 					</tr>
+					<tr>
+						<td>Situation Géographique</td>
+						<td th:text="${forest.situation_geographique}">1</td>
+					</tr>
+					<tr>
+						<td>Zonage Réglementaire</td>
+						<td th:text="${forest.zonage_reglementaire}">1</td>
+					</tr>
+					<tr>
+						<td>Droit usage</td>
+						<td th:text="${forest.droit_usage}">1</td>
+					</tr>
+					<tr>
+						<td>Région Forestière</td>
+						<td th:text="${forest.region_forestiere}">1</td>
+					</tr>
+					</tr>
+					<tr>
+						<td>Relief</td>
+						<td th:text="${forest.relief}">1</td>
+					</tr>
+					</tr>
+					<tr>
+						<td>Climat</td>
+						<td th:text="${forest.climat}">1</td>
+					</tr>
+					</tr>
+					<tr>
+						<td>Température</td>
+						<td th:text="${forest.temperature}">1</td>
+					</tr>
+					</tr>
+					<tr>
+						<td>Géologie</td>
+						<td th:text="${forest.geologie}">1</td>
+					</tr>
+				</table>
+				<br /> Liste des parcelles associées à la forêt <br />
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td colspan='2'>Parcelle Forestieres</td>
+							<td colspan='3'>Parcelle Cadastrales</td>
+						</tr>
 						<tr>
 							<td>ID</td>
-							<td>Name</td>			
+							<td>Name</td>
 							<td>Parcelle</td>
-										
+
 						</tr>
 					</thead>
-					<tbody>						
+					<tbody>
 						<tr th:each="parcelleforestiere : ${forest.parcelleforestieres}">
 							<td th:text="${parcelleforestiere.id}">1</td>
-							
-							<td><a href="view.html" th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
+
+							<td><a href="view.html"
+								th:href="@{'/forest/parcelleforestiereview/' + ${parcelleforestiere.id}}"
 								th:text="${parcelleforestiere.description}"> The summary </a></td>
-								
-							
-								<td>
-								<table>
-									<tr th:each="parcellecadastrale : ${parcelleforestiere.parcellecadastrales}">
 							<td>
-							<a href="view.html" th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
-								th:text="${parcellecadastrale.numero_parcelle}"> The summary </a>
-							</td>						
-						</tr></table>
-								
+								<table>
+									<tr
+										th:each="parcellecadastrale : ${parcelleforestiere.parcellecadastrales}">
+										<td><a href="view.html"
+											th:href="@{'/forest/parcellecadastraleview/' + ${parcellecadastrale.id}}"
+											th:text="${parcellecadastrale.numero_parcelle}"> The
+												summary </a></td>
+									</tr>
+								</table>
 						</tr>
 					</tbody>
-				</table>	 
-				</div>
+				</table>
 			</div>
 		</div>
+	</div>
 </body>
 </html>

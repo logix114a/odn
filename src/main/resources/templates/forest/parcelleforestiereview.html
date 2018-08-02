@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Messages : Create</title>
 	</head>
@@ -6,26 +7,30 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Vue détaillée de la Parcelle Forestière</h1>
 			<div class="container">
-				<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/parcelleforestierelist}">revenir � la liste des parcelles cadastrale</a>
-				</div>
+				
 					<center><h1><a th:href ='@{/forest/parcelleforestiereview/} + ${parcelleforestiere.id}' th:text="${parcelleforestiere.description}">test</a></h1></center>
+					
+					<a th:href ='@{/forest/parcelleforestieremodify/} + ${parcelleforestiere.id}' ><img th:src="@{/pictures/modify.png}"/ width='100px'></a>
+		<br />
+		Informations
 		
 			<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<td>Description</td>
-						
+						<td> Numéro</td>
+							<td>Description</td>						
 						</tr>
 					</thead>
 					<tbody>	
-									<tr>
+					<tr>
+					<td th:text="${parcelleforestiere.numero}"></td>
 					<td th:text="${parcelleforestiere.description}">1</td>
 					</tr>
 					</tbody></table>
-		
+		<br />
+		Liste des parcelles cadastrales
 			<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
