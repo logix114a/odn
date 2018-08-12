@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Parcelle Forestiere : Create</title>
 	</head>
@@ -6,10 +7,10 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Liste des types de travaux</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/operationsylvicoleadd}">Créer un nouveay type de peuplement</a>
+					<a href="addforest.html" th:href="@{/forest/typetravauxadd}">CrÃ©er un nouveau type de travaux</a>
 				</div>
 				
 				<table class="table table-bordered table-striped">
@@ -22,11 +23,11 @@
 					</thead>
 					<tbody>
 						
-						<tr th:each="operationsylvicole : ${operationsylvicoles}">
-							<td th:text="${operationsylvicole.id}">1</td>							
-							<td><a href="view.html" th:href="@{'/forest/operationsylvicoleview/' + ${operationsylvicole.id}}"
-								th:text="${operationsylvicole.nom}"> The summary </a></td>
-<td><a href="view.html" th:href="@{'/forest/operationsylvicolemodify/' + ${operationsylvicole.id}}"
+						<tr th:each="typetravaux : ${typetravauxs}">
+							<td th:text="${typetravaux.id}">1</td>							
+							<td><a href="view.html" th:href="@{'/forest/typetravauxview/' + ${typetravaux.id}}"
+								th:text="${typetravaux.nom}"> The summary </a></td>
+<td><a href="view.html" th:href="@{'/forest/typetravauxmodify/' + ${typetravaux.id}}"
 								th:text="Modifier"> The summary </a></td>
 					</tbody>
 				</table>

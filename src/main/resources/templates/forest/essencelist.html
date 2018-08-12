@@ -6,10 +6,10 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Liste des essences</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/operationsylvicoleadd}">Créer un nouveay type de peuplement</a>
+					<a href="addforest.html" th:href="@{/forest/essenceadd}">Créer une essence</a>
 				</div>
 				
 				<table class="table table-bordered table-striped">
@@ -22,11 +22,11 @@
 					</thead>
 					<tbody>
 						
-						<tr th:each="operationsylvicole : ${operationsylvicoles}">
-							<td th:text="${operationsylvicole.id}">1</td>							
-							<td><a href="view.html" th:href="@{'/forest/operationsylvicoleview/' + ${operationsylvicole.id}}"
-								th:text="${operationsylvicole.nom}"> The summary </a></td>
-<td><a href="view.html" th:href="@{'/forest/operationsylvicolemodify/' + ${operationsylvicole.id}}"
+						<tr th:each="essence : ${essences}">
+							<td th:text="${essence.id}">1</td>							
+							<td><a href="view.html" th:href="@{'/forest/essenceview/' + ${essence.id}}"
+								th:text="${essence.nom}"> The summary </a></td>
+<td><a href="view.html" th:href="@{'/forest/essencemodify/' + ${essence.id}}"
 								th:text="Modifier"> The summary </a></td>
 					</tbody>
 				</table>

@@ -1,82 +1,97 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
-		<title>Messages : Create</title>
-	</head>
+<title>Messages : Create</title>
+</head>
 <body>
-<div class="container">
-			<div th:replace="menu :: navbar"></div>
-						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Vue détaillée de la Parcelle Cadastrale</h1>
-			<div class="container">
-				<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/parcellecadastralelist}">revenir à la liste des parcelles cadastrale</a>
-				</div>
-				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/oldpeuplementtoparcad/}+ ${parcellecadastrale.id}">Liste des anciens peuplements</a>
-				</div>
-					<br /><br />
-					Informations
-						<table class="table table-bordered table-striped">
-					<thead>
-						<tr><td>Numéro de Parcelle</td>
+	<div class="container">
+		<div th:replace="menu :: navbar"></div>
+		<div th:replace="forest/menuforest :: navbar"></div>
+		<h1>Vue détaillée de la Parcelle Cadastrale</h1>
+		<div class="container">
+			<div class="pull-left">
+				<a href="addforest.html" th:href="@{/forest/parcellecadastralelist}">revenir à la liste des parcelles cadastrale</a>
+			</div>
+			<div class="pull-right">
+				<a href="addforest.html"
+					th:href="@{/forest/oldpeuplementtoparcad/}+ ${parcellecadastrale.id}">Liste
+					des anciens peuplements</a>
+			</div>
+			<br />
+			<br /> Informations
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td>Numéro de Parcelle</td>
 						<td>Commune</td>
 						<td>Section</td>
 						<td>Lieu Dit</td>
 						<td>Surface</td>
-						</tr></thead>
-						<tbody>
-						<tr><td  th:text="${parcellecadastrale.numero_parcelle}"></td>
-						<td  th:text="${parcellecadastrale.commune}"></td>
-						<td  th:text="${parcellecadastrale.section}"></td>
-						<td  th:text="${parcellecadastrale.lieu_dit}"></td>
-						<td  th:text="${parcellecadastrale.surface}"></td>
-						</tr>
-						</tbody>
-						
-						</table>
-						<br />
-						Liste des peuplements
-						
-						<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/peuplementaddtoparcad/}+ ${parcellecadastrale.id}">Ajouter un nouveau peuplement</a>
-				</div>
-							<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<td>ID</td>
-							<td>Peuplement</td>
-							<td>Essence</td>
-							<td>Commentaire</td>
-							<td>Statut</td>
-							<td>Created dttm</td>
-							<td>Created User</td>
-							<td>Last updated dttm</td>
-							<td>Last Updated user</td>
-							<td>Modifier</td>
-							<td>Cloturer</td>
-						</tr>
-					</thead>
-					<tbody>						
-						<tr th:each="peuplement : ${parcellecadastrale.peuplements}" th:if="${peuplement.status} == true" >
-							<td th:text="${peuplement.id}">1</td>
-							
-							    <td  >TODO:</td>
-								<td><a th:href ='@{/forest/peuplementview/} + ${peuplement.id}' >fdsfds</a></td>
-								<td  th:text="${peuplement.commentaire}">ttt</td>
-								<td  th:text="${peuplement.status}">ttt</td>
-							    <td  th:text="${peuplement.created_dttm}">ttt</td>
-							    <td  th:text="${peuplement.created_source}">ttt</td>
-							    <td  th:text="${peuplement.last_updated_dttm}">ttt</td>
-							    <td  th:text="${peuplement.last_updated_source}">ttt</td>
-							    <td><a th:href ='@{/forest/peuplementmodify/} + ${peuplement.id}' >Modifier</a></td>
-							    <td><a th:href ='@{/forest/peuplementclose/} + ${peuplement.id}' >Clôturer</a></td>
-						</tr>
-					</tbody>
-				</table>	 
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:text="${parcellecadastrale.numero_parcelle}"></td>
+						<td th:text="${parcellecadastrale.commune}"></td>
+						<td th:text="${parcellecadastrale.section}"></td>
+						<td th:text="${parcellecadastrale.lieu_dit}"></td>
+						<td th:text="${parcellecadastrale.surface}"></td>
+					</tr>
+				</tbody>
+
+			</table>
+			<br /> Liste des peuplements
+
+			<div class="pull-right">
+				<a href="addforest.html"
+					th:href="@{/forest/peuplementaddtoparcad/}+ ${parcellecadastrale.id}">Ajouter
+					un nouveau peuplement</a>
 			</div>
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>Unité forestière</td>
+						<td>Type Peuplement</td>
+						<td>Essence</td>
+						<td>Commentaire</td>
+						<td>Description</td>
+						<td>Statut</td>
+						<td>Surface</td>
+						<td>Created dttm</td>
+						<td>Created User</td>
+						<td>Last updated dttm</td>
+						<td>Last Updated user</td>
+						<td>Modifier</td>
+						<td>Cloturer</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="peuplement : ${parcellecadastrale.peuplements}"
+						th:if="${peuplement.status} == true">
+						<td th:text="${peuplement.id}">1</td>
+
+						<td th:text="${peuplement.unite_forestiere}">sqsq</td>
+						<td><a th:href='@{/forest/typepeuplementview/} + ${peuplement.typepeuplement.id}' th:text="${peuplement.typepeuplement.nom}">test</a></td>
+						<td><a th:href='@{/forest/essenceview/} + ${peuplement.essence.id}' th:text="${peuplement.essence.nom}">test</a></td>
+						<td th:text="${peuplement.commentaire}">ttt</td>
+						<td><a th:href='@{/forest/peuplementview/} + ${peuplement.id}' th:text="${peuplement.description}"></a></td>
+						<td th:text="${peuplement.status}">ttt</td>
+						<td th:text="${peuplement.surface}">ttt</td>
+						<td th:text="${peuplement.created_dttm}">ttt</td>
+						<td th:text="${peuplement.created_source}">ttt</td>
+						<td th:text="${peuplement.last_updated_dttm}">ttt</td>
+						<td th:text="${peuplement.last_updated_source}">ttt</td>
+						<td><a
+							th:href='@{/forest/peuplementmodify/} + ${peuplement.id}'>Modifier</a></td>
+						<td><a
+							th:href='@{/forest/peuplementclose/} + ${peuplement.id}'>Clôturer</a></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		
-		
+	</div>
+
+
 </body>
 </html>

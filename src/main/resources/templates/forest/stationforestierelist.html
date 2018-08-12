@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Messages : Create</title>
 	</head>
@@ -6,10 +7,10 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Liste des stations forestières</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/stationforestiereadd}">Cr�er une nouvelle Station Forestière</a>
+					<a href="addforest.html" th:href="@{/forest/stationforestiereadd}">Créer une nouvelle Station Forestière</a>
 				</div>
 				
 				<table class="table table-bordered table-striped">
@@ -18,7 +19,7 @@
 							<td>ID</td>
 							<td>Nom</td>
 							<td>Desription</td>
-							<td>Caract�ristique Sol</td>
+							<td>Caractéristique Sol</td>
 							<td>Peuplement Naturel</td>
 							<td>Modifier</td>
 						</tr>

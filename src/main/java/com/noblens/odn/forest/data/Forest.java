@@ -22,8 +22,6 @@ public class Forest {
 	private String situation_geographique;
 	private String zonage_reglementaire;
 	private String droit_usage;
-
-
 	private String region_forestiere;
 	private String relief;
 	private String climat;

@@ -20,15 +20,42 @@
 					<thead>
 						<tr>
 						<td> Numéro</td>
-							<td>Description</td>						
+						<td>Description</td>
+						<td>Pente</td>	
+						<td>Exposition</td>	
+						<td>Position</td>	
+						<td>Roche</td>	
+						<td>Texture</td>	
+						<td>Profondeur</td>					
 						</tr>
 					</thead>
 					<tbody>	
 					<tr>
 					<td th:text="${parcelleforestiere.numero}"></td>
 					<td th:text="${parcelleforestiere.description}">1</td>
+					<td th:text="${parcelleforestiere.pente}">1</td>
+					<td th:text="${parcelleforestiere.exposition}">1</td>
+					<td th:text="${parcelleforestiere.position}">1</td>
+					<td th:text="${parcelleforestiere.roche}">1</td>
+					<td th:text="${parcelleforestiere.texture}">1</td>
+					<td th:text="${parcelleforestiere.profondeur}">1</td>
 					</tr>
 					</tbody></table>
+					<br />
+					Liste des stations forestières
+					<table class="table table-bordered table-striped">
+					<thead><tr>
+					<td>ID</td>
+					<td>Station forestière</td>
+					</tr>
+					</thead>
+					<tbody th:each="stationforestiere : ${parcelleforestiere.stationforestieres}">	
+					<tr>
+					<td th:text="${stationforestiere.id}"></td>
+					<td th:text="${stationforestiere.nom}"></td>
+					</tr>
+					</tbody>
+					</table>
 		<br />
 		Liste des parcelles cadastrales
 			<table class="table table-bordered table-striped">

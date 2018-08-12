@@ -1,6 +1,7 @@
 package com.noblens.odn.forest;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Optional;
@@ -28,9 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.noblens.odn.forest.data.Essence;
+import com.noblens.odn.forest.data.EssenceRepository;
 import com.noblens.odn.forest.data.Forest;
 
 import com.noblens.odn.forest.data.ForestRepository;
+import com.noblens.odn.forest.data.OperationSylvicole;
+import com.noblens.odn.forest.data.OperationSylvicoleRepository;
 import com.noblens.odn.forest.data.ParcelleCadastrale;
 import com.noblens.odn.forest.data.ParcelleCadastraleRepository;
 import com.noblens.odn.forest.data.ParcelleForestiere;
@@ -41,6 +46,8 @@ import com.noblens.odn.forest.data.StationForestiere;
 import com.noblens.odn.forest.data.StationForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
 import com.noblens.odn.forest.data.TypePeuplementRepository;
+import com.noblens.odn.forest.data.TypeTravaux;
+import com.noblens.odn.forest.data.TypeTravauxRepository;
 import com.noblens.odn.forest.misc.StorageService;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -71,6 +78,12 @@ public class ForestController {
 	@Autowired
 	private TypePeuplementRepository typepeuplementRepository;
 	@Autowired
+	private EssenceRepository essenceRepository;
+	@Autowired
+	private TypeTravauxRepository typetravauxRepository;
+	@Autowired
+	private OperationSylvicoleRepository operationsylvicoleRepository;
+	@Autowired
 	private StationForestiereRepository stationforestiereRepository;
 	@Autowired
 	private PeuplementRepository peuplementRepository;
@@ -93,7 +106,6 @@ public class ForestController {
 		return new ModelAndView("forest/forestlist", "forests", forests);
 	}
 
-	@GetMapping(path = "forestadd") // Map ONLY GET Requests
 	public ModelAndView forestadd(Forest forest) {
 		return new ModelAndView("forest/forestadd");
 	}
@@ -192,6 +204,12 @@ public class ForestController {
 		return new ModelAndView("redirect:parcellecadastralelist");
 	}
 
+	@GetMapping(path = "oldpeuplementtoparcad/{id}")
+	public ModelAndView oldpeuplementtoparcad(@PathVariable("id") ParcelleCadastrale parcellecadastrale) {
+
+		return new ModelAndView("forest/oldpeuplementtoparcad", "parcellecadastrale", parcellecadastrale);
+	}
+	
 	@GetMapping(path = "parcelleforestiereadd") // Map ONLY GET Requests
 	public ModelAndView parcelleforestiereadd1(ParcelleForestiere parcelleforestiere) {
 		return new ModelAndView("forest/parcelleforestiereadd");
@@ -275,6 +293,128 @@ public class ForestController {
 
 		return new ModelAndView("redirect:typepeuplementlist");
 	}
+
+//ESSENCE
+
+@GetMapping(path = "essenceadd") // Map ONLY GET Requests
+public ModelAndView essenceadd(Essence essence) {
+	return new ModelAndView("forest/essenceadd");
+}
+
+@PostMapping(path = "essenceadd")
+public ModelAndView essenceadd(@Valid Essence essence, BindingResult result,
+		RedirectAttributes redirect) {
+	essence = this.essenceRepository.save(essence);
+	Iterable<Essence> essences = this.essenceRepository.findAll();
+	return new ModelAndView("forest/essenceslist", "essences", essences);
+}
+
+@GetMapping(path = "essencelist")
+public ModelAndView essencelist() {
+	Iterable<Essence> essences = this.essenceRepository.findAll();
+	return new ModelAndView("forest/essencelist", "essences", essences);
+}
+
+@GetMapping(path = "essenceview/{id}")
+public ModelAndView essenceview(@PathVariable("id") Essence essence) {
+
+	return new ModelAndView("forest/essenceview", "essence", essence);
+}
+
+@GetMapping(path = "essencemodify/{id}") // Map ONLY GET Requests
+public ModelAndView essencemodify(@PathVariable("id") Essence essence) {
+	return new ModelAndView("forest/essencemodify", "essence", essence);
+}
+
+@PostMapping(path = "essencemodify")
+public ModelAndView essencemodify(@Valid Essence essence, BindingResult result,
+		RedirectAttributes redirect) {
+
+	essence = this.essenceRepository.save(essence);
+
+	return new ModelAndView("redirect:essencelist");
+}
+	
+//TYPE TRAVAUX
+
+@GetMapping(path = "typetravauxadd") // Map ONLY GET Requests
+public ModelAndView typetravauxadd(TypeTravaux typetravaux) {
+	return new ModelAndView("forest/typetravauxadd");
+}
+
+@PostMapping(path = "typetravauxadd")
+public ModelAndView typeptravauxadd(@Valid TypeTravaux typetravaux, BindingResult result,
+		RedirectAttributes redirect) {
+	typetravaux = this.typetravauxRepository.save(typetravaux);
+	Iterable<TypeTravaux> typetravauxs = this.typetravauxRepository.findAll();
+	return new ModelAndView("forest/typetravauxlist", "typetravaux", typetravaux);
+}
+
+@GetMapping(path = "typetravauxlist")
+public ModelAndView typetravauxlist() {
+	Iterable<TypeTravaux> typetravauxs = this.typetravauxRepository.findAll();
+	return new ModelAndView("forest/typetravauxlist", "typetravauxs", typetravauxs);
+}
+
+@GetMapping(path = "typetravauxview/{id}")
+public ModelAndView typetravauxview(@PathVariable("id") TypeTravaux typetravaux) {
+
+	return new ModelAndView("forest/typetravauxview", "typetravaux", typetravaux);
+}
+
+@GetMapping(path = "typetravauxmodify/{id}") // Map ONLY GET Requests
+public ModelAndView typetravauxmodify(@PathVariable("id") TypeTravaux typetravaux) {
+	return new ModelAndView("forest/typetravauxmodify", "typetravaux", typetravaux);
+}
+
+@PostMapping(path = "typetravauxmodify")
+public ModelAndView typetravauxmodify(@Valid TypeTravaux typetravaux, BindingResult result,
+		RedirectAttributes redirect) {
+
+	typetravaux = this.typetravauxRepository.save(typetravaux);
+
+	return new ModelAndView("redirect:typetravauxlist");
+}
+//OPERATION SYLVICOLE
+
+@GetMapping(path = "operationsylvicoleadd") // Map ONLY GET Requests
+public ModelAndView operatinosylvicoleadd(OperationSylvicole operationsylvicole) {
+	return new ModelAndView("forest/operationsylvicoleadd");
+}
+
+@PostMapping(path = "operationsylvicoleadd")
+public ModelAndView operatinosylvicoleadd(@Valid OperationSylvicole operationsylvicole, BindingResult result,
+		RedirectAttributes redirect) {
+	operationsylvicole = this.operationsylvicoleRepository.save(operationsylvicole);
+	//Iterable<OperationSylvicole> operatinosylvicoles = this.operationsylvicoleRepository.findAll();
+	return new ModelAndView("forest/operationsylvicolelist", "operationsylvicole", operationsylvicole);
+}
+
+@GetMapping(path = "operationsylvicolelist")
+public ModelAndView operationsylvicolelist() {
+	Iterable<OperationSylvicole> operationsylvicoles = this.operationsylvicoleRepository.findAll();
+	return new ModelAndView("forest/operationsylvicolelist", "operationsylvicoles", operationsylvicoles);
+}
+
+@GetMapping(path = "operationsylvicoleview/{id}")
+public ModelAndView operationsylvicoleview(@PathVariable("id") OperationSylvicole operationsylvicole) {
+
+	return new ModelAndView("forest/operationsylvicoleview", "operationsylvicole", operationsylvicole);
+}
+
+@GetMapping(path = "operationsylvicolemodify/{id}") // Map ONLY GET Requests
+public ModelAndView operationsylvicolemodify(@PathVariable("id") OperationSylvicole operationsylvicole) {
+	return new ModelAndView("forest/operationsylvicolemodify", "operationsylvicole", operationsylvicole);
+}
+
+@PostMapping(path = "operationsylvicolemodify")
+public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operationsylvicole, BindingResult result,
+		RedirectAttributes redirect) {
+
+	operationsylvicole = this.operationsylvicoleRepository.save(operationsylvicole);
+
+	return new ModelAndView("redirect:operationsylvicolelist");
+}
 
 	@GetMapping(path = "stationforestiereadd") // Map ONLY GET Requests
 	public ModelAndView stationforestiereadd1(StationForestiere stationforestiere) {
@@ -411,6 +551,11 @@ public class ForestController {
 	@GetMapping(path = "peuplementclose/{id}")
 	public ModelAndView peuplementclose(@PathVariable("id") Peuplement peuplement) {
 		peuplement.setStatus(false);
+		
+		peuplement.setLast_updated_dttm(new Date());
+		peuplement.setLast_updated_source("ODN");
+		peuplement.setClose_dttm(new Date());
+		peuplement.setClose_source("ODN");
 		peuplement = this.peuplementRepository.save(peuplement);
 		return new ModelAndView("redirect:/forest/peuplementlist");
 	}
@@ -435,6 +580,8 @@ public class ForestController {
 		Peuplement peuplement1 = peuplements.get();
 		peuplement.setParcellecadastrale(peuplement1.getParcellecadastrale());
 		peuplement.setTypepeuplements(peuplement1.getTypepeuplements());
+		peuplement.setLast_updated_dttm(new Date());
+		peuplement.setLast_updated_source("ODN");
 		logger.debug("mouahahha olivier");
 		peuplement = this.peuplementRepository.save(peuplement);
 
@@ -525,6 +672,12 @@ public class ForestController {
 					ParcelleForestiere parcelle_forestiere = new ParcelleForestiere();
 					parcelle_forestiere.setNumero(currentRow1.getCell(1).getStringCellValue()); // Numéro
 					parcelle_forestiere.setDescription(currentRow1.getCell(2).getStringCellValue());
+					parcelle_forestiere.setPente(currentRow1.getCell(3).getStringCellValue());
+					parcelle_forestiere.setExposition(currentRow1.getCell(4).getStringCellValue());
+					parcelle_forestiere.setPosition(currentRow1.getCell(5).getStringCellValue());
+					parcelle_forestiere.setRoche(currentRow1.getCell(6).getStringCellValue());
+					parcelle_forestiere.setTexture(currentRow1.getCell(7).getStringCellValue());
+					parcelle_forestiere.setProfondeur(currentRow1.getCell(8).getStringCellValue());
 					// forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue());
 					// //manage parcelle forestiere
 					parcelle_forestiere = this.parcelleforestiereRepository.save(parcelle_forestiere);
@@ -574,7 +727,64 @@ public class ForestController {
 					type_peuplement = this.typepeuplementRepository.save(type_peuplement);
 				}
 			}
+			
+			
+			
+			// INTEGRATION ESSENCE
+						Sheet datatypeSheet44 = workbook.getSheet("essence");
+						Iterator<Row> iterator44 = datatypeSheet44.iterator();
+						iterator44.next();
+						while (iterator44.hasNext()) {
+							Row currentRow1 = iterator44.next();
 
+							// logger.debug(currentRow1.getCell(1).getStringCellValue() );
+							if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+
+								Essence essence = new Essence();
+
+								essence.setNom(currentRow1.getCell(1).getStringCellValue()); // Numero
+
+								essence = this.essenceRepository.save(essence);
+							}
+						}
+
+						// OPERATION SYLVICOLE
+						Sheet datatypeSheet65 = workbook.getSheet("operation_sylvicole");
+						Iterator<Row> iterator65 = datatypeSheet65.iterator();
+						iterator65.next();
+						while (iterator65.hasNext()) {
+							Row currentRow1 = iterator65.next();
+
+							// logger.debug(currentRow1.getCell(1).getStringCellValue() );
+							if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+
+								OperationSylvicole operationsylvicole = new OperationSylvicole();
+
+								operationsylvicole.setNom(currentRow1.getCell(1).getStringCellValue()); // Numero
+
+								operationsylvicole = this.operationsylvicoleRepository.save(operationsylvicole);
+							}
+						}							
+											
+
+						// TYPE TRAVAUX
+						Sheet datatypeSheet63 = workbook.getSheet("types_travaux");
+						Iterator<Row> iterator63 = datatypeSheet63.iterator();
+						iterator63.next();
+						while (iterator63.hasNext()) {
+							Row currentRow1 = iterator63.next();
+
+							// logger.debug(currentRow1.getCell(1).getStringCellValue() );
+							if (!currentRow1.getCell(1).getStringCellValue().isEmpty()) {
+
+								TypeTravaux typetravaux = new TypeTravaux();
+
+								typetravaux.setNom(currentRow1.getCell(1).getStringCellValue()); // Numero
+
+								typetravaux = this.typetravauxRepository.save(typetravaux);
+							}
+						}							
+						
 			// INTEGRATION STATION
 			Sheet datatypeSheet5 = workbook.getSheet("station_forestiere");
 			Iterator<Row> iterator5 = datatypeSheet5.iterator();
@@ -652,7 +862,7 @@ public class ForestController {
 
 				// STATION FORESTIERE
 				DataFormatter formatter8 = new DataFormatter();
-				Cell cell8 = currentRow1.getCell(7);
+				Cell cell8 = currentRow1.getCell(8);
 				String var_name8 = formatter8.formatCellValue(cell8);
 				Long test8 = new Long(var_name8);
 
@@ -683,24 +893,64 @@ public class ForestController {
 				peuplement.setCreated_source("test");
 				// peuplement.setCreated_dttm(Date heure);
 				peuplement.setStatus(true);
+				
+				// Surface
+				DataFormatter formatter66 = new DataFormatter();
+				Cell cell66 = currentRow1.getCell(5);
+				String var_name66 = formatter66.formatCellValue(cell66);
+				//Long test66 = new Long(cell66.getNumericCellValue());
+				
+				peuplement.setSurface(cell66.getNumericCellValue());
+				peuplement.setCreated_dttm(new Date());
+				peuplement.setCreated_source("ODN");
+				peuplement.setLast_updated_dttm(new Date());
+				peuplement.setLast_updated_source("ODN");
 				peuplement.setParcellecadastrale(parcellecadastrale1);
+				peuplement.setUnite_forestiere(currentRow1.getCell(3).getStringCellValue());
+			
+				peuplement.setDescription(currentRow1.getCell(4).getStringCellValue());
 				parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
 
 				// Type Peuplement
 				DataFormatter formatter5 = new DataFormatter();
-				Cell cell5 = currentRow1.getCell(5);
+				Cell cell5 = currentRow1.getCell(6);
 				String var_name5 = formatter5.formatCellValue(cell5);
 				Long test5 = new Long(var_name5);
-
 				Optional<TypePeuplement> typepeuplemnt1 = this.typepeuplementRepository.findById(test5);
 
 				TypePeuplement typepeuplemnt2 = typepeuplemnt1.get();
-				Set<TypePeuplement> test351 = new HashSet<TypePeuplement>();
-				test351.add(typepeuplemnt1.get());
-
+						
+				
+				// Peuplement
+				DataFormatter formatter55 = new DataFormatter();
+				Cell cell55 = currentRow1.getCell(7);
+				String var_name55 = formatter55.formatCellValue(cell55);
+				if (!formatter55.formatCellValue(cell55).isEmpty()) {
+					Long test55 = new Long(var_name55);
+					Optional<Essence> essence = this.essenceRepository.findById(test55);
+	
+					Essence essence2 = essence.get();
+					Set<Essence> test551 = new HashSet<Essence>();
+					test551.add(essence.get());
+	
+					peuplement.setEssence(essence2);
+				}
 				peuplement.setTypepeuplements(typepeuplemnt2);
 				peuplement = this.peuplementRepository.save(peuplement);
 
+				
+				
+				// PROGRAMMATION
+				Sheet datatypeSheet88 = workbook.getSheet("programmation_sylvicole");
+				Iterator<Row> iterator88 = datatypeSheet88.iterator();
+				iterator88.next();
+				while (iterator88.hasNext()) {
+					Row currentRow88 = iterator88.next();
+					//TODO: Récupérer le peuplement
+					
+					//TODO: Sauvegarder le peuplement
+				
+				}
 			}
 
 		} catch (IOException e1) {
@@ -721,12 +971,21 @@ public class ForestController {
 		return new ModelAndView("forest/programmationlist");
 	}
 
-	@GetMapping(path = "operationsylvicolelist")
-	public ModelAndView operationsylvicolelist() {
 
-		return new ModelAndView("forest/operationsylvicolelist");
-	}
 
+
+	@GetMapping(path = "programmationtravauxlist")
+	public ModelAndView programmationtravauxlist() {
+
+		return new ModelAndView("forest/programmationtravauxlist");
+	}	
+
+	@GetMapping(path = "programmationcoupeslist")
+	public ModelAndView programmationcoupeslist() {
+
+		return new ModelAndView("forest/programmationcoupeslist");
+	}		
+	
 	/*
 	 * @GetMapping(path="parcadaddtoforest") // Map ONLY GET Requests public
 	 * ModelAndView parcadaddtoforest(TypePeuplement typepeuplement) { return new

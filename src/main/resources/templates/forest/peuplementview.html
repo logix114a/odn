@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Messages : Create</title>
 	</head>
@@ -6,30 +7,27 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Peuplement View</h1>
+			<h1>Vue Détaillée du peuplement</h1>
 			<div class="container">
-				
 					<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
 							<td>ID</td>
-							<td>Peuplement</td>
+							<td>Type Peuplement</td>
 							<td>Essence</td>
 							<td>Commentaire</td>
 							<td>Statut</td>
 							<td>Created dttm</td>
 							<td>Created User</td>
 							<td>Last updated dttm</td>
-							<td>Last Updated user</td>
-						
+							<td>Last Updated user</td>						
 						</tr>
 					</thead>
 					<tbody>						
-						<tr  >
+						<tr>
 							<td th:text="${peuplement.id}">1</td>
-							
-							    <td  >TODO:</td>
-								<td><a th:href ='@{/forest/peuplementview/} + ${peuplement.id}' >fdsfds</a></td>
+							    <td><a th:href='@{/forest/typepeuplementview/} + ${peuplement.typepeuplement.id}' th:text="${peuplement.typepeuplement.nom}">test</a></td>
+								<td><a th:href='@{/forest/peuplementview/} + ${peuplement.essence.id}' th:text="${peuplement.essence.nom}">test</a></td>
 								<td  th:text="${peuplement.commentaire}">ttt</td>
 								<td  th:text="${peuplement.status}">ttt</td>
 							    <td  th:text="${peuplement.created_dttm}">ttt</td>
@@ -39,7 +37,45 @@
 						</tr>
 					</tbody>
 				</table>	
+				<br />
+				Programamtion des coupes
+				<br />
+					<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>Année</td>	
+							<td>Type</td>			
+						</tr>
+					</thead>
+					<tbody>						
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>	
 				
+				<br />
+				Programmation des travaux
+				<br />
+					<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>Année</td>	
+							<td>Type</td>			
+						</tr>
+					</thead>
+					<tbody>						
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+					</table>	
 			</div>
 		</div>
 </body>

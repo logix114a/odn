@@ -20,6 +20,7 @@
 							<td>Essence</td>
 							<td>Commentaire</td>
 							<td>Statut</td>
+							<td>Surface</td>
 							<td>Created dttm</td>
 							<td>Created User</td>
 							<td>Last updated dttm</td>
@@ -32,10 +33,11 @@
 						<tr th:each="peuplement : ${peuplements}" >
 							<td th:text="${peuplement.id}">1</td>
 							
-							    <td  >TODO:</td>
-								<td><a th:href ='@{/forest/peuplementview/} + ${peuplement.id}' >fdsfds</a></td>
+							     <td><a th:href='@{/forest/typepeuplementview/} + ${peuplement.typepeuplement.id}' th:text="${peuplement.typepeuplement.nom}">test</a></td>
+								<td><a th:href='@{/forest/peuplementview/} + ${peuplement.essence.id}' th:text="${peuplement.essence.nom}">test</a></td>
 								<td  th:text="${peuplement.commentaire}">ttt</td>
 								<td  th:text="${peuplement.status}">ttt</td>
+								<td  th:text="${peuplement.surface}">ttt</td>
 							    <td  th:text="${peuplement.created_dttm}">ttt</td>
 							    <td  th:text="${peuplement.created_source}">ttt</td>
 							    <td  th:text="${peuplement.last_updated_dttm}">ttt</td>

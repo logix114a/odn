@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="menu :: head(title=~{::title/text()})">
+		<title>Messages : Create</title>
+	</head>
+<body>
+<div class="container">
+			<div th:replace="menu :: navbar"></div>
+						<div th:replace="forest/menuforest :: navbar"></div>
+			<h1>Modifier une essence</h1>
+			<div class="container">
+				
+			<form id="ttypepeuplementForm"  th:object="${essence}"
+				th:action="@{/forest/essencemodify}" method="post" action="#">
+
+		
+				<input type="text" th:field="*{id}"	 /> 
+				 <label	for="fordsqdsqest">Nom</label> <input type="text" th:field="*{nom}"	 /> <br />
+			<div class="form-actions">
+					<input type="submit" value="Save" />
+				</div>
+			</form>
+			</div>
+		</div>
+</body>
+</html>
