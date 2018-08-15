@@ -13,5 +13,13 @@ public interface PeuplementRepository extends CrudRepository<Peuplement, Long>{
 	  		"where p.unite_forestiere=:unite_forestiere and parcelle_forestiere_id=:parcelle_forestiere")
 	    List<String> fetchArticles(@Param("unite_forestiere") String unite_forestiere, @Param("parcelle_forestiere") String parcelle_forestiere);
 */
+	
+	
+	List<Peuplement> findByCommentaire(String commentaire);
+	List<Peuplement> findByDescription(String description);
+	List<Peuplement> findByParcellecadastrale(ParcelleCadastrale parcellecadastrale);
+	List<Peuplement> findByParcellecadastraleAndEssence(ParcelleCadastrale parcellecadastrale, Essence essence);
+	List<Peuplement> findByUniteforestiere(String unite_forestiere);
+	Peuplement findByUniteforestiereAndParcellecadastrale(String unite_forestiere,ParcelleCadastrale parcellecadastrale);
 }
 

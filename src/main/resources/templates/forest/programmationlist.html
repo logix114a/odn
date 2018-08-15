@@ -9,9 +9,26 @@
 			<h1>Forest : View all</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/typepeuplementadd}">Cr�er un nouveay type de peuplement</a>
+					<a href="addforest.html" th:href="@{/forest/typeprogrammationadd}">Cr�er un nouveay type de programmation</a>
 				</div>
+				<br />
 				
+					<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>programmation</td>
+							
+						</tr>
+					</thead>
+					<tbody>						
+						<tr th:each="programmation : ${programmations}" >
+							<td th:text="${programmation.id}">1</td>
+							
+							     <td><a th:href='@{/forest/typeprogrammationview/} + ${programmation.typeprogrammation.id}' th:text="${programmation.typeprogrammation.nom}">test</a></td>
+						</tr>
+					</tbody>
+				</table>	
 			
 			</div>
 		</div>

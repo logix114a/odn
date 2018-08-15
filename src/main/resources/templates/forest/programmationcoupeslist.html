@@ -11,7 +11,37 @@
 			<div class="container">
 				<div class="pull-right">
 					<a href="addforest.html" th:href="@{/forest/typepeuplementadd}">Créer un nouveay type de peuplement</a>
+				
+				
 				</div>
+				
+				<br />
+				
+					<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>programmation</td>
+							<td>Statut</td>
+							<td>Prévision</td>
+							<td>Date de création</td>
+							<td> User de création</td>
+							
+						</tr>
+					</thead>
+					<tbody>						
+						<tr th:each="programmation : ${programmations}" >
+							<td th:text="${programmation.id}">1</td>
+							
+							
+							     <td><a th:href='@{/forest/programmationcoupeview/} + ${programmation.id}' th:text="${programmation.type}">test</a></td>
+							     <td th:text="${programmation.status}"></td>
+							     <td th:text="${programmation.prevision}"></td>
+							     <td th:text="${programmation.Created_dttm}"></td>
+							     <td th:text="${programmation.Created_source}"></td>
+						</tr>
+					</tbody>
+				</table>	
 				
 			</div>
 		</div>

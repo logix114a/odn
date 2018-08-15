@@ -22,7 +22,7 @@ public class ParcelleCadastrale {
 	private Long id;
 	private String commune;
 	private String section;
-	private String numero_parcelle;
+	private String numeroparcelle;
 	private String lieu_dit;
 	private Double surface;
 
@@ -62,12 +62,7 @@ public class ParcelleCadastrale {
 	public void setSection(String section) {
 		this.section = section;
 	}
-	public String getNumero_parcelle() {
-		return numero_parcelle;
-	}
-	public void setNumero_parcelle(String numero_parcelle) {
-		this.numero_parcelle = numero_parcelle;
-	}
+
 	public String getLieu_dit() {
 		return lieu_dit;
 	}
@@ -79,6 +74,14 @@ public class ParcelleCadastrale {
 	}
 	public void setSurface(Double surface) {
 		this.surface = surface;
+	}
+
+	public String getNumeroparcelle() {
+		return numeroparcelle;
+	}
+
+	public void setNumeroparcelle(String numeroparcelle) {
+		this.numeroparcelle = numeroparcelle;
 	}
 
 	

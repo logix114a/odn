@@ -31,7 +31,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td th:text="${parcellecadastrale.numero_parcelle}"></td>
+						<td th:text="${parcellecadastrale.numeroparcelle}"></td>
 						<td th:text="${parcellecadastrale.commune}"></td>
 						<td th:text="${parcellecadastrale.section}"></td>
 						<td th:text="${parcellecadastrale.lieu_dit}"></td>
@@ -71,7 +71,7 @@
 						th:if="${peuplement.status} == true">
 						<td th:text="${peuplement.id}">1</td>
 
-						<td th:text="${peuplement.unite_forestiere}">sqsq</td>
+						<td th:text="${peuplement.uniteforestiere}">sqsq</td>
 						<td><a th:href='@{/forest/typepeuplementview/} + ${peuplement.typepeuplement.id}' th:text="${peuplement.typepeuplement.nom}">test</a></td>
 						<td><a th:href='@{/forest/essenceview/} + ${peuplement.essence.id}' th:text="${peuplement.essence.nom}">test</a></td>
 						<td th:text="${peuplement.commentaire}">ttt</td>

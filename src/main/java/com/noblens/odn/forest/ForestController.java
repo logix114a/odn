@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,6 +43,8 @@ import com.noblens.odn.forest.data.ParcelleForestiere;
 import com.noblens.odn.forest.data.ParcelleForestiereRepository;
 import com.noblens.odn.forest.data.Peuplement;
 import com.noblens.odn.forest.data.PeuplementRepository;
+import com.noblens.odn.forest.data.Programmation;
+import com.noblens.odn.forest.data.ProgrammationRepository;
 import com.noblens.odn.forest.data.StationForestiere;
 import com.noblens.odn.forest.data.StationForestiereRepository;
 import com.noblens.odn.forest.data.TypePeuplement;
@@ -87,7 +90,10 @@ public class ForestController {
 	private StationForestiereRepository stationforestiereRepository;
 	@Autowired
 	private PeuplementRepository peuplementRepository;
-
+	@Autowired
+	private ProgrammationRepository programmationRepository;
+	
+	
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
 		return ResponseEntity.notFound().build();
@@ -701,7 +707,7 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					Cell cell = currentRow1.getCell(3);
 					String var_name = formatter.formatCellValue(cell);
 
-					parcelle_cadastrale.setNumero_parcelle(var_name); // Numero
+					parcelle_cadastrale.setNumeroparcelle(var_name); // Numero
 					parcelle_cadastrale.setLieu_dit(currentRow1.getCell(4).getStringCellValue()); // Lieu-dit
 					parcelle_cadastrale.setSurface(currentRow1.getCell(5).getNumericCellValue()); // Surface
 					// forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue());
@@ -906,7 +912,7 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 				peuplement.setLast_updated_dttm(new Date());
 				peuplement.setLast_updated_source("ODN");
 				peuplement.setParcellecadastrale(parcellecadastrale1);
-				peuplement.setUnite_forestiere(currentRow1.getCell(3).getStringCellValue());
+				peuplement.setUniteforestiere(currentRow1.getCell(3).getStringCellValue());
 			
 				peuplement.setDescription(currentRow1.getCell(4).getStringCellValue());
 				parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
@@ -938,7 +944,7 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 				peuplement.setTypepeuplements(typepeuplemnt2);
 				peuplement = this.peuplementRepository.save(peuplement);
 
-				
+			}
 				
 				// PROGRAMMATION
 				Sheet datatypeSheet88 = workbook.getSheet("programmation_sylvicole");
@@ -947,10 +953,60 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 				while (iterator88.hasNext()) {
 					Row currentRow88 = iterator88.next();
 					//TODO: Récupérer le peuplement
+					DataFormatter formatter75 = new DataFormatter();
+					Cell cell75 = currentRow88.getCell(1);
+					String var_name75 = formatter75.formatCellValue(cell75);
+					
+					
+					//Long test75 = new Long(var_name75);
+					logger.debug("unité ");
+					logger.debug(currentRow88.getCell(3).getStringCellValue());
+					logger.debug("Numero de parcelle");
+					logger.debug(var_name75);
+					
+					ParcelleCadastrale parcellecadastrales75 = this.parcellecadastraleRepository.findByNumeroparcelle(var_name75);
+					//logger.debug(parcellecadastrales75.get().);
+					logger.debug(parcellecadastrales75.getCommune());
+					ParcelleCadastrale parcellecadastrale775 = parcellecadastrales75;
+					Peuplement peuplement755 = this.peuplementRepository.findByUniteforestiereAndParcellecadastrale(currentRow88.getCell(3).getStringCellValue(),parcellecadastrale775);
+					
+					logger.debug("--------------------PROBLEME ORIGINAL-----------------");
+					logger.debug(parcellecadastrale775.getId().toString());
+					logger.debug(parcellecadastrale775.getNumeroparcelle());
+					
+					logger.debug("--------------------PROBLEME ORIGINAL2-----------------");
+					logger.debug(currentRow88.getCell(3).getStringCellValue());
+					logger.debug("--------------------PROBLEME ORIGINAL1-----------------");
+					logger.debug(peuplement755.getId().toString());
+					
+					
+					if (!currentRow88.getCell(3).getStringCellValue().isEmpty()) {
+					Programmation programmation = new Programmation();
+					programmation.setCreated_dttm(new Date());
+					programmation.setCreated_source("ODN");
+					programmation.setLast_updated_dttm(new Date());
+					programmation.setLast_updated_source("ODN");
+					programmation.setPrevision(currentRow88.getCell(4).getDateCellValue());
+					programmation.setStatus(false);
+					programmation.setType(currentRow88.getCell(5).getStringCellValue());
+
+					programmation = this.programmationRepository.save(programmation);
 					
 					//TODO: Sauvegarder le peuplement
-				
-				}
+					Set<Programmation> test92 = new HashSet<Programmation>();
+
+					test92.add(programmation);
+					/*Peuplement peuplement700 = new Peuplement();
+					peuplement700 = peuplement755;*/
+					logger.debug("--------------------PROBLEME-----------------");
+					logger.debug(programmation.getId().toString());
+					logger.debug("--------------------PROBLEME    1-----------------");
+					logger.debug(peuplement755.getId().toString());
+					
+					
+					peuplement755.setProgrammation(test92);
+					peuplement755 = this.peuplementRepository.save(peuplement755);
+					}
 			}
 
 		} catch (IOException e1) {
@@ -982,8 +1038,9 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 
 	@GetMapping(path = "programmationcoupeslist")
 	public ModelAndView programmationcoupeslist() {
-
-		return new ModelAndView("forest/programmationcoupeslist");
+		Iterable<Programmation> programmations = this.programmationRepository.findAll();
+		
+		return new ModelAndView("forest/programmationcoupeslist", "programmations", programmations);
 	}		
 	
 	/*

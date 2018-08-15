@@ -29,8 +29,8 @@ public class Peuplement {
     @ManyToOne  
     private ParcelleCadastrale parcellecadastrale;
     @ManyToMany
-    private Set<Programmation> programmation = new HashSet<Programmation>();;
-	private String unite_forestiere;
+    private Set<Programmation> programmation = new HashSet<Programmation>();
+	private String uniteforestiere;
     private String commentaire;
     private String description;
     private String Created_source;
@@ -86,13 +86,6 @@ public class Peuplement {
 		return Close_source;
 	}
 
-	public String getUnite_forestiere() {
-		return unite_forestiere;
-	}
-
-	public void setUnite_forestiere(String unite_forestiere) {
-		this.unite_forestiere = unite_forestiere;
-	}
 
 	public void setClose_source(String close_source) {
 		Close_source = close_source;
@@ -187,6 +180,14 @@ public class Peuplement {
 	}
 	public void setTypepeuplements(TypePeuplement typepeuplement) {
 		this.typepeuplement = typepeuplement;
+	}
+
+	public String getUniteforestiere() {
+		return uniteforestiere;
+	}
+
+	public void setUniteforestiere(String uniteforestiere) {
+		this.uniteforestiere = uniteforestiere;
 	}
 	
 }
