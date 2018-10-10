@@ -10,18 +10,21 @@
 				<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
 			<h1>Modification Forêt</h1>
-			<a th:href ='dsdsqd' th:text="${test}">tfdsfsdfsdest</a>dqsd
+			<br />
 			<form id="parcellecadastraleForm"  th:object="${forest}"
 				th:action="@{/forest/forestmodify}" method="post" action="#">
 
 				<input type="text" th:field="*{id}"	 /> 
-				 <label	for="fordsqdsqest">Nouvelle Forest</label> <input type="text" th:field="*{name}"	 /> <br />
+				 <label	for="fordsqdsqest">Nouvelle Forêt</label> <input type="text" th:field="*{name}"	 /> <br />
 				 <label	for="fordsqdsqest">Propriétaire</label> <input type="text" th:field="*{proprietaire}"	 />
 				 <label	for="fordsqdsqest">Situation Géographique</label> <input type="text" th:field="*{situation_geographique}"	 /> 
 				 <label	for="fordsqdsqest">Zonage réglementaire</label> <input type="text" th:field="*{zonage_reglementaire}"	 /> 
 				 <label	for="fordsqdsqest">Droit usage</label> <input type="text" th:field="*{droit_usage}"	 /> 
 				 <label	for="fordsqdsqest">Relief</label> <input type="text" th:field="*{relief}"	 /> 
-				 <label	for="fordsqdsqest">Région Forestière</label> <input type="text" th:field="*{region_forestiere}"	 />  
+				 <label	for="fordsqdsqest">Région Forestière</label> <input type="text" th:field="*{region_forestiere}"	 />
+				 <label	for="fordsqdsqest">Climat</label> <input type="text" th:field="*{climat}"	 />
+				 <label	for="fordsqdsqest">Températue</label> <input type="text" th:field="*{temperature}"	 />  
+				 <label	for="fordsqdsqest">Géologie</label> <input type="text" th:field="*{geologie}"	 />  	  
 				 <label	for="fordsqdsqest">Gérer en parcelle forestière?</label> <input type="checkbox" th:field="*{manage_parcelle_forestiere}"	 /> 
 				<div class="form-actions">
 					<input type="submit" value="Save" />

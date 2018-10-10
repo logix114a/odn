@@ -1,5 +1,6 @@
 package com.noblens.odn.forest.data;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,10 @@ public class ParcelleCadastrale {
 	private String numeroparcelle;
 	private String lieu_dit;
 	private Double surface;
-
+	private String Created_source;
+	private Date Created_dttm;
+    private Date Last_updated_dttm;
+    private String Last_updated_source;
 	
 	/* @ManyToOne
 	@JoinColumn(name="forest_id")
@@ -82,6 +86,38 @@ public class ParcelleCadastrale {
 
 	public void setNumeroparcelle(String numeroparcelle) {
 		this.numeroparcelle = numeroparcelle;
+	}
+
+	public String getCreated_source() {
+		return Created_source;
+	}
+
+	public void setCreated_source(String created_source) {
+		Created_source = created_source;
+	}
+
+	public Date getCreated_dttm() {
+		return Created_dttm;
+	}
+
+	public void setCreated_dttm(Date created_dttm) {
+		Created_dttm = created_dttm;
+	}
+
+	public Date getLast_updated_dttm() {
+		return Last_updated_dttm;
+	}
+
+	public void setLast_updated_dttm(Date last_updated_dttm) {
+		Last_updated_dttm = last_updated_dttm;
+	}
+
+	public String getLast_updated_source() {
+		return Last_updated_source;
+	}
+
+	public void setLast_updated_source(String last_updated_source) {
+		Last_updated_source = last_updated_source;
 	}
 
 	

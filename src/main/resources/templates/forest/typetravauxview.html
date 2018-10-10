@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Messages : Create</title>
 	</head>
@@ -9,7 +10,7 @@
 			<h1>Forest : View all</h1>
 			<div class="container">
 				<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/typetravauxlist}">revenir à la liste des parcelles cadastrale</a>
+					<a href="addforest.html" th:href="@{/forest/typetravauxlist}">revenir Ã  la liste des parcelles cadastrale</a>
 				</div>
 					<center><h1><a th:href ='@{/forest/typetravauxview/} + ${typetravaux.id}' th:text="${typetravaux.nom}">test</a></h1></center>
 			</div>

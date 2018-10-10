@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
-		<title>Messages : Create</title>
+		<title>Vue Détaillée du peuplement</title>
 	</head>
 <body>
 <div class="container">
@@ -38,21 +38,24 @@
 					</tbody>
 				</table>	
 				<br />
-				Programamtion des coupes
+				Programmation des coupes
 				<br />
+				<div class="pull-right">
+					<a href="addforest.html" th:href="@{/forest/programmationadd}">Créer une nouvelle Programmation</a>
+				</div>
 					<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
 							<td>ID</td>
-							<td>Année</td>	
-							<td>Type</td>			
+							<td>Type</td>	
+							<td>Année</td>			
 						</tr>
 					</thead>
 					<tbody>						
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
+						<tr th:each="programmatio : ${peuplement.programmation}" th:if="${programmatio.type} == Coupe">
+							<td th:text="${programmatio.id}">1</td>
+							<td><a th:href='@{/forest/programmationview/} + ${programmatio.id}' th:text="${programmatio.type}">test</a></td>
+							<td th:text="${programmatio.prevision}">1</td>
 						</tr>
 					</tbody>
 				</table>	
@@ -64,18 +67,18 @@
 					<thead>
 						<tr>
 							<td>ID</td>
-							<td>Année</td>	
-							<td>Type</td>			
+							<td>Type</td>	
+							<td>Année</td>			
 						</tr>
 					</thead>
 					<tbody>						
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
+						<tr th:each="programmatio : ${peuplement.programmation}" th:if="${programmatio.type} == Travaux">
+							<td th:text="${programmatio.id}">1</td>
+							<td><a th:href='@{/forest/programmationview/} + ${programmatio.id}' th:text="${programmatio.type}">test</a></td>
+							<td th:text="${programmatio.prevision}">1</td>
 						</tr>
 					</tbody>
-					</table>	
+				</table>		
 			</div>
 		</div>
 </body>

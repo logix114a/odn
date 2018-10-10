@@ -19,6 +19,9 @@
 						th:text="${forest.name}">test</a>
 				</h1>
 			</center>
+			<a href="view.html"
+						th:href="@{'/forest/forestmodify/' + ${forest.id}}"><img
+							th:src="@{/pictures/modify.png}" / width='100px'></a>
 			<div class="pull-left">
 				<br /> Informations sur la forêt <br />
 				<table class="table table-bordered table-striped">

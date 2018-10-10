@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 <title>Parcelle Cadastrale : Create</title>
 </head>
@@ -23,8 +24,8 @@
 				th:field="*{commune}" /> <label for="fordsqdsqest">Section</label>
 			<input type="text" th:field="*{section}" /> <label
 				for="fordsqdsqest">Lieu-dit</label> <input type="text"
-				th:field="*{lieu_dit}" /> <label for="fordsqdsqest">Numéro
-				de parcelle</label> <input type="text" th:field="*{numero_parcelle}" /> <label
+				th:field="*{lieu_dit}" /> <label for="fordsqdsqest">NumÃ©ro
+				de parcelle</label> <input type="text" th:field="*{numeroparcelle}" /> <label
 				for="fordsqdsqest">Surface</label> <input type="text"
 				th:field="*{surface}" />
 			<div class="form-actions">

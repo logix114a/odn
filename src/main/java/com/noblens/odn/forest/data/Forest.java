@@ -1,6 +1,7 @@
 package com.noblens.odn.forest.data;
 
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.OrderBy;
 
 @Entity
 public class Forest {
@@ -28,6 +31,10 @@ public class Forest {
 	private String temperature;
 	private String geologie;
 	private Boolean manage_parcelle_forestiere;
+    private String Created_source;
+	private Date Created_dttm;
+    private Date Last_updated_dttm;
+    private String Last_updated_source;
 	
 	
 	public Long getId() {
@@ -103,7 +110,8 @@ public class Forest {
 		this.geologie = geologie;
 	}
 	
-	   @OneToMany (cascade={CascadeType.PERSIST}) 	  
+	   @OneToMany (cascade={CascadeType.PERSIST})
+	   @OrderBy(clause = "parcelleforestieres_id asc")  
 	private Set<ParcelleForestiere> parcelleforestieres = new HashSet<ParcelleForestiere>();;
 
 
@@ -112,6 +120,30 @@ public class Forest {
 	}
 	public void setParcelleforestieres(Set<ParcelleForestiere> parcelleforestieres) {
 		this.parcelleforestieres = parcelleforestieres;
+	}
+	public String getCreated_source() {
+		return Created_source;
+	}
+	public void setCreated_source(String created_source) {
+		Created_source = created_source;
+	}
+	public Date getCreated_dttm() {
+		return Created_dttm;
+	}
+	public void setCreated_dttm(Date created_dttm) {
+		Created_dttm = created_dttm;
+	}
+	public Date getLast_updated_dttm() {
+		return Last_updated_dttm;
+	}
+	public void setLast_updated_dttm(Date last_updated_dttm) {
+		Last_updated_dttm = last_updated_dttm;
+	}
+	public String getLast_updated_source() {
+		return Last_updated_source;
+	}
+	public void setLast_updated_source(String last_updated_source) {
+		Last_updated_source = last_updated_source;
 	}
 	
 	

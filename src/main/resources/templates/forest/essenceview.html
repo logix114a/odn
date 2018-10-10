@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Messages : Create</title>
 	</head>
@@ -6,10 +7,10 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Vue détaillée de l'essence</h1>
+			<h1>Vue dÃ©taillÃ©e de l'essence</h1>
 			<div class="container">
 				<div class="pull-left">
-					<a href="addforest.html" th:href="@{/forest/essencelist}">revenir à la liste des essences</a>
+					<a href="addforest.html" th:href="@{/forest/essencelist}">revenir Ã  la liste des essences</a>
 				</div>
 					<center><h1><a th:href ='@{/forest/essenceview/} + ${essence.id}' th:text="${essence.nom}">test</a></h1></center>
 			</div>

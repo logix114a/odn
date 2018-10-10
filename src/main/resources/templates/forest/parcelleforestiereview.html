@@ -12,7 +12,7 @@
 				
 					<center><h1><a th:href ='@{/forest/parcelleforestiereview/} + ${parcelleforestiere.id}' th:text="${parcelleforestiere.description}">test</a></h1></center>
 					
-					<a th:href ='@{/forest/parcelleforestieremodify/} + ${parcelleforestiere.id}' ><img th:src="@{/pictures/modify.png}"/ width='100px'></a>
+					<a th:href ='@{/forest/parcelleforestieremodify/} + ${parcelleforestiere.id}' ><img th:src="@{/pictures/modify.png}"/ width='100px'></a> | <a th:href ='@{/forest/parforassignparcad/} + ${parcelleforestiere.id}' >Assigner Parcelle Cadastrale</a> | <a th:href ='@{/forest/parforassignstafor/} + ${parcelleforestiere.id}' >Assigner Station Forestière</a>
 		<br />
 		Informations
 		
@@ -47,12 +47,14 @@
 					<thead><tr>
 					<td>ID</td>
 					<td>Station forestière</td>
+					<td>Modifier</td>
 					</tr>
 					</thead>
 					<tbody th:each="stationforestiere : ${parcelleforestiere.stationforestieres}">	
 					<tr>
-					<td th:text="${stationforestiere.id}"></td>
-					<td th:text="${stationforestiere.nom}"></td>
+					<td><a th:href ='@{/forest/stationforestiereview/} + ${stationforestiere.id}' th:text="${stationforestiere.id}">ssq</a></td>
+					<td><a th:href ='@{/forest/stationforestiereview/} + ${stationforestiere.id}' th:text="${stationforestiere.nom}">ssq</a></td>
+					<td><a th:href ='@{/forest/stationforestieremodify/} + ${stationforestiere.id}'>Modifier</a></td>
 					</tr>
 					</tbody>
 					</table>

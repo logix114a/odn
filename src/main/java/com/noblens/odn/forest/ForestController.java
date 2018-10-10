@@ -1,6 +1,7 @@
 package com.noblens.odn.forest;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -60,6 +62,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
 import com.noblens.odn.forest.misc.StorageFileNotFoundException;
 
 @Controller
@@ -101,6 +105,8 @@ public class ForestController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ForestController.class);
 
+	
+	
 	@GetMapping("")
 	public ModelAndView home() {
 		return new ModelAndView("forest/home");
@@ -108,17 +114,22 @@ public class ForestController {
 
 	@GetMapping(path = "forestlist")
 	public ModelAndView listall() {
-		Iterable<Forest> forests = this.forestRepository.findAll();
+		Sort test = new Sort(Sort.Direction.ASC, "id");
+		Iterable<Forest> forests = this.forestRepository.findAll(test);
 		return new ModelAndView("forest/forestlist", "forests", forests);
 	}
 
+	@GetMapping(path = "forestadd")
 	public ModelAndView forestadd(Forest forest) {
 		return new ModelAndView("forest/forestadd");
 	}
 
 	@PostMapping(path = "forestadd")
 	public ModelAndView forestadd1(@Valid Forest forest, BindingResult result, RedirectAttributes redirect) {
-
+		forest.setLast_updated_dttm(new Date());
+		forest.setLast_updated_source("ODN");
+		forest.setCreated_dttm(new Date());
+		forest.setCreated_source("ODN");
 		forest = this.forestRepository.save(forest);
 
 		return new ModelAndView("redirect:forestlist");
@@ -146,6 +157,10 @@ public class ForestController {
 		Optional<Forest> forests = this.forestRepository.findById(forest.getId());
 		Forest forest1 = forests.get();
 		forest.setParcelleforestieres(forest1.getParcelleforestieres());
+		forest.setCreated_dttm(forest1.getCreated_dttm());
+		forest.setCreated_source(forest1.getCreated_source());
+		forest.setLast_updated_dttm(new Date());
+		forest.setLast_updated_source("ODN");
 		forest = this.forestRepository.save(forest);
 
 		return new ModelAndView("redirect:forestlist");
@@ -176,6 +191,10 @@ public class ForestController {
 	@PostMapping(path = "parcellecadastraleadd")
 	public ModelAndView parcellecadastraleadd(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
 			RedirectAttributes redirect) {
+		parcellecadastrale.setCreated_dttm(new Date());
+		parcellecadastrale.setCreated_source("ODN");
+		parcellecadastrale.setLast_updated_dttm(new Date());
+		parcellecadastrale.setLast_updated_source("ODN");
 		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
 		return new ModelAndView("redirect:parcellecadastralelist");
 	}
@@ -201,10 +220,13 @@ public class ForestController {
 	public ModelAndView parcellecadastralemodify(@Valid ParcelleCadastrale parcellecadastrale, BindingResult result,
 			RedirectAttributes redirect) {
 
-		Optional<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository
-				.findById(parcellecadastrale.getId());
+		Optional<ParcelleCadastrale> parcellecadastrales = this.parcellecadastraleRepository.findById(parcellecadastrale.getId());
 		ParcelleCadastrale parcellecadastrale1 = parcellecadastrales.get();
 		parcellecadastrale.setPeuplements(parcellecadastrale1.getPeuplements());
+		parcellecadastrale.setCreated_dttm(parcellecadastrale1.getCreated_dttm());
+		parcellecadastrale.setCreated_source(parcellecadastrale1.getLast_updated_source());
+		parcellecadastrale.setLast_updated_dttm(new Date());
+		parcellecadastrale.setLast_updated_source("ODN");
 		parcellecadastrale = this.parcellecadastraleRepository.save(parcellecadastrale);
 
 		return new ModelAndView("redirect:parcellecadastralelist");
@@ -224,10 +246,12 @@ public class ForestController {
 	@PostMapping(path = "parcelleforestiereadd")
 	public ModelAndView parcelleforestiereadd(@Valid ParcelleForestiere parcelleforestiere, BindingResult result,
 			RedirectAttributes redirect) {
-
+		parcelleforestiere.setCreated_dttm(new Date());
+		parcelleforestiere.setCreated_source("ODN");
+		parcelleforestiere.setLast_updated_dttm(new Date());
+		parcelleforestiere.setLast_updated_source("ODN");
 		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
-		Iterable<ParcelleForestiere> parcellesforestieres = this.parcelleforestiereRepository.findAll();
-		return new ModelAndView("forest/parcelleforestierelist", "parcelleforestieres", parcellesforestieres);
+		return new ModelAndView("redirect:parcelleforestierelist");
 	}
 
 	@GetMapping(path = "parcelleforestierelist")
@@ -256,6 +280,10 @@ public class ForestController {
 		ParcelleForestiere parcelleforestier1 = parcelleforestieres.get();
 		parcelleforestiere.setParcellecadastrales(parcelleforestier1.getParcellecadastrales());
 		parcelleforestiere.setStationforestieres(parcelleforestier1.getStationforestieres());
+		parcelleforestiere.setLast_updated_dttm(new Date());
+		parcelleforestiere.setLast_updated_source("ODN");
+		parcelleforestiere.setCreated_dttm(parcelleforestier1.getCreated_dttm());
+		parcelleforestiere.setCreated_source(parcelleforestier1.getCreated_source());
 		parcelleforestiere = this.parcelleforestiereRepository.save(parcelleforestiere);
 
 		return new ModelAndView("redirect:parcelleforestierelist");
@@ -312,7 +340,7 @@ public ModelAndView essenceadd(@Valid Essence essence, BindingResult result,
 		RedirectAttributes redirect) {
 	essence = this.essenceRepository.save(essence);
 	Iterable<Essence> essences = this.essenceRepository.findAll();
-	return new ModelAndView("forest/essenceslist", "essences", essences);
+	return new ModelAndView("forest/essencelist", "essences", essences);
 }
 
 @GetMapping(path = "essencelist")
@@ -661,6 +689,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					forest.setGeologie(currentRow1.getCell(10).getStringCellValue()); // geologie
 					// forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue());
 					// //manage parcelle forestiere
+					forest.setCreated_dttm(new Date());
+					forest.setCreated_source("DATALOADER");
+					forest.setLast_updated_dttm(new Date());
+					forest.setLast_updated_source("DATALOADER");
 					forest = this.forestRepository.save(forest);
 				}
 
@@ -684,8 +716,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					parcelle_forestiere.setRoche(currentRow1.getCell(6).getStringCellValue());
 					parcelle_forestiere.setTexture(currentRow1.getCell(7).getStringCellValue());
 					parcelle_forestiere.setProfondeur(currentRow1.getCell(8).getStringCellValue());
-					// forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue());
-					// //manage parcelle forestiere
+					parcelle_forestiere.setCreated_dttm(new Date());
+					parcelle_forestiere.setCreated_source("DATALOADER");
+					parcelle_forestiere.setLast_updated_dttm(new Date());
+					parcelle_forestiere.setLast_updated_source("DATALOADER");
 					parcelle_forestiere = this.parcelleforestiereRepository.save(parcelle_forestiere);
 				}
 			}
@@ -710,8 +744,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					parcelle_cadastrale.setNumeroparcelle(var_name); // Numero
 					parcelle_cadastrale.setLieu_dit(currentRow1.getCell(4).getStringCellValue()); // Lieu-dit
 					parcelle_cadastrale.setSurface(currentRow1.getCell(5).getNumericCellValue()); // Surface
-					// forest.setManage_parcelle_forestiere(currentRow1.getCell(11).getBooleanCellValue());
-					// //manage parcelle forestiere
+					parcelle_cadastrale.setCreated_dttm(new Date());
+					parcelle_cadastrale.setCreated_source("DATALOADER");
+					parcelle_cadastrale.setLast_updated_dttm(new Date());
+					parcelle_cadastrale.setLast_updated_source("DATALOADER");
 					parcelle_cadastrale = this.parcellecadastraleRepository.save(parcelle_cadastrale);
 				}
 			}
@@ -729,7 +765,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					TypePeuplement type_peuplement = new TypePeuplement();
 
 					type_peuplement.setNom(currentRow1.getCell(1).getStringCellValue()); // Numero
-
+					type_peuplement.setCreated_dttm(new Date());
+					type_peuplement.setCreated_source("DATALOADER");
+					type_peuplement.setLast_updated_dttm(new Date());
+					type_peuplement.setLast_updated_source("DATALOADER");
 					type_peuplement = this.typepeuplementRepository.save(type_peuplement);
 				}
 			}
@@ -749,7 +788,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 								Essence essence = new Essence();
 
 								essence.setNom(currentRow1.getCell(1).getStringCellValue()); // Numero
-
+								essence.setCreated_dttm(new Date());
+								essence.setCreated_source("DATALOADER");
+								essence.setLast_updated_dttm(new Date());
+								essence.setLast_updated_source("DATALOADER");
 								essence = this.essenceRepository.save(essence);
 							}
 						}
@@ -767,7 +809,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 								OperationSylvicole operationsylvicole = new OperationSylvicole();
 
 								operationsylvicole.setNom(currentRow1.getCell(1).getStringCellValue()); // Numero
-
+								operationsylvicole.setCreated_dttm(new Date());
+								operationsylvicole.setCreated_source("DATALOADER");
+								operationsylvicole.setLast_updated_dttm(new Date());
+								operationsylvicole.setLast_updated_source("DATALOADER");
 								operationsylvicole = this.operationsylvicoleRepository.save(operationsylvicole);
 							}
 						}							
@@ -786,7 +831,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 								TypeTravaux typetravaux = new TypeTravaux();
 
 								typetravaux.setNom(currentRow1.getCell(1).getStringCellValue()); // Numero
-
+								typetravaux.setCreated_dttm(new Date());
+								typetravaux.setCreated_source("DATALOADER");
+								typetravaux.setLast_updated_dttm(new Date());
+								typetravaux.setLast_updated_source("DATALOADER");
 								typetravaux = this.typetravauxRepository.save(typetravaux);
 							}
 						}							
@@ -806,6 +854,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					station_forestiere.setDescription(currentRow1.getCell(2).getStringCellValue()); // Numero
 					station_forestiere.setCaracteristique_sol(currentRow1.getCell(3).getStringCellValue()); // Numero
 					station_forestiere.setPeuplement_naturel(currentRow1.getCell(4).getStringCellValue()); // Numero
+					station_forestiere.setCreated_dttm(new Date());
+					station_forestiere.setCreated_source("DATALOADER");
+					station_forestiere.setLast_updated_dttm(new Date());
+					station_forestiere.setLast_updated_source("DATALOADER");
 					station_forestiere = this.stationforestiereRepository.save(station_forestiere);
 				}
 			}
@@ -892,6 +944,8 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 				forest1 = this.forestRepository.save(forest1);
 				parcelleforestiere1.setParcellecadastrales(test123);
 				parcelleforestiere1.setStationforestieres(test1238);
+				parcelleforestiere1.setLast_updated_dttm(new Date());
+				parcelleforestiere1.setLast_updated_source("DATALOADER");
 				parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
 
 				// PEUPLEMENT
@@ -913,7 +967,10 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 				peuplement.setLast_updated_source("ODN");
 				peuplement.setParcellecadastrale(parcellecadastrale1);
 				peuplement.setUniteforestiere(currentRow1.getCell(3).getStringCellValue());
-			
+				peuplement.setCreated_dttm(new Date());
+				peuplement.setCreated_source("DATALOADER");
+				peuplement.setLast_updated_dttm(new Date());
+				peuplement.setLast_updated_source("DATALOADER");
 				peuplement.setDescription(currentRow1.getCell(4).getStringCellValue());
 				parcelleforestiere1 = this.parcelleforestiereRepository.save(parcelleforestiere1);
 
@@ -942,6 +999,8 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					peuplement.setEssence(essence2);
 				}
 				peuplement.setTypepeuplements(typepeuplemnt2);
+				peuplement.setLast_updated_dttm(new Date());
+				peuplement.setLast_updated_source("DATALOADER");
 				peuplement = this.peuplementRepository.save(peuplement);
 
 			}
@@ -952,7 +1011,6 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 				iterator88.next();
 				while (iterator88.hasNext()) {
 					Row currentRow88 = iterator88.next();
-					//TODO: Récupérer le peuplement
 					DataFormatter formatter75 = new DataFormatter();
 					Cell cell75 = currentRow88.getCell(1);
 					String var_name75 = formatter75.formatCellValue(cell75);
@@ -986,15 +1044,24 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					programmation.setCreated_source("ODN");
 					programmation.setLast_updated_dttm(new Date());
 					programmation.setLast_updated_source("ODN");
+					
+					
 					programmation.setPrevision(currentRow88.getCell(4).getDateCellValue());
 					programmation.setStatus(false);
-					programmation.setType(currentRow88.getCell(5).getStringCellValue());
-
+					programmation.setDescription(currentRow88.getCell(5).getStringCellValue());
+					programmation.setType(currentRow88.getCell(6).getStringCellValue());
+					programmation.setCreated_dttm(new Date());
+					programmation.setCreated_source("DATALOADER");
+					programmation.setLast_updated_dttm(new Date());
+					programmation.setLast_updated_source("DATALOADER");
 					programmation = this.programmationRepository.save(programmation);
 					
-					//TODO: Sauvegarder le peuplement
+					
 					Set<Programmation> test92 = new HashSet<Programmation>();
-
+					for (Iterator<Programmation> it = peuplement755.getProgrammation().iterator(); it.hasNext();) {
+						Programmation f = it.next();
+						test92.add(f);
+					}
 					test92.add(programmation);
 					/*Peuplement peuplement700 = new Peuplement();
 					peuplement700 = peuplement755;*/
@@ -1005,12 +1072,14 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 					
 					
 					peuplement755.setProgrammation(test92);
+					peuplement755.setLast_updated_dttm(new Date());
+					peuplement755.setLast_updated_source("DATALOADER");
 					peuplement755 = this.peuplementRepository.save(peuplement755);
 					}
 			}
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 
@@ -1023,17 +1092,25 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 
 	@GetMapping(path = "programmationlist")
 	public ModelAndView programmationlist() {
-
-		return new ModelAndView("forest/programmationlist");
+		Iterable<Programmation> programmations = this.programmationRepository.findAll();
+		return new ModelAndView("forest/programmationlist", "programmations", programmations);
 	}
 
-
-
+	@GetMapping(path = "programmationlist/{year}")
+	public ModelAndView programmationlistyear(@PathVariable("year") String year) {
+		//TODO: GETBY YEAR
+		Date test = new Date();
+		
+		//test.setYear(year.intValue());
+		
+		Iterable<Programmation> programmations = this.programmationRepository.findAll();
+		return new ModelAndView("forest/programmationlist", "programmations", programmations);
+	}
 
 	@GetMapping(path = "programmationtravauxlist")
 	public ModelAndView programmationtravauxlist() {
-
-		return new ModelAndView("forest/programmationtravauxlist");
+		Iterable<Programmation> programmations = this.programmationRepository.findAll();
+		return new ModelAndView("forest/programmationtravauxlist", "programmations", programmations);
 	}	
 
 	@GetMapping(path = "programmationcoupeslist")
@@ -1042,7 +1119,12 @@ public ModelAndView operationsylvicolemodify(@Valid OperationSylvicole operation
 		
 		return new ModelAndView("forest/programmationcoupeslist", "programmations", programmations);
 	}		
-	
+
+	@GetMapping(path = "programmationview/{id}")
+	public ModelAndView programmationview(@PathVariable("id") Programmation programmation) {
+
+		return new ModelAndView("forest/programmationview", "programmation", programmation);
+	}
 	/*
 	 * @GetMapping(path="parcadaddtoforest") // Map ONLY GET Requests public
 	 * ModelAndView parcadaddtoforest(TypePeuplement typepeuplement) { return new

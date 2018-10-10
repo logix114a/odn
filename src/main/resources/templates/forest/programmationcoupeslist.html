@@ -10,8 +10,7 @@
 			<h1>Liste de la programmation des coupes</h1>
 			<div class="container">
 				<div class="pull-right">
-					<a href="addforest.html" th:href="@{/forest/typepeuplementadd}">Créer un nouveay type de peuplement</a>
-				
+					<a href="addforest.html" th:href="@{/forest/programmationadd}">Créer une nouvelle Programmation</a>			
 				
 				</div>
 				
@@ -24,19 +23,21 @@
 							<td>programmation</td>
 							<td>Statut</td>
 							<td>Prévision</td>
+							<td>Description</td>
 							<td>Date de création</td>
 							<td> User de création</td>
 							
 						</tr>
 					</thead>
 					<tbody>						
-						<tr th:each="programmation : ${programmations}" >
+						<tr th:each="programmation : ${programmations}"  th:if="${programmation.type} == Coupe">
 							<td th:text="${programmation.id}">1</td>
 							
 							
-							     <td><a th:href='@{/forest/programmationcoupeview/} + ${programmation.id}' th:text="${programmation.type}">test</a></td>
+							     <td><a th:href='@{/forest/programmationview/} + ${programmation.id}' th:text="${programmation.type}">test</a></td>
 							     <td th:text="${programmation.status}"></td>
 							     <td th:text="${programmation.prevision}"></td>
+							     <td th:text="${programmation.description}"></td>
 							     <td th:text="${programmation.Created_dttm}"></td>
 							     <td th:text="${programmation.Created_source}"></td>
 						</tr>

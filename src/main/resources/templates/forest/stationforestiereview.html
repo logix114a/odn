@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head th:replace="menu :: head(title=~{::title/text()})">
 		<title>Messages : Create</title>
 	</head>
@@ -6,12 +7,67 @@
 <div class="container">
 			<div th:replace="menu :: navbar"></div>
 						<div th:replace="forest/menuforest :: navbar"></div>
-			<h1>Forest : View all</h1>
+			<h1>Station Forestière Détaillée</h1>
 			<div class="container">
-				<div class="pull-right">
-					fdsfsdfd
-				</div>
 				
+					<center><h1><a th:href ='@{/forest/stationforestiereview/} + ${stationforestiere.id}' th:text="${stationforestiere.nom}">test</a></h1></center>
+				<br />
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>Type</td>
+							<td>Description</td>
+												
+						</tr>
+					</thead>
+					<tbody>						
+						<tr>							
+							    <td>Nom</td>
+								<td th:text="${stationforestiere.nom}">test</a></td>
+						</tr>
+						<tr>							
+							    <td>Description</td>
+								<td th:text="${stationforestiere.description}">test</a></td>
+						</tr>
+						<tr>							
+							    <td>Caractéristique du sol</td>
+								<td th:text="${stationforestiere.caracteristique_sol}">test</a></td>
+						</tr>
+						<tr>							
+							    <td>Peuplement naturel</td>
+								<td th:text="${stationforestiere.peuplement_naturel}">test</a></td>
+						</tr>
+					</tbody>
+				</table>
+	<br />
+	Champs d'audit
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td>Type</td>
+							<td>Description</td>
+												
+						</tr>
+					</thead>
+					<tbody>						
+						<tr>							
+							    <td>Date de création</td>
+								<td th:text="${stationforestiere.Created_dttm}">test</a></td>
+						</tr>
+						<tr>							
+							    <td>Créé par</td>
+								<td th:text="${stationforestiere.Created_source}">test</a></td>
+						</tr>
+						<tr>							
+							    <td>Date de modification</td>
+								<td th:text="${stationforestiere.Last_updated_dttm}">test</a></td>
+						</tr>
+						<tr>							
+							    <td>Dernière utilisateur</td>
+								<td th:text="${stationforestiere.Last_updated_source}">test</a></td>
+						</tr>
+					</tbody>
+				</table>			
 				
 			</div>
 		</div>
